@@ -357,12 +357,12 @@ body {
 /* CENTER SPHERE */
 .sphere-container {
     position: relative;
-    width: 35vw;
-    height: 35vw;
+    width: 26vw;
+    height: 26vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: -2vh; /* Pull label up */
+    margin-bottom: 2vh; /* Space below sphere before console */
 }
 
 .sphere-rings {
@@ -595,6 +595,9 @@ body {
 
 /* CHAT CONSOLE */
 .chat-console {
+    position: absolute;
+    bottom: -6vh;
+    z-index: 20;
     width: 32vw;
     padding: 1.5vh 1.5vw;
     display: flex;
@@ -681,8 +684,8 @@ body {
 /* Answer box – AI-Terminal Stil */
 .chat-answer-box {
     display: none;
-    min-height: 140px;
-    max-height: 170px;
+    min-height: 100px;
+    max-height: 130px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1vh 1vw 1.2vh 1vw;
