@@ -150,9 +150,9 @@
                         </button>
                     </div>
                     <div class="chat-controls">
-                        <button class="ctrl-btn active"><span class="mic-icon"></span> SPRACHE EIN</button>
+                        <button id="mic-btn" class="ctrl-btn"><span class="mic-icon"></span> SPRACHE EIN</button>
                         <button class="ctrl-btn"><span class="kbd-icon"></span> TASTATUR MODUS</button>
-                        <button class="ctrl-btn"><span class="spk-icon"></span> SPRACHE AUSGABE <span class="dropdown-arrow"></span></button>
+                        <button id="speech-btn" class="ctrl-btn"><span class="spk-icon"></span> SPRACHE AUSGABE <span class="dropdown-arrow"></span></button>
                     </div>
                 </div>
             </div>
@@ -435,14 +435,15 @@
 
     function setSphereIdle() {
         sphereState = 'idle';
-        sphereContainer.classList.remove('sphere-thinking', 'sphere-error');
-        hermesStatusText.textContent = '';
-        hermesStatusText.classList.remove('visible', 'error-text');
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking', 'sphere-listening');
+        hermesStatusText.textContent = 'IDLE';
+        hermesStatusText.classList.remove('error-text');
+        hermesStatusText.classList.add('visible'); // Show IDLE text
     }
 
     function setSphereThinking() {
         sphereState = 'thinking';
-        sphereContainer.classList.remove('sphere-error');
+        sphereContainer.classList.remove('sphere-error', 'sphere-speaking', 'sphere-listening');
         sphereContainer.classList.add('sphere-thinking');
         hermesStatusText.textContent = 'HERMES DENKT...';
         hermesStatusText.classList.add('visible');
@@ -451,12 +452,30 @@
 
     function setSphereError() {
         sphereState = 'error';
-        sphereContainer.classList.remove('sphere-thinking');
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-speaking', 'sphere-listening');
         sphereContainer.classList.add('sphere-error');
         hermesStatusText.textContent = 'VERBINDUNGSFEHLER';
         hermesStatusText.classList.add('visible', 'error-text');
         // Auto-reset nach 3s
         setTimeout(setSphereIdle, 3000);
+    }
+
+    function setSphereSpeaking() {
+        sphereState = 'speaking';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-listening');
+        sphereContainer.classList.add('sphere-speaking');
+        hermesStatusText.textContent = 'HERMES SPRICHT...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    function setSphereListening() {
+        sphereState = 'listening';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking');
+        sphereContainer.classList.add('sphere-listening');
+        hermesStatusText.textContent = 'HERMES HÖRT ZU...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
     }
 
     // ─────────────────────────────────────────────
@@ -468,46 +487,177 @@
     const answerLabel = document.getElementById('chat-answer-label');
     const responseTimeEl = document.getElementById('live-response-time');
 
-    function showAnswer(text, type) {
-        // type: 'thinking' | 'answer' | 'error'
-        // Reset classes
+    let chatHistory = JSON.parse(localStorage.getItem('hermesChatHistory') || '[]');
+
+    function saveHistory() {
+        localStorage.setItem('hermesChatHistory', JSON.stringify(chatHistory));
+    }
+
+    function renderHistory(tempMsg = null, tempType = null) {
+        answerBox.innerHTML = '';
+        
+        if (chatHistory.length === 0 && !tempMsg) {
+            answerBox.className = 'chat-answer-box';
+            answerLabel.className = 'chat-answer-label';
+            return;
+        }
+
         answerBox.className = 'chat-answer-box visible';
         answerLabel.className = 'chat-answer-label visible';
 
-        // Clear previous content safely
-        answerBox.innerHTML = '';
+        chatHistory.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'msg-row msg-' + item.role;
+            div.textContent = item.text;
+            answerBox.appendChild(div);
+        });
 
-        if (type === 'thinking') {
-            answerBox.classList.add('thinking-msg');
-            answerBox.appendChild(document.createTextNode(text));
-            // Blinkender Cursor während Thinking
-            const cur = document.createElement('span');
-            cur.className = 'terminal-cursor';
-            answerBox.appendChild(cur);
-        } else if (type === 'error') {
-            answerBox.classList.add('error-msg');
-            answerBox.appendChild(document.createTextNode(text));
-        } else {
-            // Normale Antwort: Text + Cursor am Ende
-            answerBox.appendChild(document.createTextNode(text));
-            const cur = document.createElement('span');
-            cur.className = 'terminal-cursor';
-            answerBox.appendChild(cur);
+        if (tempMsg) {
+            const div = document.createElement('div');
+            div.className = 'msg-row msg-' + tempType;
+            div.textContent = tempMsg;
+            answerBox.appendChild(div);
         }
 
-        // Zum Ende scrollen
+        // Add cursor
+        const cur = document.createElement('span');
+        cur.className = 'terminal-cursor';
+        answerBox.appendChild(cur);
+
         answerBox.scrollTop = answerBox.scrollHeight;
     }
 
-    function hideAnswer() {
-        answerBox.className  = 'chat-answer-box';
-        answerLabel.className = 'chat-answer-label';
+    function addMessageToHistory(role, text) {
+        chatHistory.push({ role, text });
+        if (chatHistory.length > 20) { // Letzte 10 Nachrichten-Paare
+            chatHistory = chatHistory.slice(-20);
+        }
+        saveHistory();
+        renderHistory();
     }
 
     function setInputBusy(busy) {
         chatInput.disabled = busy;
         sendBtn.disabled   = busy;
     }
+
+    // ─────────────────────────────────────────────
+    // SPEECH SYNTHESIS
+    // ─────────────────────────────────────────────
+    const speechBtn = document.getElementById('speech-btn');
+    let speechEnabled = false;
+    let synth = window.speechSynthesis;
+
+    // Toggle button
+    speechBtn.addEventListener('click', () => {
+        speechEnabled = !speechEnabled;
+        if (speechEnabled) {
+            speechBtn.classList.add('speech-active');
+            if (!synth) {
+                console.warn("Speech Synthesis wird von diesem Browser nicht unterstützt.");
+            }
+        } else {
+            speechBtn.classList.remove('speech-active');
+            stopSpeech();
+        }
+    });
+
+    function stopSpeech() {
+        if (synth && synth.speaking) {
+            synth.cancel();
+        }
+    }
+
+    function speakText(text) {
+        if (!speechEnabled || !synth) {
+            setSphereIdle();
+            return;
+        }
+        
+        stopSpeech(); // Stop any ongoing speech
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'de-DE';
+        
+        // Versuche eine deutsche Stimme zu finden, falls verfügbar
+        const voices = synth.getVoices();
+        const germanVoice = voices.find(v => v.lang.startsWith('de'));
+        if (germanVoice) {
+            utterance.voice = germanVoice;
+        }
+
+        utterance.onstart = () => {
+            setSphereSpeaking();
+        };
+
+        utterance.onend = () => {
+            setSphereIdle();
+        };
+
+        utterance.onerror = (e) => {
+            console.warn('SpeechSynthesis error:', e);
+            setSphereIdle();
+        };
+
+        synth.speak(utterance);
+    }
+    
+    // ─────────────────────────────────────────────
+    // SPEECH RECOGNITION (Mic Input)
+    // ─────────────────────────────────────────────
+    const micBtn = document.getElementById('mic-btn');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+    
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'de-DE';
+        recognition.interimResults = false;
+        recognition.continuous = false;
+        
+        recognition.onstart = () => {
+            isListening = true;
+            micBtn.classList.add('mic-active');
+            setSphereListening();
+            chatInput.placeholder = "Hermes hört zu...";
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            chatInput.value = transcript;
+            sendMessage(); // Auto-send
+        };
+        
+        recognition.onerror = (event) => {
+            console.warn('SpeechRecognition error:', event.error);
+            setSphereIdle();
+        };
+        
+        recognition.onend = () => {
+            isListening = false;
+            micBtn.classList.remove('mic-active');
+            chatInput.placeholder = "Sprich oder schreibe mit Hermes...";
+            if (sphereState === 'listening') {
+                setSphereIdle();
+            }
+        };
+        
+        micBtn.addEventListener('click', () => {
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        });
+    } else {
+        micBtn.style.opacity = '0.5';
+        micBtn.title = 'Speech Recognition wird in diesem Browser nicht unterstützt.';
+    }
+
+    // Initial load
+    setSphereIdle();
+    renderHistory();
 
     async function sendMessage() {
         const message = chatInput.value.trim();
@@ -517,11 +667,16 @@
             return;
         }
 
+        // Stop previous speech when sending new message
+        stopSpeech();
+
         // UI: Senden vorbereiten
         setInputBusy(true);
         chatInput.value = '';
         setSphereThinking();
-        showAnswer('Hermes denkt...', 'thinking');
+        
+        addMessageToHistory('user', message);
+        renderHistory('Hermes denkt...', 'thinking');
 
         const t0 = Date.now();
 
@@ -542,7 +697,7 @@
                     const errData = await res.json();
                     errMsg = errData.error || errMsg;
                 } catch (_) {}
-                showAnswer('⚠ Fehler: ' + errMsg, 'error');
+                renderHistory('⚠ Fehler: ' + errMsg, 'error');
                 setSphereError();
                 return;
             }
@@ -550,18 +705,24 @@
             const data = await res.json();
 
             if (!data.ok) {
-                showAnswer('⚠ Hermes meldet: ' + (data.error || 'Unbekannter Fehler'), 'error');
+                renderHistory('⚠ Hermes meldet: ' + (data.error || 'Unbekannter Fehler'), 'error');
                 setSphereError();
                 return;
             }
 
-            showAnswer(data.answer, 'answer');
-            setSphereIdle();
+            addMessageToHistory('hermes', data.answer);
+            
+            // Vorlesen, wenn aktiviert, sonst IDLE
+            if (speechEnabled && synth) {
+                speakText(data.answer);
+            } else {
+                setSphereIdle();
+            }
 
         } catch (err) {
             // Netzwerkfehler / API nicht erreichbar
             if (responseTimeEl) responseTimeEl.textContent = '–';
-            showAnswer('⚠ Verbindung zu Hermes fehlgeschlagen. Server erreichbar?', 'error');
+            renderHistory('⚠ Verbindung zu Hermes fehlgeschlagen. Server erreichbar?', 'error');
             setSphereError();
         } finally {
             setInputBusy(false);

@@ -473,6 +473,71 @@ body {
     100% { opacity: 0.5; }
 }
 
+/* SPEAKING: grüner Glow, ruhige Atemanimation */
+.sphere-container.sphere-speaking .sphere-glow {
+    box-shadow:
+        0 0 90px rgba(0, 255, 120, 0.65),
+        0 0 35px rgba(0, 220, 100, 0.45),
+        inset 0 0 50px rgba(0, 255, 100, 0.25);
+    animation: sphereSpeak 2.4s ease-in-out infinite;
+}
+
+.sphere-container.sphere-speaking .inner-ring {
+    border-color: rgba(0, 255, 120, 0.7);
+    animation: spinRight 10s linear infinite;
+}
+
+.sphere-container.sphere-speaking .middle-ring {
+    border-color: rgba(0, 200, 80, 0.45);
+    animation: spinLeft 18s linear infinite;
+}
+
+@keyframes sphereSpeak {
+    0%   { opacity: 0.75; transform: scale(0.98); }
+    50%  { opacity: 1;    transform: scale(1.02); }
+    100% { opacity: 0.75; transform: scale(0.98); }
+}
+
+/* SPEAKING: active-Zustand am SPRACHE-AUSGABE-Button */
+.ctrl-btn.speech-active {
+    border-color: rgba(0, 255, 120, 0.5);
+    background: rgba(0, 255, 100, 0.08);
+    color: #00ff88;
+    box-shadow: 0 0 8px rgba(0, 255, 100, 0.2);
+}
+
+/* LISTENING: violetter Glow, vibrierend */
+.sphere-container.sphere-listening .sphere-glow {
+    box-shadow:
+        0 0 90px rgba(180, 0, 255, 0.65),
+        0 0 35px rgba(150, 0, 220, 0.45),
+        inset 0 0 50px rgba(180, 0, 255, 0.25);
+    animation: sphereListen 1.2s ease-in-out infinite alternate;
+}
+
+.sphere-container.sphere-listening .inner-ring {
+    border-color: rgba(180, 0, 255, 0.7);
+    animation: spinRight 4s linear infinite;
+}
+
+.sphere-container.sphere-listening .middle-ring {
+    border-color: rgba(150, 0, 220, 0.45);
+    animation: spinLeft 6s linear infinite;
+}
+
+@keyframes sphereListen {
+    0%   { opacity: 0.8; transform: scale(0.98); }
+    100% { opacity: 1;   transform: scale(1.02); }
+}
+
+/* LISTENING: active-Zustand am MIC-Button */
+.ctrl-btn.mic-active {
+    border-color: rgba(180, 0, 255, 0.5);
+    background: rgba(180, 0, 255, 0.08);
+    color: #e080ff;
+    box-shadow: 0 0 8px rgba(180, 0, 255, 0.2);
+}
+
 /* HERMES STATUS TEXT (thinking indicator) */
 .hermes-status-text {
     font-family: var(--font-hud);
@@ -617,7 +682,7 @@ body {
 .chat-answer-box {
     display: none;
     min-height: 140px;
-    max-height: 350px;
+    max-height: 170px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1vh 1vw 1.2vh 1vw;
@@ -663,17 +728,42 @@ body {
     border-radius: 2px;
 }
 
-/* Thinking-Zustand */
-.chat-answer-box.thinking-msg {
+/* Chat History Elements */
+.msg-row {
+    margin-bottom: 1.5vh;
+}
+.msg-user {
+    color: #fff;
+    opacity: 0.9;
+}
+.msg-user::before {
+    content: "> USER: ";
+    color: #8b9eb3;
+    font-weight: bold;
+}
+.msg-hermes {
+    color: #a8deff;
+}
+.msg-hermes::before {
+    content: "> HERMES: ";
+    color: var(--cyan);
+    font-weight: bold;
+}
+.msg-error {
+    color: #ff8060;
+}
+.msg-error::before {
+    content: "> SYS_ERROR: ";
+    color: #ff4020;
+    font-weight: bold;
+}
+.msg-thinking {
     color: rgba(0, 212, 255, 0.5);
     font-style: italic;
 }
-
-/* Fehler-Zustand */
-.chat-answer-box.error-msg {
-    color: #ff8060;
-    border-color: rgba(255, 80, 0, 0.28);
-    background: rgba(12, 2, 0, 0.88);
+.msg-thinking::before {
+    content: "> SYSTEM: ";
+    color: rgba(0, 212, 255, 0.4);
 }
 
 /* Blinkender Terminal-Cursor */
