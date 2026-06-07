@@ -151,7 +151,7 @@
                     </div>
                     <div class="chat-controls">
                         <button id="mic-btn" class="ctrl-btn"><span class="mic-icon"></span> SPRACHE EIN</button>
-                        <button class="ctrl-btn"><span class="kbd-icon"></span> TASTATUR MODUS</button>
+                        <button id="kbd-btn" class="ctrl-btn"><span class="kbd-icon"></span> TASTATUR MODUS</button>
                         <button id="speech-btn" class="ctrl-btn"><span class="spk-icon"></span> SPRACHE AUSGABE <span class="dropdown-arrow"></span></button>
                     </div>
                 </div>
@@ -245,7 +245,7 @@
                     <div class="gauge-chart">
                         <svg viewBox="0 0 100 100">
                             <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
-                            <circle class="gauge-fill" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="62.2" stroke="url(#blue-grad)"></circle>
+                            <circle id="token-gauge-fill" class="gauge-fill" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="62.2" stroke="url(#blue-grad)"></circle>
                             <defs>
                                 <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#0033aa"/>
@@ -254,15 +254,15 @@
                             </defs>
                         </svg>
                         <div class="gauge-text">
-                            <div class="g-val">78%</div>
-                            <div class="g-lbl">verfügbar</div>
+                            <div id="token-gauge-val" class="g-val">0</div>
+                            <div class="g-lbl">Gesamt</div>
                         </div>
                     </div>
                     <div class="fc-list">
-                        <div class="fc-row"><span class="fc-k">Gesamt</span> <span class="fc-v">1.000.000</span></div>
-                        <div class="fc-row"><span class="fc-k">Verwendet</span> <span class="fc-v">220.000</span></div>
-                        <div class="fc-row"><span class="fc-k">Verfügbar</span> <span class="fc-v">780.000</span></div>
-                        <button class="details-btn">DETAILS</button>
+                        <div class="fc-row"><span class="fc-k">Requests</span> <span id="usage-requests" class="fc-v">0</span></div>
+                        <div class="fc-row"><span class="fc-k">Input</span> <span id="usage-input-tokens" class="fc-v">0</span></div>
+                        <div class="fc-row"><span class="fc-k">Output</span> <span id="usage-output-tokens" class="fc-v">0</span></div>
+                        <div class="fc-row"><span class="fc-k">Gesamt</span> <span id="usage-total-tokens" class="fc-v text-cyan">0</span></div>
                     </div>
                 </div>
             </div>
@@ -271,14 +271,14 @@
                 <div class="fc-title">KOSTEN &amp; GUTHABEN</div>
                 <div class="fc-content costs-content">
                     <div class="fc-list">
-                        <div class="fc-row"><span class="fc-k">Monatliche Kosten</span> <span class="fc-v">CHF 12.45</span></div>
-                        <div class="fc-row"><span class="fc-k">Budget (Monat)</span> <span class="fc-v">CHF 100.00</span></div>
-                        <div class="fc-row"><span class="fc-k">Verbrauch</span> <span class="fc-v">12%</span></div>
-                        <div class="progress-bar flat-bar"><div class="progress-fill" style="width:12%"></div></div>
+                        <div class="fc-row"><span class="fc-k">Modell</span> <span id="usage-model" class="fc-v" style="font-size:0.7em;">Laden...</span></div>
+                        <div class="fc-row"><span class="fc-k">Provider</span> <span id="usage-provider" class="fc-v">Laden...</span></div>
+                        <div class="fc-row"><span class="fc-k">Kosten (Heute)</span> <span id="usage-cost-today" class="fc-v">$ 0.00</span></div>
+                        <div class="fc-row"><span class="fc-k">Kosten (Monat)</span> <span id="usage-cost-month" class="fc-v">$ 0.00</span></div>
                     </div>
                     <div class="balance-display">
                         <span class="balance-lbl text-green">Guthaben</span>
-                        <span class="balance-val text-green">CHF 87.55</span>
+                        <span id="usage-credit" class="balance-val text-green">$ 0.00</span>
                     </div>
                 </div>
             </div>
@@ -562,14 +562,21 @@
         }
     });
 
+    let currentAudio = null;
+
     function stopSpeech() {
         if (synth && synth.speaking) {
             synth.cancel();
         }
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+        }
     }
 
-    function speakText(text) {
-        if (!speechEnabled || !synth) {
+    function speakTextFallback(text) {
+        if (!synth) {
             setSphereIdle();
             return;
         }
@@ -601,14 +608,70 @@
 
         synth.speak(utterance);
     }
+
+    async function speakText(text) {
+        if (!speechEnabled) {
+            setSphereIdle();
+            return;
+        }
+        
+        stopSpeech();
+        
+        try {
+            setSphereSpeaking();
+            
+            const res = await fetch('/api/tts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            });
+            
+            if (!res.ok) {
+                console.warn(`/api/tts failed (Status ${res.status}). Using Fallback.`);
+                speakTextFallback(text);
+                return;
+            }
+            
+            const blob = await res.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            currentAudio = new Audio(audioUrl);
+            
+            currentAudio.onended = () => {
+                setSphereIdle();
+                URL.revokeObjectURL(audioUrl);
+                currentAudio = null;
+            };
+            
+            currentAudio.onerror = () => {
+                console.warn('Audio playback error. Using Fallback.');
+                setSphereIdle();
+                speakTextFallback(text);
+                URL.revokeObjectURL(audioUrl);
+                currentAudio = null;
+            };
+            
+            await currentAudio.play();
+            
+        } catch (err) {
+            console.warn('Fetch error for /api/tts. Using Fallback.', err);
+            speakTextFallback(text);
+        }
+    }
     
     // ─────────────────────────────────────────────
     // SPEECH RECOGNITION (Mic Input)
     // ─────────────────────────────────────────────
     const micBtn = document.getElementById('mic-btn');
+    const kbdBtn = document.getElementById('kbd-btn');
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
     let isListening = false;
+    
+    function stopListening() {
+        if (recognition && isListening) {
+            recognition.stop();
+        }
+    }
     
     if (SpeechRecognition) {
         recognition = new SpeechRecognition();
@@ -645,15 +708,35 @@
         
         micBtn.addEventListener('click', () => {
             if (isListening) {
-                recognition.stop();
+                stopListening();
             } else {
+                stopSpeech(); // Stop TTS before listening
                 recognition.start();
             }
         });
     } else {
-        micBtn.style.opacity = '0.5';
-        micBtn.title = 'Speech Recognition wird in diesem Browser nicht unterstützt.';
+        micBtn.addEventListener('click', () => {
+            renderHistory('⚠ Spracherkennung wird in diesem Browser nicht unterstützt.', 'error');
+            setSphereError();
+        });
     }
+
+    // ─────────────────────────────────────────────
+    // KEYBOARD MODUS (Tastatur Modus)
+    // ─────────────────────────────────────────────
+    kbdBtn.addEventListener('click', () => {
+        stopSpeech();
+        stopListening();
+        setSphereIdle();
+        
+        chatInput.focus();
+        
+        // Kurz aktivieren als Feedback
+        kbdBtn.classList.add('active');
+        setTimeout(() => {
+            kbdBtn.classList.remove('active');
+        }, 300);
+    });
 
     // Initial load
     setSphereIdle();
@@ -667,8 +750,9 @@
             return;
         }
 
-        // Stop previous speech when sending new message
+        // Stop previous speech/listening when sending new message
         stopSpeech();
+        stopListening();
 
         // UI: Senden vorbereiten
         setInputBusy(true);
@@ -798,7 +882,7 @@
             // Disk-Detail im Footer
             const totalEl = document.getElementById('disk-total');
             const freeEl  = document.getElementById('disk-free');
-            if (totalEl && d.disk_total_gb) totalEl.textContent = d.disk_total_gb.toFixed(1) + ' TB';
+            if (totalEl && d.disk_total_gb) totalEl.textContent = d.disk_total_gb.toFixed(1) + ' GB';
             if (freeEl  && d.disk_free_gb)  freeEl.textContent  = d.disk_free_gb.toFixed(1)  + ' GB';
 
         } catch (err) {
@@ -809,6 +893,71 @@
 
     updateSystemData();
     setInterval(updateSystemData, 5000);
+
+    // ─────────────────────────────────────────────
+    // LIVE USAGE DATA  (alle 30 Sekunden)
+    // ─────────────────────────────────────────────
+    async function updateUsageData() {
+        try {
+            const res = await fetch('/api/usage', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/usage: HTTP', res.status);
+                return;
+            }
+            const d = await res.json();
+            
+            // TOKENS panel
+            const reqEl = document.getElementById('usage-requests');
+            const inEl  = document.getElementById('usage-input-tokens');
+            const outEl = document.getElementById('usage-output-tokens');
+            const totEl = document.getElementById('usage-total-tokens');
+            
+            if (reqEl) reqEl.textContent = (d.requests || 0).toLocaleString('de-DE');
+            if (inEl)  inEl.textContent  = (d.input_tokens || 0).toLocaleString('de-DE');
+            if (outEl) outEl.textContent = (d.output_tokens || 0).toLocaleString('de-DE');
+            if (totEl) totEl.textContent = (d.total_tokens || 0).toLocaleString('de-DE');
+            
+            // Tokens Ring dynamisch (Visualisiert Aktivität)
+            const gaugeVal  = document.getElementById('token-gauge-val');
+            const gaugeFill = document.getElementById('token-gauge-fill');
+            if (gaugeVal && d.total_tokens !== undefined) {
+                if (d.total_tokens >= 1000) {
+                    gaugeVal.textContent = (d.total_tokens / 1000).toFixed(1) + 'k';
+                } else {
+                    gaugeVal.textContent = d.total_tokens;
+                }
+            }
+            if (gaugeFill && d.total_tokens !== undefined) {
+                // Ein visuelles Feedback, das mit wachsenden Tokens den Ring füllt (max 100k, dann loop)
+                const pct = (d.total_tokens % 100000) / 100000; 
+                const fillOffset = GAUGE_CIRC * (1 - (d.total_tokens > 0 ? Math.max(0.1, pct) : 0));
+                gaugeFill.style.strokeDashoffset = fillOffset.toFixed(1);
+            }
+            
+            // KOSTEN & GUTHABEN panel
+            const modEl  = document.getElementById('usage-model');
+            const provEl = document.getElementById('usage-provider');
+            const todayEl= document.getElementById('usage-cost-today');
+            const monthEl= document.getElementById('usage-cost-month');
+            const credEl = document.getElementById('usage-credit');
+            
+            if (modEl)  modEl.textContent  = d.model || '–';
+            if (provEl) provEl.textContent = d.provider || '–';
+            
+            if (todayEl) todayEl.textContent = '$ ' + (d.cost_today || 0).toFixed(4);
+            if (monthEl) monthEl.textContent = '$ ' + (d.cost_month || 0).toFixed(4);
+            
+            if (credEl) {
+                credEl.textContent = d.credit_display || 'nicht verfügbar';
+            }
+            
+        } catch (err) {
+            console.warn('Usage-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateUsageData();
+    setInterval(updateUsageData, 30000);
     </script>
 </body>
 </html>

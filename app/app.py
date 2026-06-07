@@ -2,7 +2,7 @@ import os
 import time
 import shutil
 import psutil
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -18,6 +18,19 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=OPENROUTER_API_KEY,
 )
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+openai_tts_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+
+# In-Memory Usage Tracking
+usage_stats = {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_today": 0.0,
+    "cost_month": 0.0,
+}
 
 
 @app.route("/")
@@ -78,6 +91,19 @@ def api_chat():
         )
 
         answer = completion.choices[0].message.content
+        usage = completion.usage
+
+        if usage:
+            usage_stats["requests"] += 1
+            usage_stats["input_tokens"] += usage.prompt_tokens
+            usage_stats["output_tokens"] += usage.completion_tokens
+            usage_stats["total_tokens"] += usage.total_tokens
+            
+            # Simple estimated cost (DeepSeek Flash roughly 0.14$ Input / 0.28$ Output per 1M)
+            in_cost = (usage.prompt_tokens / 1_000_000) * 0.14
+            out_cost = (usage.completion_tokens / 1_000_000) * 0.28
+            usage_stats["cost_today"] += (in_cost + out_cost)
+            usage_stats["cost_month"] += (in_cost + out_cost)
 
         return jsonify({
             "ok": True,
@@ -91,6 +117,64 @@ def api_chat():
             "ok": False,
             "error": str(exc)
         }), 500
+
+
+@app.route("/api/tts", methods=["POST"])
+def api_tts():
+    data = request.get_json(silent=True) or {}
+    text = (data.get("text") or "").strip()
+    
+    if not text:
+        return jsonify({"ok": False, "error": "Kein Text übergeben."}), 400
+        
+    if not openai_tts_client:
+        return jsonify({"ok": False, "error": "Kein OPENAI_API_KEY konfiguriert."}), 501
+        
+    try:
+        response = openai_tts_client.audio.speech.create(
+            model="tts-1",
+            voice="nova",
+            input=text
+        )
+        return Response(response.content, mimetype="audio/mpeg")
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/usage")
+def api_usage():
+    credit = None
+    credit_display = "nicht verfügbar"
+    if OPENROUTER_API_KEY:
+        import requests
+        try:
+            resp = requests.get(
+                "https://openrouter.ai/api/v1/auth/key",
+                headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}"},
+                timeout=3
+            )
+            if resp.status_code == 200:
+                data = resp.json().get("data", {})
+                limit = data.get("limit")
+                used = data.get("usage", 0)
+                if limit is not None:
+                    credit = max(0.0, limit - used)
+                    credit_display = f"$ {credit:.2f}"
+        except Exception as e:
+            print(f"Warnung: Konnte OpenRouter-Guthaben nicht abrufen - {e}")
+
+    return jsonify({
+        "model": OPENROUTER_MODEL,
+        "provider": "OpenRouter",
+        "requests": usage_stats["requests"],
+        "input_tokens": usage_stats["input_tokens"],
+        "output_tokens": usage_stats["output_tokens"],
+        "total_tokens": usage_stats["total_tokens"],
+        "cost_today": usage_stats["cost_today"],
+        "cost_month": usage_stats["cost_month"],
+        "credit": credit,
+        "credit_display": credit_display
+    })
 
 
 def format_uptime(seconds):
