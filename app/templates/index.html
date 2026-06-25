@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RentenPilot – Hermes Command Center</title>
+  <title>RentenPilot - Hermes Command Center</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
@@ -85,36 +85,36 @@
         <div class="mod-list">
           <!-- Research -->
           <div class="mod-item" id="mod-research">
-            <div class="mod-icon">🔍</div>
+            <div class="mod-icon">R</div>
             <div class="mod-details">
               <div class="mod-title">RESEARCH <span class="mod-status text-green">AKTIV</span></div>
               <div class="mod-row"><span>Neue Themen</span><span>14</span></div>
               <div class="mod-row"><span>Quellen heute</span><span>32</span></div>
               <div class="mod-row"><span>Letzter Scan</span><span>08:42</span></div>
             </div>
-            <div class="mod-arrow">›</div>
+            <div class="mod-arrow">&gt;</div>
           </div>
           <!-- Content -->
           <div class="mod-item" id="mod-content">
-            <div class="mod-icon">▷</div>
+            <div class="mod-icon">C</div>
             <div class="mod-details">
               <div class="mod-title">CONTENT <span class="mod-status text-green">AKTIV</span></div>
-              <div class="mod-row"><span>Artikel Entwürfe</span><span>7</span></div>
-              <div class="mod-row"><span>In Prüfung</span><span>2</span></div>
-              <div class="mod-row"><span>Veröffentlicht heute</span><span>1</span></div>
+              <div class="mod-row"><span>Artikel Entwuerfe</span><span>7</span></div>
+              <div class="mod-row"><span>In Pruefung</span><span>2</span></div>
+              <div class="mod-row"><span>Veroeffentlicht heute</span><span>1</span></div>
             </div>
-            <div class="mod-arrow">›</div>
+            <div class="mod-arrow">&gt;</div>
           </div>
           <!-- Trading -->
           <div class="mod-item" id="mod-trading">
-            <div class="mod-icon">⚲</div>
+            <div class="mod-icon">T</div>
             <div class="mod-details">
               <div class="mod-title">TRADING <span class="mod-status text-green">AKTIV</span></div>
               <div class="mod-row"><span>Aktive Signale</span><span>2</span></div>
               <div class="mod-row"><span>Trefferquote</span><span>71%</span></div>
               <div class="mod-row"><span>Monat</span><span class="text-green">+4.2R</span></div>
             </div>
-            <div class="mod-arrow">›</div>
+            <div class="mod-arrow">&gt;</div>
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@
       <div class="panel" style="flex:1;">
         <div class="panel-header">SCHNELLAKTIONEN</div>
         <div class="action-list">
-          <button class="action-btn"><span>🔍 Recherche starten</span></button>
-          <button class="action-btn"><span>📝 Artikel erstellen</span></button>
-          <button class="action-btn"><span>📊 SEO Analyse</span></button>
-          <button class="action-btn"><span>📈 Trading Scan</span></button>
-          <button class="action-btn"><span>📁 Paperless Import</span></button>
-          <div class="action-link">Alle Workflows anzeigen ›</div>
+          <button class="action-btn"><span>Recherche starten</span></button>
+          <button class="action-btn"><span>Artikel erstellen</span></button>
+          <button class="action-btn"><span>SEO Analyse</span></button>
+          <button class="action-btn"><span>Trading Scan</span></button>
+          <button class="action-btn"><span>Paperless Import</span></button>
+          <div class="action-link">Alle Workflows anzeigen &gt;</div>
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@
 
       <div class="chat-panel">
         <div class="chat-header">
-          <span>HERMES SPHÄRE – CHAT</span>
+          <span>HERMES SPHAERE - CHAT</span>
           <span class="chat-status"><span class="dot green-dot small"></span> ONLINE</span>
         </div>
         <div class="chat-answer-label" id="chat-answer-label" style="display:none;"></div>
@@ -169,15 +169,15 @@
 
         <div class="chat-controls">
           <button class="ctrl-btn" id="mic-btn">
-            <span class="icon">🎤</span>
-            <div class="ctrl-text">SPRACH<br>EINGABE</div>
+            <span class="icon">ðŸŽ¤</span>
+            <div class="ctrl-text">SPRACHE<br>EINGABE</div>
           </button>
           <button class="ctrl-btn" id="kbd-btn" onclick="document.querySelector('.chat-input-area').style.display='flex';document.getElementById('chat-input').focus();">
-            <span class="icon">⌨️</span>
+            <span class="icon">âŒ¨ï¸</span>
             <div class="ctrl-text">TASTATUR<br>MODUS</div>
           </button>
           <button class="ctrl-btn" id="speech-btn">
-            <span class="icon">🔊</span>
+            <span class="icon">ðŸ”Š</span>
             <div class="ctrl-text"><br>SPRACHAUSGABE</div>
           </button>
         </div>
@@ -191,11 +191,17 @@
         <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
         <div class="trading-content">
           <div class="tc-top">
-            <div class="tc-pair"><span class="text-orange">BTC</span> / USD <span class="dim">Bitcoin</span></div>
-            <div class="tc-spans"><span>1H</span><span>4H</span><span class="active">1D</span><span>1W</span><span>1M</span></div>
+            <div class="tc-pair" id="trading-symbol"><span class="text-orange">BTC</span> / USD <span class="dim">Bitcoin</span></div>
+            <div class="tc-spans" id="trading-assets">
+              <span class="active" data-symbol="BTCUSD">BTCUSD</span>
+              <span data-symbol="EURUSD">EURUSD</span>
+              <span data-symbol="GBPUSD">GBPUSD</span>
+              <span data-symbol="XAUUSD">XAUUSD</span>
+              <span data-symbol="ETHUSD">ETHUSD</span>
+            </div>
           </div>
-          <div class="tc-price">67,245.18</div>
-          <div class="tc-change text-green">+1,245.32 +1.89%</div>
+          <div class="tc-price" id="trading-price">67,245.18</div>
+          <div class="tc-change text-green" id="trading-change">+1,245.32 +1.89%</div>
           <div class="tc-chart">
             <svg viewBox="0 0 200 40" preserveAspectRatio="none">
               <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5" fill="none" stroke="var(--green)" stroke-width="1.5"/>
@@ -209,8 +215,8 @@
             </svg>
           </div>
           <div class="tc-signal">
-            <div class="sig-badge">LONG</div>
-            <div class="sig-conf">CONFIDENCE<br><span class="text-green">84%</span></div>
+            <div class="sig-badge" id="trading-status">LONG</div>
+            <div class="sig-conf">UPDATED<br><span class="text-green" id="trading-updated">â€”</span></div>
           </div>
           <div class="tc-levels">
             <div><span class="dim">ENTRY</span><br>67,120.00</div>
@@ -224,7 +230,7 @@
 
       <!-- Kosten & Guthaben -->
       <div class="panel">
-        <div class="panel-header">KOSTEN & GUTHABEN – OPENROUTER</div>
+        <div class="panel-header">KOSTEN & GUTHABEN - OPENROUTER</div>
         <div class="cost-grid">
           <div class="cost-box">
             <div class="cb-label">VERBRAUCH HEUTE</div>
@@ -240,7 +246,7 @@
           <div class="cost-box last">
             <div class="cb-label">GUTHABEN</div>
             <div class="cb-val text-cyan" id="usage-credit">$8.72</div>
-            <div class="cb-circle"><span>87%</span><br><span style="font-size:5px">verfügbar</span></div>
+            <div class="cb-circle"><span>87%</span><br><span style="font-size:5px">verfuegbar</span></div>
           </div>
           <div class="cost-legend">
             <div><span class="dot green-dot small"></span> > $10</div>
@@ -255,14 +261,14 @@
         <div class="panel" style="padding:10px;">
           <div class="panel-header" style="margin-bottom:6px;">HERMES AGENTEN</div>
           <div class="agent-list" id="hi-agents-container">
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Research Agent</span> <span class="text-green">Läuft ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Content Agent</span> <span class="text-green">Läuft ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>SEO Agent</span> <span class="text-orange">Wartet ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Publisher Agent</span> <span class="text-green">Läuft ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Social Agent</span> <span class="text-orange">Wartet ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Trading Agent</span> <span class="text-cyan">Aktiv ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Fact Check Agent</span> <span class="text-cyan">Aktiv ›</span></div>
-            <div class="al-row"><input type="checkbox" checked disabled> <span>Legal Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Research Agent</span> <span class="text-green">Lauft &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Content Agent</span> <span class="text-green">Lauft &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>SEO Agent</span> <span class="text-orange">Wartet &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Publisher Agent</span> <span class="text-green">Lauft &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Social Agent</span> <span class="text-orange">Wartet &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Trading Agent</span> <span class="text-cyan">Aktiv &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Fact Check Agent</span> <span class="text-cyan">Aktiv &gt;</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Legal Agent</span> <span class="text-orange">Wartet &gt;</span></div>
             <!-- Hidden requirements -->
             <div style="display:none;" id="hi-version"></div>
             <div style="display:none;" id="hi-agents"></div>
@@ -272,10 +278,10 @@
         <div class="panel" style="padding:10px;">
           <div class="panel-header" style="margin-bottom:6px;">QUALITY CONTROL</div>
           <div class="qc-list">
-            <div class="qc-row"><span class="icon text-green">✔</span> Generator <span class="float-right text-green">✔</span></div>
-            <div class="qc-row"><span class="icon text-green">✔</span> Critic <span class="float-right text-green">✔</span></div>
-            <div class="qc-row"><span class="icon text-green">✔</span> Fact Check <span class="float-right text-green">✔</span></div>
-            <div class="qc-row"><span class="icon text-green">✔</span> Judge <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">OK</span> Generator <span class="float-right text-green">OK</span></div>
+            <div class="qc-row"><span class="icon text-green">OK</span> Critic <span class="float-right text-green">OK</span></div>
+            <div class="qc-row"><span class="icon text-green">OK</span> Fact Check <span class="float-right text-green">OK</span></div>
+            <div class="qc-row"><span class="icon text-green">OK</span> Judge <span class="float-right text-green">OK</span></div>
           </div>
           <div class="qc-rate">
             <span>Freigaberate</span>
@@ -290,40 +296,40 @@
   <!-- WEITERE MODULE -->
   <div class="bottom-modules">
     <div class="panel bmod" id="mod-publisher">
-      <div class="bmod-head">📄 PUBLISHER</div>
-      <div class="bmod-row"><span>Artikel veröffentlicht</span></div>
+      <div class="bmod-head">PUBLISHER</div>
+      <div class="bmod-row"><span>Artikel veroeffentlicht</span></div>
       <div class="bmod-row"><span>Heute:</span><span>3</span></div>
       <div class="bmod-row"><span>Geplant</span><span>5</span></div>
-      <div class="bmod-row"><span>Nächste</span><span>09:00 Uhr</span></div>
+      <div class="bmod-row"><span>Naechste</span><span>09:00 Uhr</span></div>
     </div>
     <div class="panel bmod" id="mod-social">
-      <div class="bmod-head">👥 SOCIAL MEDIA</div>
+      <div class="bmod-head">SOCIAL MEDIA</div>
       <div class="bmod-row"><span>TikTok</span><span class="text-green">12 geplant</span></div>
       <div class="bmod-row"><span>Instagram</span><span>8 geplant</span></div>
       <div class="bmod-row"><span>Facebook</span><span>4 geplant</span></div>
     </div>
     <div class="panel bmod" id="mod-tasks">
-      <div class="bmod-head">📋 TASKS</div>
+      <div class="bmod-head">TASKS</div>
       <div class="bmod-row"><span>Offene Aufgaben</span><span>18</span></div>
       <div class="bmod-row"><span>In Arbeit</span><span>7</span></div>
       <div class="bmod-row"><span>Erledigt heute</span><span>23</span></div>
     </div>
     <div class="panel bmod">
-      <div class="bmod-head">📖 TRADE JOURNAL</div>
+      <div class="bmod-head">TRADE JOURNAL</div>
       <div class="bmod-row"><span>Trades gesamt</span><span>124</span></div>
       <div class="bmod-row"><span>Gewonnen</span><span>87</span></div>
       <div class="bmod-row"><span>Verloren</span><span>37</span></div>
       <div class="bmod-row"><span>Trefferquote</span><span>70.1%</span></div>
     </div>
     <div class="panel bmod" id="mod-paperless">
-      <div class="bmod-head">📁 PAPERLESS</div>
+      <div class="bmod-head">PAPERLESS</div>
       <div class="bmod-row"><span>Dokumente</span><span>12.450</span></div>
       <div class="bmod-row"><span>Neue Dokumente</span><span>17</span></div>
       <div class="bmod-row"><span>OCR Queue</span><span>3</span></div>
       <div class="bmod-row"><span>Status</span><span class="text-green">Online</span></div>
     </div>
     <div class="panel bmod" id="mod-gbrain">
-      <div class="bmod-head">🌐 GBRAIN</div>
+      <div class="bmod-head">GBRAIN</div>
       <div class="bmod-row"><span>Quellen</span><span>4.120</span></div>
       <div class="bmod-row"><span>Personen</span><span>620</span></div>
       <div class="bmod-row"><span>Firmen</span><span>380</span></div>
@@ -331,14 +337,14 @@
       <div class="bmod-row"><span>Status</span><span class="text-green">Online</span></div>
     </div>
     <div class="panel bmod" id="mod-ai">
-      <div class="bmod-head">🔍 AI SCOUT</div>
+      <div class="bmod-head">AI SCOUT</div>
       <div class="bmod-row"><span>Neue Tools</span><span>14</span></div>
       <div class="bmod-row"><span>Bewertet</span><span>8</span></div>
       <div class="bmod-row"><span>Interessant</span><span>3</span></div>
       <div class="bmod-row"><span>Top Fund</span><span class="text-green">Emergent</span></div>
     </div>
     <div class="panel bmod" id="mod-video">
-      <div class="bmod-head">🎬 VIDEO CONTENT</div>
+      <div class="bmod-head">VIDEO CONTENT</div>
       <div class="bmod-row"><span>YouTube Shorts</span><span>7</span></div>
       <div class="bmod-row"><span>TikTok Skripte</span><span>12</span></div>
       <div class="bmod-row"><span>In Produktion</span><span>3</span></div>
@@ -357,10 +363,10 @@
       HERMES DENKT. HERMES HANDELT. HERMES LIEFERT.
     </div>
     <div class="fb-right">
-      <span style="font-size:14px">🔒</span>
+      <span style="font-size:14px">LOCK</span>
       <div>
         SICHER & PRIVAT<br>
-        <span class="text-green">ALLE SYSTEME VERSCHLÜSSELT</span>
+        <span class="text-green">ALLE SYSTEME VERSCHLUESSELT</span>
       </div>
     </div>
   </div>
@@ -370,7 +376,7 @@
 <!-- HUD OVERLAY -->
 <div id="hud-overlay" class="hud-overlay">
   <div class="hud-overlay-box">
-    <button class="hud-close-btn" id="hud-close-btn">×</button>
+    <button class="hud-close-btn" id="hud-close-btn">x</button>
     <div class="hud-overlay-header">
       <span class="hud-overlay-title" id="hud-overlay-title">MODUL</span>
     </div>
@@ -381,9 +387,9 @@
 </div>
 
 <script>
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // CLOCK
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     const DAYS_DE = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
 
     function updateClock() {
@@ -398,9 +404,9 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // SPHERE ANIMATION
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     const canvas = document.getElementById('sphere-canvas');
     const ctx    = canvas.getContext('2d');
 
@@ -516,9 +522,9 @@
     }
     drawSphere();
 
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // SPHERE STATE HELPERS
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     const sphereContainer = document.getElementById('sphere-container');
     const hermesStatusText = document.getElementById('hermes-status-text');
 
@@ -562,14 +568,14 @@
         sphereState = 'listening';
         sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking');
         sphereContainer.classList.add('sphere-listening');
-        hermesStatusText.textContent = 'HERMES HÖRT ZU...';
+        hermesStatusText.textContent = 'HERMES HÃƒâ€“RT ZU...';
         hermesStatusText.classList.add('visible');
         hermesStatusText.classList.remove('error-text');
     }
 
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // CHAT LOGIC
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     const chatInput   = document.getElementById('chat-input');
     const sendBtn     = document.getElementById('send-btn');
     const answerBox   = document.getElementById('chat-answer-box');
@@ -630,9 +636,9 @@
         sendBtn.disabled   = busy;
     }
 
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // SPEECH SYNTHESIS
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     const speechBtn = document.getElementById('speech-btn');
     let speechEnabled = false;
     let synth = window.speechSynthesis;
@@ -643,7 +649,7 @@
         if (speechEnabled) {
             speechBtn.classList.add('speech-active');
             if (!synth) {
-                console.warn("Speech Synthesis wird von diesem Browser nicht unterstützt.");
+                console.warn("Speech Synthesis wird von diesem Browser nicht unterstÃƒÂ¼tzt.");
             }
         } else {
             speechBtn.classList.remove('speech-active');
@@ -668,7 +674,7 @@
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'de-DE';
         
-        // Versuche eine deutsche Stimme zu finden, falls verfügbar
+        // Versuche eine deutsche Stimme zu finden, falls verfÃƒÂ¼gbar
         const voices = synth.getVoices();
         const germanVoice = voices.find(v => v.lang.startsWith('de'));
         if (germanVoice) {
@@ -691,9 +697,9 @@
         synth.speak(utterance);
     }
     
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // SPEECH RECOGNITION (Mic Input)
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     const micBtn = document.getElementById('mic-btn');
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
@@ -709,7 +715,7 @@
             isListening = true;
             micBtn.classList.add('mic-active');
             setSphereListening();
-            chatInput.placeholder = "Hermes hört zu...";
+            chatInput.placeholder = "Hermes hÃƒÂ¶rt zu...";
         };
         
         recognition.onresult = (event) => {
@@ -741,7 +747,7 @@
         });
     } else {
         micBtn.style.opacity = '0.5';
-        micBtn.title = 'Speech Recognition wird in diesem Browser nicht unterstützt.';
+        micBtn.title = 'Speech Recognition wird in diesem Browser nicht unterstÃƒÂ¼tzt.';
     }
 
     // Initial load
@@ -786,7 +792,7 @@
                     const errData = await res.json();
                     errMsg = errData.error || errMsg;
                 } catch (_) {}
-                renderHistory('⚠ Fehler: ' + errMsg, 'error');
+                renderHistory('Ã¢Å¡Â  Fehler: ' + errMsg, 'error');
                 setSphereError();
                 return;
             }
@@ -794,7 +800,7 @@
             const data = await res.json();
 
             if (!data.ok) {
-                renderHistory('⚠ Hermes meldet: ' + (data.error || 'Unbekannter Fehler'), 'error');
+                renderHistory('Ã¢Å¡Â  Hermes meldet: ' + (data.error || 'Unbekannter Fehler'), 'error');
                 setSphereError();
                 return;
             }
@@ -810,8 +816,8 @@
 
         } catch (err) {
             // Netzwerkfehler / API nicht erreichbar
-            if (responseTimeEl) responseTimeEl.textContent = '–';
-            renderHistory('⚠ Verbindung zu Hermes fehlgeschlagen. Server erreichbar?', 'error');
+            if (responseTimeEl) responseTimeEl.textContent = 'Ã¢â‚¬â€œ';
+            renderHistory('Ã¢Å¡Â  Verbindung zu Hermes fehlgeschlagen. Server erreichbar?', 'error');
             setSphereError();
         } finally {
             setInputBusy(false);
@@ -828,9 +834,9 @@
         }
     });
 
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // LIVE SYSTEM DATA  (alle 5 Sekunden)
-    // ─────────────────────────────────────────────
+    // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     // Disk-Gauge: Radius=45, Umfang=282.7
     // dashoffset = 282.7 * (1 - percent/100)
     const GAUGE_CIRC = 282.7;
@@ -853,29 +859,35 @@
             // Rechte Statuspanel: Uptimes
             const uptimeEl       = document.getElementById('live-uptime');
             const hermesUptimeEl = document.getElementById('live-hermes-uptime');
-            if (uptimeEl)       uptimeEl.textContent       = d.system_uptime_text || '–';
-            if (hermesUptimeEl) hermesUptimeEl.textContent = d.hermes_uptime_text || '–';
+            if (uptimeEl)       uptimeEl.textContent       = d.system_uptime_text || 'Ã¢â‚¬â€œ';
+            if (hermesUptimeEl) hermesUptimeEl.textContent = d.hermes_uptime_text || 'Ã¢â‚¬â€œ';
 
             // CPU
             const cpuPct  = parseFloat(d.cpu_percent)  || 0;
             const cpuEl   = document.getElementById('live-cpu');
             const cpuBar  = document.getElementById('live-cpu-bar');
+            const cpuCirc = cpuEl ? cpuEl.closest('.sys-circ') : null;
             if (cpuEl)  cpuEl.textContent     = cpuPct.toFixed(1) + '%';
             if (cpuBar) cpuBar.style.width     = cpuPct.toFixed(1) + '%';
+            if (cpuCirc) cpuCirc.style.setProperty('--value', cpuPct);
 
             // RAM
             const ramPct  = parseFloat(d.ram_percent)  || 0;
             const ramEl   = document.getElementById('live-ram');
             const ramBar  = document.getElementById('live-ram-bar');
+            const ramCirc = ramEl ? ramEl.closest('.sys-circ') : null;
             if (ramEl)  ramEl.textContent     = ramPct.toFixed(1) + '%';
             if (ramBar) ramBar.style.width     = ramPct.toFixed(1) + '%';
+            if (ramCirc) ramCirc.style.setProperty('--value', ramPct);
 
             // Disk (Header)
             const diskPct = parseFloat(d.disk_percent) || 0;
             const diskEl  = document.getElementById('live-disk');
             const diskBar = document.getElementById('live-disk-bar');
+            const diskCirc = diskEl ? diskEl.closest('.sys-circ') : null;
             if (diskEl)  diskEl.textContent   = diskPct.toFixed(1) + '%';
             if (diskBar) diskBar.style.width   = diskPct.toFixed(1) + '%';
+            if (diskCirc) diskCirc.style.setProperty('--value', diskPct);
 
             // Disk-Gauge im Footer
             const gaugeOffset = GAUGE_CIRC * (1 - diskPct / 100);
@@ -891,13 +903,150 @@
             if (freeEl  && d.disk_free_gb)  freeEl.textContent  = d.disk_free_gb.toFixed(1)  + ' GB';
 
         } catch (err) {
-            // Kurzzeitiger Fehler → nur loggen, kein Crash
+            // Kurzzeitiger Fehler Ã¢â€ â€™ nur loggen, kein Crash
             console.warn('Systemdaten konnten nicht geladen werden:', err.message);
         }
     }
 
     updateSystemData();
     setInterval(updateSystemData, 5000);
+
+    async function updateOpenRouterData() {
+        try {
+            const res = await fetch('/api/openrouter', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/openrouter: HTTP', res.status);
+                return;
+            }
+
+            const data = await res.json();
+            const todayEl = document.getElementById('usage-cost-today');
+            const monthEl = document.getElementById('usage-cost-month');
+            const creditEl = document.getElementById('usage-credit');
+            const providerEl = document.getElementById('usage-provider');
+
+            const formatUsd = (value) => {
+                const num = Number(value);
+                return Number.isFinite(num) ? '$' + num.toFixed(2) : '$0.00';
+            };
+
+            const currentUsage = Number(data.usage || 0);
+            const monthKey = (() => {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                return 'openrouter_usage_month_' + year + '_' + month;
+            })();
+            const storedMonthStart = localStorage.getItem(monthKey);
+            let monthStartUsage = storedMonthStart !== null ? Number(storedMonthStart) : null;
+
+            if (!Number.isFinite(monthStartUsage)) {
+                monthStartUsage = currentUsage;
+                localStorage.setItem(monthKey, String(monthStartUsage));
+            }
+
+            const monthlyUsage = Math.max(0, currentUsage - monthStartUsage);
+
+            if (todayEl) {
+                const labelEl = todayEl.previousElementSibling;
+                if (labelEl) labelEl.textContent = 'VERBRAUCH HEUTE';
+                todayEl.textContent = '$0.00';
+            }
+
+            if (monthEl) {
+                const labelEl = monthEl.previousElementSibling;
+                if (labelEl) labelEl.textContent = 'DIESEN MONAT';
+                monthEl.textContent = formatUsd(monthlyUsage);
+            }
+
+            if (creditEl) {
+                const labelEl = creditEl.previousElementSibling;
+                if (labelEl) labelEl.textContent = 'GUTHABEN';
+                creditEl.textContent = formatUsd(data.remaining);
+            }
+
+            if (providerEl) providerEl.textContent = data.provider || 'OpenRouter';
+
+            var subs = document.querySelectorAll('.cost-box .cb-sub');
+            subs.forEach(function (node) { node.textContent = ''; });
+        } catch (err) {
+            console.warn('OpenRouter-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateOpenRouterData();
+    setInterval(updateOpenRouterData, 30000);
+
+    const tradingAssetContainer = document.getElementById('trading-assets');
+    const tradingAssetButtons = tradingAssetContainer ? tradingAssetContainer.querySelectorAll('[data-symbol]') : [];
+    let selectedTradingSymbol = localStorage.getItem('selectedTradingSymbol') || 'BTCUSD';
+
+    function setActiveTradingAsset(symbol) {
+        tradingAssetButtons.forEach(function (node) {
+            node.classList.toggle('active', node.getAttribute('data-symbol') === symbol);
+        });
+    }
+
+    async function updateTradingCenter(symbol) {
+        try {
+            const tradingSymbol = symbol || selectedTradingSymbol || 'BTCUSD';
+            const res = await fetch('/api/trading/live?symbol=' + encodeURIComponent(tradingSymbol), { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/trading/live: HTTP', res.status);
+                return;
+            }
+
+            const data = await res.json();
+            const symbolEl = document.getElementById('trading-symbol');
+            const priceEl = document.getElementById('trading-price');
+            const changeEl = document.getElementById('trading-change');
+            const statusEl = document.getElementById('trading-status');
+            const updatedEl = document.getElementById('trading-updated');
+
+            const priceValue = Number(data.last_price || data.ask || data.bid);
+            const hasPrice = Number.isFinite(priceValue);
+
+            if (symbolEl) {
+                symbolEl.innerHTML = '<span class="text-orange">' + tradingSymbol + '</span> / USD <span class="dim">Bitcoin</span>';
+            }
+
+            if (priceEl) {
+                priceEl.textContent = hasPrice ? priceValue.toFixed(2) : 'LIVE WARTET';
+            }
+
+            if (changeEl) {
+                changeEl.textContent = hasPrice ? 'LIVE' : 'LIVE WARTET';
+            }
+
+            if (statusEl) {
+                statusEl.textContent = data.status || 'online';
+            }
+
+            if (updatedEl) {
+                updatedEl.textContent = data.updated_at || '-';
+            }
+        } catch (err) {
+            console.warn('Trading-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    if (tradingAssetButtons) {
+        tradingAssetButtons.forEach(function (node) {
+            node.addEventListener('click', function () {
+                const symbol = node.getAttribute('data-symbol') || 'BTCUSD';
+                selectedTradingSymbol = symbol;
+                localStorage.setItem('selectedTradingSymbol', symbol);
+                setActiveTradingAsset(symbol);
+                updateTradingCenter(symbol);
+            });
+        });
+    }
+
+    setActiveTradingAsset(selectedTradingSymbol);
+    updateTradingCenter(selectedTradingSymbol);
+    setInterval(function () {
+        updateTradingCenter(selectedTradingSymbol);
+    }, 5000);
     </script>
 
 </body>
