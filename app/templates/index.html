@@ -1,297 +1,386 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentenPilot – Hermes Command Center</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentenPilot – Hermes Command Center</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
-    <div class="background-effects">
-        <canvas id="bg-stars"></canvas>
-        <div class="radial-glow"></div>
-    </div>
 
-    <div class="dashboard-wrapper">
-        <!-- HEADER -->
-        <header class="header">
-            <!-- Left Status -->
-            <div class="hud-panel status-panel left-status">
-                <div class="panel-header">
-                    <span class="panel-title">HERMES STATUS</span>
-                    <span class="status-indicator"><span class="dot green-dot"></span> ONLINE</span>
-                </div>
-                <div class="status-grid">
-                    <div class="sg-row"><span class="sg-label">Modus:</span> <span class="sg-value text-cyan">Aktiver Assistent</span></div>
-                    <div class="sg-row"><span class="sg-label">Verbindung:</span> <span class="sg-value text-blue">Stabil</span></div>
-                    <div class="sg-row"><span class="sg-label">Modell:</span> <span id="live-model" class="sg-value text-cyan">–</span></div>
-                    <div class="sg-row"><span class="sg-label">Antwortzeit:</span> <span id="live-response-time" class="sg-value">–</span></div>
-                </div>
-                <div class="graph-placeholder">
-                    <svg viewBox="0 0 100 20" preserveAspectRatio="none" class="sparkline">
-                        <path d="M0,15 L10,12 L20,18 L30,8 L40,14 L50,5 L60,16 L70,10 L80,15 L90,6 L100,12" fill="none" stroke="#00d4ff" stroke-width="1.5" />
-                        <path d="M0,15 L10,12 L20,18 L30,8 L40,14 L50,5 L60,16 L70,10 L80,15 L90,6 L100,12 L100,20 L0,20 Z" fill="url(#grad)" opacity="0.3"/>
-                        <defs>
-                            <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#00d4ff"/>
-                                <stop offset="100%" stop-color="transparent"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-            </div>
+<div class="scan-lines"></div>
 
-            <!-- Center Brand -->
-            <div class="brand-container">
-                <h1 class="brand-title">RENTENPILOT</h1>
-                <div class="brand-subtitle">HERMES COMMAND CENTER</div>
-            </div>
+<div id="dashboard">
 
-            <!-- Right Status -->
-            <div class="hud-panel status-panel right-status">
-                <div class="datetime-display">
-                    <div class="date-col">
-                        <div id="date-display">–</div>
-                        <div id="day-display">–</div>
-                    </div>
-                    <div class="time-col" id="time-display">––:––:––</div>
-                </div>
-                <div class="system-online-badge">
-                    <span class="dot green-dot"></span> SYSTEM ONLINE
-                </div>
-                <div class="status-grid sys-metrics">
-                    <div class="sg-row"><span class="sg-label">Uptime:</span> <span id="live-uptime" class="sg-value">–</span></div>
-                    <div class="sg-row"><span class="sg-label">Hermes:</span> <span id="live-hermes-uptime" class="sg-value">–</span></div>
-                    <div class="sg-row"><span class="sg-label">CPU:</span> <span id="live-cpu" class="sg-value">–</span> <div class="progress-bar"><div id="live-cpu-bar" class="progress-fill" style="width:0%"></div></div></div>
-                    <div class="sg-row"><span class="sg-label">RAM:</span> <span id="live-ram" class="sg-value">–</span> <div class="progress-bar"><div id="live-ram-bar" class="progress-fill" style="width:0%"></div></div></div>
-                    <div class="sg-row"><span class="sg-label">Disk:</span> <span id="live-disk" class="sg-value">–</span> <div class="progress-bar"><div id="live-disk-bar" class="progress-fill" style="width:0%"></div></div></div>
-                </div>
-            </div>
-        </header>
-
-        <!-- MAIN -->
-        <main class="main-area">
-            <!-- LEFT COLUMN -->
-            <div class="side-col left-col">
-                <div class="nav-card">
-                    <div class="nc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
-                    </div>
-                    <div class="nc-text">
-                        <div class="nc-title">BUSINESS SCOUT</div>
-                        <div class="nc-subtitle">Märkte &amp; Chancen</div>
-                    </div>
-                    <div class="nc-arrow">›</div>
-                </div>
-                <div class="nav-card">
-                    <div class="nc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    </div>
-                    <div class="nc-text">
-                        <div class="nc-title">WEBSITE</div>
-                        <div class="nc-subtitle">Websites &amp; SEO</div>
-                    </div>
-                    <div class="nc-arrow">›</div>
-                </div>
-                <div class="nav-card">
-                    <div class="nc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                    </div>
-                    <div class="nc-text">
-                        <div class="nc-title">TASKS</div>
-                        <div class="nc-subtitle">Aufgaben &amp; Planung</div>
-                    </div>
-                    <div class="nc-arrow">›</div>
-                </div>
-            </div>
-
-            <!-- CENTER: SPHERE & CHAT -->
-            <div class="center-col">
-                <div id="sphere-container" class="sphere-container">
-                    <div class="sphere-rings">
-                        <div class="ring outer-ring"></div>
-                        <div class="ring middle-ring"></div>
-                        <div class="ring inner-ring"></div>
-                    </div>
-                    <div class="sphere-core">
-                        <canvas id="sphere-canvas"></canvas>
-                        <div class="sphere-glow"></div>
-                    </div>
-                    <div class="sphere-base"></div>
-                </div>
-
-                <div class="hermes-label">
-                    <div class="hl-title">HERMES</div>
-                    <div class="hl-subtitle">CHIEF AI OFFICER</div>
-                </div>
-
-                <!-- Hermes-Statustext (thinking / error) -->
-                <div id="hermes-status-text" class="hermes-status-text"></div>
-
-                <div class="chat-console hud-panel">
-                    <div class="chat-header">
-                        SPRECHE MIT HERMES <div class="audio-wave"><span></span><span></span><span></span><span></span><span></span></div>
-                    </div>
-
-                    <!-- Antwortbereich: AI-Terminal -->
-                    <div id="chat-answer-label" class="chat-answer-label">
-                        <span class="terminal-dot"></span>
-                        <span class="terminal-prompt">HERMES&nbsp;//&nbsp;OUTPUT</span>
-                    </div>
-                    <div id="chat-answer-box" class="chat-answer-box" role="log" aria-live="polite"></div>
-
-                    <div class="chat-input-row">
-                        <input id="chat-input" type="text" placeholder="Sprich oder schreibe mit Hermes..." class="chat-input">
-                        <button id="send-btn" class="send-btn" title="Senden">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                        </button>
-                    </div>
-                    <div class="chat-controls">
-                        <button id="mic-btn" class="ctrl-btn"><span class="mic-icon"></span> SPRACHE EIN</button>
-                        <button id="kbd-btn" class="ctrl-btn"><span class="kbd-icon"></span> TASTATUR MODUS</button>
-                        <button id="speech-btn" class="ctrl-btn"><span class="spk-icon"></span> SPRACHE AUSGABE <span class="dropdown-arrow"></span></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN -->
-            <div class="side-col right-col">
-                <div class="nav-card">
-                    <div class="nc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 1.1-.9 2-2 2s-2-.9-2-2a2 2 0 0 1 2-2zm0 6c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-8 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm16 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
-                    </div>
-                    <div class="nc-text">
-                        <div class="nc-title">AI SCOUT</div>
-                        <div class="nc-subtitle">KI-Tools &amp; Trends</div>
-                    </div>
-                    <div class="nc-arrow">›</div>
-                </div>
-                <div class="nav-card">
-                    <div class="nc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 7h5M17 17h5"/></svg>
-                    </div>
-                    <div class="nc-text">
-                        <div class="nc-title">VIDEO</div>
-                        <div class="nc-subtitle">Videos &amp; Content</div>
-                    </div>
-                    <div class="nc-arrow">›</div>
-                </div>
-                <div class="nav-card">
-                    <div class="nc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    </div>
-                    <div class="nc-text">
-                        <div class="nc-title">SYSTEM</div>
-                        <div class="nc-subtitle">Einstellungen &amp; Logs</div>
-                    </div>
-                    <div class="nc-arrow">›</div>
-                </div>
-            </div>
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="footer-area">
-            <div class="hud-panel footer-card">
-                <div class="fc-title">ÜBERSICHT</div>
-                <div class="fc-content uebersicht-content">
-                    <div class="radar-animation">
-                        <div class="radar-circle"></div>
-                        <div class="radar-sweep"></div>
-                        <div class="radar-dot" style="top:30%; left:70%"></div>
-                    </div>
-                    <div class="fc-list">
-                        <div class="fc-row"><span class="fc-k">Gesamtsystem</span> <span class="fc-v text-green">ONLINE <span class="dot green-dot small"></span></span></div>
-                        <div class="fc-row"><span class="fc-k">Hermes Core</span> <span class="fc-v text-green">AKTIV <span class="dot green-dot small"></span></span></div>
-                        <div class="fc-row"><span class="fc-k">Module</span> <span class="fc-v text-green">6 / 6 <span class="dot green-dot small"></span></span></div>
-                        <div class="fc-row"><span class="fc-k">Verbindungen</span> <span class="fc-v text-green">STABIL <span class="dot green-dot small"></span></span></div>
-                        <div class="fc-row"><span class="fc-k">Letztes Backup</span> <span class="fc-v">06.06.2026 02:13</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hud-panel footer-card">
-                <div class="fc-title">SPEICHER</div>
-                <div class="fc-content gauge-content">
-                    <div class="gauge-chart">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="disk-gauge-fill" class="gauge-fill" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="107.4" stroke="url(#cyan-grad)"></circle>
-                            <defs>
-                                <linearGradient id="cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0055ff"/>
-                                    <stop offset="100%" stop-color="#00d4ff"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                        <div class="gauge-text">
-                            <div id="disk-gauge-val" class="g-val">–</div>
-                            <div class="g-lbl">verwendet</div>
-                        </div>
-                    </div>
-                    <div class="fc-list">
-                        <div class="fc-row"><span class="fc-k">Gesamt</span> <span id="disk-total" class="fc-v">–</span></div>
-                        <div class="fc-row"><span class="fc-k">Frei</span> <span id="disk-free" class="fc-v">–</span></div>
-                        <button class="details-btn">DETAILS</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hud-panel footer-card">
-                <div class="fc-title">TOKENS</div>
-                <div class="fc-content gauge-content">
-                    <div class="gauge-chart">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
-                            <circle id="token-gauge-fill" class="gauge-fill" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="62.2" stroke="url(#blue-grad)"></circle>
-                            <defs>
-                                <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0033aa"/>
-                                    <stop offset="100%" stop-color="#00ffcc"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                        <div class="gauge-text">
-                            <div id="token-gauge-val" class="g-val">0</div>
-                            <div class="g-lbl">Gesamt</div>
-                        </div>
-                    </div>
-                    <div class="fc-list">
-                        <div class="fc-row"><span class="fc-k">Requests</span> <span id="usage-requests" class="fc-v">0</span></div>
-                        <div class="fc-row"><span class="fc-k">Input</span> <span id="usage-input-tokens" class="fc-v">0</span></div>
-                        <div class="fc-row"><span class="fc-k">Output</span> <span id="usage-output-tokens" class="fc-v">0</span></div>
-                        <div class="fc-row"><span class="fc-k">Gesamt</span> <span id="usage-total-tokens" class="fc-v text-cyan">0</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hud-panel footer-card">
-                <div class="fc-title">KOSTEN &amp; GUTHABEN</div>
-                <div class="fc-content costs-content">
-                    <div class="fc-list">
-                        <div class="fc-row"><span class="fc-k">Modell</span> <span id="usage-model" class="fc-v" style="font-size:0.7em;">Laden...</span></div>
-                        <div class="fc-row"><span class="fc-k">Provider</span> <span id="usage-provider" class="fc-v">Laden...</span></div>
-                        <div class="fc-row"><span class="fc-k">Kosten (Heute)</span> <span id="usage-cost-today" class="fc-v">$ 0.00</span></div>
-                        <div class="fc-row"><span class="fc-k">Kosten (Monat)</span> <span id="usage-cost-month" class="fc-v">$ 0.00</span></div>
-                    </div>
-                    <div class="balance-display">
-                        <span class="balance-lbl text-green">Guthaben</span>
-                        <span id="usage-credit" class="balance-val text-green">$ 0.00</span>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-        <div class="bottom-bar">
-            <span>Chief AI Officer: Hermes</span>
-            <span class="center-text">AUTOMATISIERT. INTELLIGENT. PROFITABEL.</span>
-            <span>RentenPilot Command Center <em>Build 1.0.0</em></span>
+  <!-- TOP HEADER -->
+  <div class="top-header">
+    <div class="header-left">
+      <div class="logo-box">
+        <div class="logo-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M50 10 L90 30 L50 90 L10 30 Z" fill="rgba(0,212,255,0.2)"/>
+                <path d="M50 10 L50 90" stroke="rgba(0,212,255,0.5)"/>
+            </svg>
         </div>
+        <div class="logo-text">
+          <div class="logo-title">RENTEN<span>PILOT</span></div>
+          <div class="logo-subtitle">HERMES COMMAND CENTER</div>
+        </div>
+      </div>
+      <div class="agent-status">
+        <div class="as-label"><span class="dot green-dot small"></span> AGENT STATUS</div>
+        <div class="as-val text-green">ONLINE</div>
+      </div>
+      <div class="aktives-modell">
+        <div class="as-label">AKTIVES MODELL</div>
+        <div class="as-val" id="live-model">deepseek/deepseek-v4-flash <span class="dim">(via OpenRouter)</span></div>
+        <div style="display:none;" id="usage-provider"></div> <!-- Hidden requirement -->
+      </div>
     </div>
 
-    <script>
+    <div class="header-right">
+      <div class="sys-stat">
+        <div class="stat-label">UPTIME</div>
+        <div class="stat-val" id="live-uptime">7D 14H 32M</div>
+        <div style="display:none;" id="live-hermes-uptime"></div>
+      </div>
+      <div class="sys-circ">
+        <div class="circ-label">CPU</div>
+        <div class="circ-val" id="live-cpu">23%</div>
+        <div style="display:none;" id="live-cpu-bar"></div>
+        <svg class="spark" viewBox="0 0 40 10"><path d="M0,5 L10,2 L20,8 L30,4 L40,6" fill="none" stroke="var(--cyan)"/></svg>
+      </div>
+      <div class="sys-circ">
+        <div class="circ-label">RAM</div>
+        <div class="circ-val" id="live-ram">58%</div>
+        <div style="display:none;" id="live-ram-bar"></div>
+        <svg class="spark" viewBox="0 0 40 10"><path d="M0,8 L10,5 L20,7 L30,2 L40,4" fill="none" stroke="var(--cyan)"/></svg>
+      </div>
+      <div class="sys-circ">
+        <div class="circ-label">DISK</div>
+        <div class="circ-val" id="live-disk">41%</div>
+        <div style="display:none;" id="live-disk-bar"></div>
+        <div style="display:none;" id="disk-gauge-fill"></div>
+        <div style="display:none;" id="disk-gauge-val"></div>
+        <div style="display:none;" id="disk-total"></div>
+        <div style="display:none;" id="disk-free"></div>
+      </div>
+      <div class="time-box">
+        <div id="time-display">15:01:30</div>
+        <div class="date-row">
+          <span id="date-display">14.05.2025</span>
+          <span id="day-display">Sonntag</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-left">
+      <div class="panel">
+        <div class="panel-header">HAUPTMODULE</div>
+        <div class="mod-list">
+          <!-- Research -->
+          <div class="mod-item" id="mod-research">
+            <div class="mod-icon">🔍</div>
+            <div class="mod-details">
+              <div class="mod-title">RESEARCH <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-row"><span>Neue Themen</span><span>14</span></div>
+              <div class="mod-row"><span>Quellen heute</span><span>32</span></div>
+              <div class="mod-row"><span>Letzter Scan</span><span>08:42</span></div>
+            </div>
+            <div class="mod-arrow">›</div>
+          </div>
+          <!-- Content -->
+          <div class="mod-item" id="mod-content">
+            <div class="mod-icon">▷</div>
+            <div class="mod-details">
+              <div class="mod-title">CONTENT <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-row"><span>Artikel Entwürfe</span><span>7</span></div>
+              <div class="mod-row"><span>In Prüfung</span><span>2</span></div>
+              <div class="mod-row"><span>Veröffentlicht heute</span><span>1</span></div>
+            </div>
+            <div class="mod-arrow">›</div>
+          </div>
+          <!-- Trading -->
+          <div class="mod-item" id="mod-trading">
+            <div class="mod-icon">⚲</div>
+            <div class="mod-details">
+              <div class="mod-title">TRADING <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-row"><span>Aktive Signale</span><span>2</span></div>
+              <div class="mod-row"><span>Trefferquote</span><span>71%</span></div>
+              <div class="mod-row"><span>Monat</span><span class="text-green">+4.2R</span></div>
+            </div>
+            <div class="mod-arrow">›</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:1;">
+        <div class="panel-header">SCHNELLAKTIONEN</div>
+        <div class="action-list">
+          <button class="action-btn"><span>🔍 Recherche starten</span></button>
+          <button class="action-btn"><span>📝 Artikel erstellen</span></button>
+          <button class="action-btn"><span>📊 SEO Analyse</span></button>
+          <button class="action-btn"><span>📈 Trading Scan</span></button>
+          <button class="action-btn"><span>📁 Paperless Import</span></button>
+          <div class="action-link">Alle Workflows anzeigen ›</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN -->
+    <div class="col-center">
+      <div class="sphere-panel">
+        <div id="sphere-container">
+          <div class="sphere-rings">
+            <div class="sphere-ring"></div>
+            <div class="sphere-ring"></div>
+            <div class="sphere-ring"></div>
+          </div>
+          <div class="sphere-glow-ring"></div>
+          <canvas id="sphere-canvas"></canvas>
+          <div class="sphere-overlay-logo">
+             <svg viewBox="0 0 100 100" fill="none" stroke="var(--cyan)" stroke-width="2">
+                <path d="M50 20 L80 40 L50 80 L20 40 Z" fill="rgba(0,212,255,0.1)"/>
+            </svg>
+          </div>
+          <div id="hermes-status-text" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="chat-panel">
+        <div class="chat-header">
+          <span>HERMES SPHÄRE – CHAT</span>
+          <span class="chat-status"><span class="dot green-dot small"></span> ONLINE</span>
+        </div>
+        <div class="chat-answer-label" id="chat-answer-label" style="display:none;"></div>
+        <div class="chat-answer-box visible" id="chat-answer-box"></div>
+        <div style="display:none;" id="live-response-time"></div>
+        
+        <div class="chat-input-area" style="display:none;">
+            <!-- Hidden input but kept for JS compatibility -->
+            <input type="text" id="chat-input" placeholder="Sprich oder schreibe mit Hermes..." />
+            <button id="send-btn">SENDEN</button>
+        </div>
+
+        <div class="chat-controls">
+          <button class="ctrl-btn" id="mic-btn">
+            <span class="icon">🎤</span>
+            <div class="ctrl-text">SPRACH<br>EINGABE</div>
+          </button>
+          <button class="ctrl-btn" id="kbd-btn" onclick="document.querySelector('.chat-input-area').style.display='flex';document.getElementById('chat-input').focus();">
+            <span class="icon">⌨️</span>
+            <div class="ctrl-text">TASTATUR<br>MODUS</div>
+          </button>
+          <button class="ctrl-btn" id="speech-btn">
+            <span class="icon">🔊</span>
+            <div class="ctrl-text"><br>SPRACHAUSGABE</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-right">
+      <!-- Trading Center -->
+      <div class="panel">
+        <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
+        <div class="trading-content">
+          <div class="tc-top">
+            <div class="tc-pair"><span class="text-orange">BTC</span> / USD <span class="dim">Bitcoin</span></div>
+            <div class="tc-spans"><span>1H</span><span>4H</span><span class="active">1D</span><span>1W</span><span>1M</span></div>
+          </div>
+          <div class="tc-price">67,245.18</div>
+          <div class="tc-change text-green">+1,245.32 +1.89%</div>
+          <div class="tc-chart">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+              <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+              <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5 L200,40 L0,40 Z" fill="url(#greenGrad)" opacity="0.3"/>
+              <defs>
+                <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--green)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="tc-signal">
+            <div class="sig-badge">LONG</div>
+            <div class="sig-conf">CONFIDENCE<br><span class="text-green">84%</span></div>
+          </div>
+          <div class="tc-levels">
+            <div><span class="dim">ENTRY</span><br>67,120.00</div>
+            <div><span class="dim">SL</span><br><span class="text-orange">65,800.00</span></div>
+            <div><span class="dim">TP1</span><br><span class="text-green">68,500.00</span></div>
+            <div><span class="dim">TP2</span><br><span class="text-green">70,200.00</span></div>
+            <div><span class="dim">STATUS</span><br><span class="text-green">ACTIVE <span class="dot green-dot small"></span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kosten & Guthaben -->
+      <div class="panel">
+        <div class="panel-header">KOSTEN & GUTHABEN – OPENROUTER</div>
+        <div class="cost-grid">
+          <div class="cost-box">
+            <div class="cb-label">VERBRAUCH HEUTE</div>
+            <div class="cb-val text-cyan" id="usage-cost-today">$0.02</div>
+            <div class="cb-sub text-green">+5% <span class="dim">vs gestern</span></div>
+            <div style="display:none;" id="usage-cost-total"></div>
+          </div>
+          <div class="cost-box">
+            <div class="cb-label">VERBRAUCH MONAT</div>
+            <div class="cb-val text-cyan" id="usage-cost-month">$0.42</div>
+            <div class="cb-sub text-green">+12% <span class="dim">vs Vormonat</span></div>
+          </div>
+          <div class="cost-box last">
+            <div class="cb-label">GUTHABEN</div>
+            <div class="cb-val text-cyan" id="usage-credit">$8.72</div>
+            <div class="cb-circle"><span>87%</span><br><span style="font-size:5px">verfügbar</span></div>
+          </div>
+          <div class="cost-legend">
+            <div><span class="dot green-dot small"></span> > $10</div>
+            <div><span class="dot" style="background:#ffcc00"></span> $5 - $10</div>
+            <div><span class="dot" style="background:var(--orange)"></span> < $5</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agenten & Quality -->
+      <div class="split-panels">
+        <div class="panel" style="padding:10px;">
+          <div class="panel-header" style="margin-bottom:6px;">HERMES AGENTEN</div>
+          <div class="agent-list" id="hi-agents-container">
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Research Agent</span> <span class="text-green">Läuft ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Content Agent</span> <span class="text-green">Läuft ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>SEO Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Publisher Agent</span> <span class="text-green">Läuft ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Social Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Trading Agent</span> <span class="text-cyan">Aktiv ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Fact Check Agent</span> <span class="text-cyan">Aktiv ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Legal Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <!-- Hidden requirements -->
+            <div style="display:none;" id="hi-version"></div>
+            <div style="display:none;" id="hi-agents"></div>
+            <div style="display:none;" id="hi-skills"></div>
+          </div>
+        </div>
+        <div class="panel" style="padding:10px;">
+          <div class="panel-header" style="margin-bottom:6px;">QUALITY CONTROL</div>
+          <div class="qc-list">
+            <div class="qc-row"><span class="icon text-green">✔</span> Generator <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">✔</span> Critic <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">✔</span> Fact Check <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">✔</span> Judge <span class="float-right text-green">✔</span></div>
+          </div>
+          <div class="qc-rate">
+            <span>Freigaberate</span>
+            <span class="text-green" style="font-size:14px; font-weight:bold;">94%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEITERE MODULE -->
+  <div class="bottom-modules">
+    <div class="panel bmod" id="mod-publisher">
+      <div class="bmod-head">📄 PUBLISHER</div>
+      <div class="bmod-row"><span>Artikel veröffentlicht</span></div>
+      <div class="bmod-row"><span>Heute:</span><span>3</span></div>
+      <div class="bmod-row"><span>Geplant</span><span>5</span></div>
+      <div class="bmod-row"><span>Nächste</span><span>09:00 Uhr</span></div>
+    </div>
+    <div class="panel bmod" id="mod-social">
+      <div class="bmod-head">👥 SOCIAL MEDIA</div>
+      <div class="bmod-row"><span>TikTok</span><span class="text-green">12 geplant</span></div>
+      <div class="bmod-row"><span>Instagram</span><span>8 geplant</span></div>
+      <div class="bmod-row"><span>Facebook</span><span>4 geplant</span></div>
+    </div>
+    <div class="panel bmod" id="mod-tasks">
+      <div class="bmod-head">📋 TASKS</div>
+      <div class="bmod-row"><span>Offene Aufgaben</span><span>18</span></div>
+      <div class="bmod-row"><span>In Arbeit</span><span>7</span></div>
+      <div class="bmod-row"><span>Erledigt heute</span><span>23</span></div>
+    </div>
+    <div class="panel bmod">
+      <div class="bmod-head">📖 TRADE JOURNAL</div>
+      <div class="bmod-row"><span>Trades gesamt</span><span>124</span></div>
+      <div class="bmod-row"><span>Gewonnen</span><span>87</span></div>
+      <div class="bmod-row"><span>Verloren</span><span>37</span></div>
+      <div class="bmod-row"><span>Trefferquote</span><span>70.1%</span></div>
+    </div>
+    <div class="panel bmod" id="mod-paperless">
+      <div class="bmod-head">📁 PAPERLESS</div>
+      <div class="bmod-row"><span>Dokumente</span><span>12.450</span></div>
+      <div class="bmod-row"><span>Neue Dokumente</span><span>17</span></div>
+      <div class="bmod-row"><span>OCR Queue</span><span>3</span></div>
+      <div class="bmod-row"><span>Status</span><span class="text-green">Online</span></div>
+    </div>
+    <div class="panel bmod" id="mod-gbrain">
+      <div class="bmod-head">🌐 GBRAIN</div>
+      <div class="bmod-row"><span>Quellen</span><span>4.120</span></div>
+      <div class="bmod-row"><span>Personen</span><span>620</span></div>
+      <div class="bmod-row"><span>Firmen</span><span>380</span></div>
+      <div class="bmod-row"><span>Konzepte</span><span>980</span></div>
+      <div class="bmod-row"><span>Status</span><span class="text-green">Online</span></div>
+    </div>
+    <div class="panel bmod" id="mod-ai">
+      <div class="bmod-head">🔍 AI SCOUT</div>
+      <div class="bmod-row"><span>Neue Tools</span><span>14</span></div>
+      <div class="bmod-row"><span>Bewertet</span><span>8</span></div>
+      <div class="bmod-row"><span>Interessant</span><span>3</span></div>
+      <div class="bmod-row"><span>Top Fund</span><span class="text-green">Emergent</span></div>
+    </div>
+    <div class="panel bmod" id="mod-video">
+      <div class="bmod-head">🎬 VIDEO CONTENT</div>
+      <div class="bmod-row"><span>YouTube Shorts</span><span>7</span></div>
+      <div class="bmod-row"><span>TikTok Skripte</span><span>12</span></div>
+      <div class="bmod-row"><span>In Produktion</span><span>3</span></div>
+      <div class="bmod-row"><span>Status</span><span class="text-green">Aktiv</span></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="fb-left">
+      <span>LETZTES UPDATE</span><br>
+      <span class="dim">14.05.2025 - 15:01:30</span>
+    </div>
+    <div class="fb-center">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="var(--cyan)"><path d="M10 2 L18 6 L10 18 L2 6 Z"/></svg>
+      HERMES DENKT. HERMES HANDELT. HERMES LIEFERT.
+    </div>
+    <div class="fb-right">
+      <span style="font-size:14px">🔒</span>
+      <div>
+        SICHER & PRIVAT<br>
+        <span class="text-green">ALLE SYSTEME VERSCHLÜSSELT</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /dashboard -->
+
+<!-- HUD OVERLAY -->
+<div id="hud-overlay" class="hud-overlay">
+  <div class="hud-overlay-box">
+    <button class="hud-close-btn" id="hud-close-btn">×</button>
+    <div class="hud-overlay-header">
+      <span class="hud-overlay-title" id="hud-overlay-title">MODUL</span>
+    </div>
+    <div class="hud-overlay-content" id="hud-overlay-content">
+      <!-- Content dynamically injected here -->
+    </div>
+  </div>
+</div>
+
+<script>
     // ─────────────────────────────────────────────
     // CLOCK
     // ─────────────────────────────────────────────
@@ -562,21 +651,14 @@
         }
     });
 
-    let currentAudio = null;
-
     function stopSpeech() {
         if (synth && synth.speaking) {
             synth.cancel();
         }
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-            currentAudio = null;
-        }
     }
 
-    function speakTextFallback(text) {
-        if (!synth) {
+    function speakText(text) {
+        if (!speechEnabled || !synth) {
             setSphereIdle();
             return;
         }
@@ -608,70 +690,14 @@
 
         synth.speak(utterance);
     }
-
-    async function speakText(text) {
-        if (!speechEnabled) {
-            setSphereIdle();
-            return;
-        }
-        
-        stopSpeech();
-        
-        try {
-            setSphereSpeaking();
-            
-            const res = await fetch('/api/tts', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: text })
-            });
-            
-            if (!res.ok) {
-                console.warn(`/api/tts failed (Status ${res.status}). Using Fallback.`);
-                speakTextFallback(text);
-                return;
-            }
-            
-            const blob = await res.blob();
-            const audioUrl = URL.createObjectURL(blob);
-            currentAudio = new Audio(audioUrl);
-            
-            currentAudio.onended = () => {
-                setSphereIdle();
-                URL.revokeObjectURL(audioUrl);
-                currentAudio = null;
-            };
-            
-            currentAudio.onerror = () => {
-                console.warn('Audio playback error. Using Fallback.');
-                setSphereIdle();
-                speakTextFallback(text);
-                URL.revokeObjectURL(audioUrl);
-                currentAudio = null;
-            };
-            
-            await currentAudio.play();
-            
-        } catch (err) {
-            console.warn('Fetch error for /api/tts. Using Fallback.', err);
-            speakTextFallback(text);
-        }
-    }
     
     // ─────────────────────────────────────────────
     // SPEECH RECOGNITION (Mic Input)
     // ─────────────────────────────────────────────
     const micBtn = document.getElementById('mic-btn');
-    const kbdBtn = document.getElementById('kbd-btn');
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
     let isListening = false;
-    
-    function stopListening() {
-        if (recognition && isListening) {
-            recognition.stop();
-        }
-    }
     
     if (SpeechRecognition) {
         recognition = new SpeechRecognition();
@@ -708,35 +734,15 @@
         
         micBtn.addEventListener('click', () => {
             if (isListening) {
-                stopListening();
+                recognition.stop();
             } else {
-                stopSpeech(); // Stop TTS before listening
                 recognition.start();
             }
         });
     } else {
-        micBtn.addEventListener('click', () => {
-            renderHistory('⚠ Spracherkennung wird in diesem Browser nicht unterstützt.', 'error');
-            setSphereError();
-        });
+        micBtn.style.opacity = '0.5';
+        micBtn.title = 'Speech Recognition wird in diesem Browser nicht unterstützt.';
     }
-
-    // ─────────────────────────────────────────────
-    // KEYBOARD MODUS (Tastatur Modus)
-    // ─────────────────────────────────────────────
-    kbdBtn.addEventListener('click', () => {
-        stopSpeech();
-        stopListening();
-        setSphereIdle();
-        
-        chatInput.focus();
-        
-        // Kurz aktivieren als Feedback
-        kbdBtn.classList.add('active');
-        setTimeout(() => {
-            kbdBtn.classList.remove('active');
-        }, 300);
-    });
 
     // Initial load
     setSphereIdle();
@@ -750,9 +756,8 @@
             return;
         }
 
-        // Stop previous speech/listening when sending new message
+        // Stop previous speech when sending new message
         stopSpeech();
-        stopListening();
 
         // UI: Senden vorbereiten
         setInputBusy(true);
@@ -882,7 +887,7 @@
             // Disk-Detail im Footer
             const totalEl = document.getElementById('disk-total');
             const freeEl  = document.getElementById('disk-free');
-            if (totalEl && d.disk_total_gb) totalEl.textContent = d.disk_total_gb.toFixed(1) + ' GB';
+            if (totalEl && d.disk_total_gb) totalEl.textContent = d.disk_total_gb.toFixed(1) + ' TB';
             if (freeEl  && d.disk_free_gb)  freeEl.textContent  = d.disk_free_gb.toFixed(1)  + ' GB';
 
         } catch (err) {
@@ -893,71 +898,7 @@
 
     updateSystemData();
     setInterval(updateSystemData, 5000);
-
-    // ─────────────────────────────────────────────
-    // LIVE USAGE DATA  (alle 30 Sekunden)
-    // ─────────────────────────────────────────────
-    async function updateUsageData() {
-        try {
-            const res = await fetch('/api/usage', { cache: 'no-store' });
-            if (!res.ok) {
-                console.warn('api/usage: HTTP', res.status);
-                return;
-            }
-            const d = await res.json();
-            
-            // TOKENS panel
-            const reqEl = document.getElementById('usage-requests');
-            const inEl  = document.getElementById('usage-input-tokens');
-            const outEl = document.getElementById('usage-output-tokens');
-            const totEl = document.getElementById('usage-total-tokens');
-            
-            if (reqEl) reqEl.textContent = (d.requests || 0).toLocaleString('de-DE');
-            if (inEl)  inEl.textContent  = (d.input_tokens || 0).toLocaleString('de-DE');
-            if (outEl) outEl.textContent = (d.output_tokens || 0).toLocaleString('de-DE');
-            if (totEl) totEl.textContent = (d.total_tokens || 0).toLocaleString('de-DE');
-            
-            // Tokens Ring dynamisch (Visualisiert Aktivität)
-            const gaugeVal  = document.getElementById('token-gauge-val');
-            const gaugeFill = document.getElementById('token-gauge-fill');
-            if (gaugeVal && d.total_tokens !== undefined) {
-                if (d.total_tokens >= 1000) {
-                    gaugeVal.textContent = (d.total_tokens / 1000).toFixed(1) + 'k';
-                } else {
-                    gaugeVal.textContent = d.total_tokens;
-                }
-            }
-            if (gaugeFill && d.total_tokens !== undefined) {
-                // Ein visuelles Feedback, das mit wachsenden Tokens den Ring füllt (max 100k, dann loop)
-                const pct = (d.total_tokens % 100000) / 100000; 
-                const fillOffset = GAUGE_CIRC * (1 - (d.total_tokens > 0 ? Math.max(0.1, pct) : 0));
-                gaugeFill.style.strokeDashoffset = fillOffset.toFixed(1);
-            }
-            
-            // KOSTEN & GUTHABEN panel
-            const modEl  = document.getElementById('usage-model');
-            const provEl = document.getElementById('usage-provider');
-            const todayEl= document.getElementById('usage-cost-today');
-            const monthEl= document.getElementById('usage-cost-month');
-            const credEl = document.getElementById('usage-credit');
-            
-            if (modEl)  modEl.textContent  = d.model || '–';
-            if (provEl) provEl.textContent = d.provider || '–';
-            
-            if (todayEl) todayEl.textContent = '$ ' + (d.cost_today || 0).toFixed(4);
-            if (monthEl) monthEl.textContent = '$ ' + (d.cost_month || 0).toFixed(4);
-            
-            if (credEl) {
-                credEl.textContent = d.credit_display || 'nicht verfügbar';
-            }
-            
-        } catch (err) {
-            console.warn('Usage-Daten konnten nicht geladen werden:', err.message);
-        }
-    }
-
-    updateUsageData();
-    setInterval(updateUsageData, 30000);
     </script>
+
 </body>
 </html>
