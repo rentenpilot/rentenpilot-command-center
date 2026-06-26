@@ -275,6 +275,13 @@ def _store_ctrader_symbol_map(symbols):
             mapping[str(item["symbolName"]).upper()] = symbol_id
         if display_name:
             mapping[str(display_name).upper()] = symbol_id
+        raw_name = " ".join([name, str(display_name), str(description)]).upper()
+        compact = raw_name.replace(" ", "").replace("/", "").replace("-", "").replace(".", "")
+        if ("US 500" in raw_name or "US500" in compact or "SPX500" in compact or "SP500" in compact) and bool(item.get("enabled", True)):
+            mapping.setdefault("US500", symbol_id)
+            mapping.setdefault("S&P500", symbol_id)
+            mapping.setdefault("SPX500", symbol_id)
+            mapping.setdefault("SP500", symbol_id)
         catalog[symbol_id] = {
             "symbol_id": str(symbol_id),
             "symbolName": str(item.get("symbol_name") or item.get("symbolName") or item.get("name") or ""),
@@ -293,7 +300,20 @@ def _store_ctrader_symbol_map(symbols):
 def _resolve_ctrader_symbol_id(symbol):
     normalized_symbol, _ = _normalize_ctrader_symbol(symbol)
     upper = normalized_symbol.upper()
-    return CTRADER_SYMBOL_MAP.get(upper) or CTRADER_SYMBOL_MAP.get(upper.replace("/", ""))
+    symbol_id = CTRADER_SYMBOL_MAP.get(upper) or CTRADER_SYMBOL_MAP.get(upper.replace("/", ""))
+    if symbol_id:
+        return symbol_id
+    if upper == "US500":
+        for item_symbol_id, meta in CTRADER_SYMBOL_CATALOG.items():
+            text = " ".join([
+                str(meta.get("symbolName", "")),
+                str(meta.get("symbol_name", "")),
+                str(meta.get("display_name", "")),
+                str(meta.get("description", "")),
+            ]).upper()
+            if ("US 500" in text or "US500" in text or "SPX500" in text or "SP500" in text) and bool(meta.get("enabled", True)):
+                return item_symbol_id
+    return ""
 
 
 def _resolve_ctrader_symbol_meta(symbol):
@@ -2377,6 +2397,25 @@ def _ensure_ctrader_symbol_cache(runtime):
     finally:
         _ctrader_safe_stop_service(client)
 
+
+def _ctrader_symbol_catalog_matches(symbols, terms):
+    matches = []
+    for item in symbols or []:
+        text = " ".join([
+            str(item.get("symbolName", "")),
+            str(item.get("symbol_name", "")),
+            str(item.get("display_name", "")),
+            str(item.get("description", "")),
+        ]).upper()
+        compact = text.replace(" ", "").replace("/", "").replace("-", "").replace(".", "")
+        for term in terms:
+            term_upper = str(term).upper()
+            term_compact = term_upper.replace(" ", "").replace("/", "").replace("-", "").replace(".", "")
+            if term_upper in text or term_compact in compact:
+                matches.append(item)
+                break
+    return matches
+
 HERMES_START_TIME = time.time()
 HERMES_ENV_PATH = r"\\wsl$\Ubuntu\home\ramses\.hermes\.env"
 OPENROUTER_MODEL = "deepseek/deepseek-v4-flash"
@@ -2712,43 +2751,32 @@ def api_trading_symbols():
         return jsonify(base)
 
     last_error = None
-    for endpoint in _candidate_ctrader_symbol_urls(runtime):
-        try:
-            response = requests.get(
-                endpoint,
-                headers=_ctrader_auth_headers(runtime["access_token"]),
-                timeout=10,
-            )
-            base["endpoint_used"] = endpoint
-            base["http_status"] = response.status_code
+    try:
+        _ensure_ctrader_symbol_cache(runtime)
+    except Exception as exc:
+        last_error = str(exc)[:240]
 
-            if response.status_code in (401, 403):
-                base["message"] = "token invalid"
-                return jsonify(base)
-            if response.status_code == 404:
-                last_error = "symbol not found"
-                continue
-            if response.status_code >= 500:
-                last_error = "websocket/rest endpoint unreachable"
-                continue
-            if response.status_code != 200:
-                last_error = _extract_ctrader_error(response) or f"HTTP {response.status_code}"
-                continue
+    symbols = []
+    if CTRADER_SYMBOL_CATALOG:
+        symbols = [dict(item) for item in CTRADER_SYMBOL_CATALOG.values()]
+    elif CTRADER_SYMBOL_MAP:
+        symbols = [
+            {
+                "symbol_id": str(symbol_id),
+                "symbolName": str(symbol_name),
+                "symbol_name": str(symbol_name),
+                "display_name": str(symbol_name),
+                "description": str(symbol_name),
+            }
+            for symbol_name, symbol_id in CTRADER_SYMBOL_MAP.items()
+        ]
 
-            parsed = _parse_ctrader_symbols(response.json())
-            if parsed:
-                _store_ctrader_symbol_map(parsed)
-            base["status"] = "online"
-            base["symbols_found"] = len(parsed)
-            base["symbols"] = parsed
-            base["message"] = ""
-            return jsonify(base)
-        except RequestException:
-            last_error = "websocket/rest endpoint unreachable"
-        except Exception as exc:
-            last_error = str(exc)[:240]
-
-    base["message"] = last_error or "websocket/rest endpoint unreachable"
+    base["endpoint_used"] = "ctrader_symbol_cache"
+    base["http_status"] = 200 if symbols else None
+    base["symbols_found"] = len(symbols)
+    base["symbols"] = symbols
+    base["status"] = "online" if symbols else "offline"
+    base["message"] = "" if symbols else (last_error or "symbol cache empty")
     return jsonify(base)
 
 
