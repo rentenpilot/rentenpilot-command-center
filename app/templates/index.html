@@ -191,11 +191,13 @@
         <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
         <div class="trading-content">
           <div class="tc-assets" id="trading-assets">
-            <button type="button" class="active" data-symbol="XAUUSD"><b>XAUUSD</b><small>LIVE</small></button>
             <button type="button" data-symbol="EURUSD"><b>EURUSD</b><small>LIVE</small></button>
+            <button type="button" data-symbol="GBPUSD"><b>GBPUSD</b><small>LIVE</small></button>
+            <button type="button" class="active" data-symbol="XAUUSD"><b>XAUUSD</b><small>LIVE</small></button>
             <button type="button" data-symbol="BTCUSD"><b>BTCUSD</b><small>LIVE</small></button>
-            <button type="button" data-symbol="US500"><b>US500</b><small>LIVE WARTET</small></button>
-            <button type="button" data-symbol="GER40"><b>GER40</b><small>LIVE WARTET</small></button>
+            <button type="button" data-symbol="ETHUSD"><b>ETHUSD</b><small>LIVE</small></button>
+            <button type="button" data-symbol="GER40"><b>GER40</b><small>LIVE</small></button>
+            <button type="button" data-symbol="US500"><b>US500</b><small>LIVE</small></button>
           </div>
 
           <div class="tc-live-main">
@@ -989,13 +991,14 @@
     updateOpenRouterData();
     setInterval(updateOpenRouterData, 30000);
 
-    const tradingSymbols = ['XAUUSD', 'EURUSD', 'BTCUSD', 'US500', 'GER40'];
+    const tradingSymbols = ['EURUSD', 'GBPUSD', 'XAUUSD', 'BTCUSD', 'ETHUSD', 'GER40', 'US500'];
     const tradingAssetContainer = document.getElementById('trading-assets');
     const tradingAssetButtons = tradingAssetContainer ? Array.from(tradingAssetContainer.querySelectorAll('[data-symbol]')) : [];
     let selectedTradingSymbol = localStorage.getItem('selectedTradingSymbol') || 'XAUUSD';
     let tradingRequestId = 0;
     let tradingFetchInProgress = false;
     const tradingLastQuotes = {};
+    const tradingLastPrices = {};
     if (!tradingSymbols.includes(selectedTradingSymbol)) selectedTradingSymbol = 'XAUUSD';
 
     const tradingEls = {
@@ -1025,6 +1028,15 @@
         });
     }
 
+    function updateAssetStates(quotes) {
+        tradingAssetButtons.forEach(function (button) {
+            const symbol = button.getAttribute('data-symbol');
+            const label = button.querySelector('small');
+            const quote = quotes && quotes[symbol];
+            if (label) label.textContent = quote && (quote.last_price || quote.ask || quote.bid) ? 'LIVE' : 'LIVE WARTET';
+        });
+    }
+
     function setTradingWaiting(symbol, message) {
         setText(tradingEls.symbol, symbol);
         setText(tradingEls.price, 'LIVE WARTET');
@@ -1032,13 +1044,13 @@
         setText(tradingEls.ask, '--');
         setText(tradingEls.spread, '--');
         setText(tradingEls.status, 'LIVE WARTET');
-        setText(tradingEls.provider, '--');
+        setText(tradingEls.provider, 'cTrader');
         setText(tradingEls.mode, 'Read Only');
         setText(tradingEls.updated, '--');
-        setTradingError(message || '');
+        setTradingError(message || 'Keine Live-Daten fuer ' + symbol);
     }
 
-    function renderTradingData(symbol, data) {
+    function renderTradingData(symbol, data, stream) {
         const price = data.last_price ?? data.ask ?? data.bid;
         const hasPrice = price !== null && price !== undefined && price !== '';
         setText(tradingEls.symbol, data.symbol || symbol);
@@ -1046,52 +1058,57 @@
         setText(tradingEls.bid, data.bid);
         setText(tradingEls.ask, data.ask);
         setText(tradingEls.spread, data.spread);
-        setText(tradingEls.status, hasPrice ? (data.status || 'online') : 'LIVE WARTET');
+        setText(tradingEls.status, stream && stream.status ? stream.status : (hasPrice ? (data.status || 'online') : 'LIVE WARTET'));
         setText(tradingEls.provider, data.provider || 'cTrader');
         setText(tradingEls.mode, data.mode || 'Read Only');
-        setText(tradingEls.updated, data.updated_at || data.updated_at_utc || data.timestamp || '--');
+        setText(tradingEls.updated, data.updated_at || '--');
+        if (hasPrice && tradingEls.price) {
+            const numericPrice = Number(price);
+            const previousPrice = tradingLastPrices[symbol];
+            tradingEls.price.classList.remove('tick-up', 'tick-down');
+            if (Number.isFinite(numericPrice) && Number.isFinite(previousPrice) && numericPrice !== previousPrice) {
+                tradingEls.price.classList.add(numericPrice > previousPrice ? 'tick-up' : 'tick-down');
+                window.setTimeout(function () { tradingEls.price.classList.remove('tick-up', 'tick-down'); }, 450);
+            }
+            if (Number.isFinite(numericPrice)) tradingLastPrices[symbol] = numericPrice;
+        }
         setTradingError(hasPrice ? '' : (data.message || data.error || 'Keine Live-Daten fuer ' + symbol));
     }
 
     async function updateTradingCenter(symbol) {
-        const tradingSymbol = tradingSymbols.includes(symbol) ? symbol : 'XAUUSD';
+        const tradingSymbol = tradingSymbols.includes(symbol) ? symbol : selectedTradingSymbol;
         if (tradingFetchInProgress && tradingSymbol === selectedTradingSymbol) return;
-        const symbolChanged = tradingSymbol !== selectedTradingSymbol;
         const requestId = ++tradingRequestId;
         tradingFetchInProgress = true;
         selectedTradingSymbol = tradingSymbol;
         localStorage.setItem('selectedTradingSymbol', tradingSymbol);
         setActiveTradingAsset(tradingSymbol);
         setText(tradingEls.symbol, tradingSymbol);
-        if (symbolChanged && tradingLastQuotes[tradingSymbol]) {
-            renderTradingData(tradingSymbol, tradingLastQuotes[tradingSymbol]);
-        } else if (symbolChanged && !tradingLastQuotes[tradingSymbol]) {
-            setTradingWaiting(tradingSymbol, '');
-        }
 
         try {
-            const res = await fetch('/api/trading/live?symbol=' + encodeURIComponent(tradingSymbol), { cache: 'no-store' });
+            const res = await fetch('/api/trading/quotes', { cache: 'no-store' });
             if (requestId !== tradingRequestId) return;
             if (!res.ok) {
-                if (!tradingLastQuotes[tradingSymbol]) setTradingWaiting(tradingSymbol, 'Trading API Fehler HTTP ' + res.status);
-                else setTradingError('Trading API Fehler HTTP ' + res.status);
+                if (tradingLastQuotes[tradingSymbol]) renderTradingData(tradingSymbol, tradingLastQuotes[tradingSymbol], null);
+                setTradingError('Trading API Fehler HTTP ' + res.status);
                 return;
             }
 
-            const data = await res.json();
+            const payload = await res.json();
             if (requestId !== tradingRequestId) return;
-            const price = data.last_price ?? data.ask ?? data.bid;
-            const hasPrice = price !== null && price !== undefined && price !== '';
-            if (hasPrice) tradingLastQuotes[tradingSymbol] = data;
-            if (hasPrice || !tradingLastQuotes[tradingSymbol]) {
-                renderTradingData(tradingSymbol, hasPrice ? data : (tradingLastQuotes[tradingSymbol] || data));
+            const quotes = payload.quotes || {};
+            updateAssetStates(quotes);
+            Object.keys(quotes).forEach(function (key) { tradingLastQuotes[key] = quotes[key]; });
+            const quote = quotes[tradingSymbol] || tradingLastQuotes[tradingSymbol];
+            if (quote) {
+                renderTradingData(tradingSymbol, quote, payload.stream || null);
             } else {
-                renderTradingData(tradingSymbol, tradingLastQuotes[tradingSymbol]);
+                setTradingWaiting(tradingSymbol, payload.stream && payload.stream.status ? 'Stream ' + payload.stream.status + ', keine Quote fuer ' + tradingSymbol : 'Keine Live-Daten fuer ' + tradingSymbol);
             }
         } catch (err) {
             if (requestId !== tradingRequestId) return;
-            if (!tradingLastQuotes[tradingSymbol]) setTradingWaiting(tradingSymbol, 'Trading-Daten konnten nicht geladen werden: ' + err.message);
-            else setTradingError('Trading-Daten konnten nicht geladen werden: ' + err.message);
+            if (tradingLastQuotes[tradingSymbol]) renderTradingData(tradingSymbol, tradingLastQuotes[tradingSymbol], null);
+            setTradingError('Trading-Daten konnten nicht geladen werden: ' + err.message);
             console.warn('Trading-Daten konnten nicht geladen werden:', err);
         } finally {
             if (requestId === tradingRequestId) tradingFetchInProgress = false;
@@ -1107,7 +1124,7 @@
     updateTradingCenter(selectedTradingSymbol);
     setInterval(function () {
         updateTradingCenter(selectedTradingSymbol);
-    }, 5000);
+    }, 2000);
     </script>
 
 </body>

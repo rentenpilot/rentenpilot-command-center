@@ -282,6 +282,25 @@ body::before {
   background: rgba(140, 140, 140, 0.08);
   border-color: rgba(140, 140, 140, 0.18);
 }
+.tc-assets button[data-symbol="US500"].active,
+.tc-assets button[data-symbol="GER40"].active {
+  background: rgba(0, 255, 102, 0.16);
+  border-color: rgba(0, 255, 102, 0.9);
+  color: #fff;
+}
+.tc-price.tick-up {
+  color: var(--green);
+  animation: tickPulse 0.45s ease;
+}
+.tc-price.tick-down {
+  color: var(--orange);
+  animation: tickPulse 0.45s ease;
+}
+@keyframes tickPulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.035); }
+  100% { transform: scale(1); }
+}
 .tc-live-main {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;

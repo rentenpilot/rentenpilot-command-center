@@ -2021,6 +2021,8 @@ def _ctrader_symbol_name_from_id(symbol_id):
         "41": "XAUUSD",
         "101": "BTCUSD",
         "102": "ETHUSD",
+        "228": "US500",
+        "260": "GER40",
     }
     return reverse.get(symbol_id, "")
 
@@ -2028,7 +2030,7 @@ def _ctrader_symbol_name_from_id(symbol_id):
 def _ctrader_stream_worker():
     runtime = _get_ctrader_runtime()
     host, port = _ctrader_endpoint_info()
-    watchlist = ["XAUUSD", "EURUSD", "BTCUSD", "US500", "GER40"]
+    watchlist = ["EURUSD", "GBPUSD", "XAUUSD", "BTCUSD", "ETHUSD", "GER40", "US500"]
     for sym in watchlist:
         try:
             get_mapped_symbol(sym, runtime=runtime, ensure_cache=True)
@@ -2172,6 +2174,7 @@ def _ctrader_stream_worker():
                     try:
                         with CTRADER_STREAM_LOCK:
                             CTRADER_STREAM_STATUS["spot_event_count"] += 1
+                            CTRADER_STREAM_STATUS["last_error"] = ""
                             CTRADER_STREAM_STATUS["last_spot_symbol_id"] = symbol_id
                             CTRADER_STREAM_STATUS["last_spot_event_fields"] = [field.name for field, value in decoded_spot.ListFields()]
                             CTRADER_STREAM_STATUS["last_spot_event_dict"] = _ctrader_message_to_dict(decoded_spot)
@@ -3137,6 +3140,16 @@ def api_trading_quote_test():
         "subscribed_symbol_id": "",
     }
     response["quote_step"] = "quote_test_entered"
+    cached_quote = CTRADER_QUOTE_CACHE.get(normalized_symbol)
+    if cached_quote and (cached_quote.get("bid") is not None or cached_quote.get("ask") is not None or cached_quote.get("last_price") is not None):
+        response.update(cached_quote)
+        response["quote_step"] = "cache_hit"
+        response["status"] = "online"
+        response["error"] = "live quote from stream cache"
+        response["spot_event_received"] = True
+        response["subscribe_request"] = "stream_cache"
+        response["subscribe_request_sent"] = False
+        return jsonify(response)
     response["quote_step"] = "before_session_start"
     if not response.get("symbol_id"):
         response["mapping_source"] = mapped.get("mapping_source", "")
@@ -3485,4 +3498,4 @@ def api_trading_start_stream():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False)
