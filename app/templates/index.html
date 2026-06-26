@@ -169,15 +169,15 @@
 
         <div class="chat-controls">
           <button class="ctrl-btn" id="mic-btn">
-            <span class="icon">ðŸŽ¤</span>
+            <span class="icon">&#127897;&#65039;</span>
             <div class="ctrl-text">SPRACHE<br>EINGABE</div>
           </button>
           <button class="ctrl-btn" id="kbd-btn" onclick="document.querySelector('.chat-input-area').style.display='flex';document.getElementById('chat-input').focus();">
-            <span class="icon">âŒ¨ï¸</span>
+            <span class="icon">&#9000;&#65039;</span>
             <div class="ctrl-text">TASTATUR<br>MODUS</div>
           </button>
           <button class="ctrl-btn" id="speech-btn">
-            <span class="icon">ðŸ”Š</span>
+            <span class="icon">&#128266;</span>
             <div class="ctrl-text"><br>SPRACHAUSGABE</div>
           </button>
         </div>
@@ -191,17 +191,17 @@
         <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
         <div class="trading-content">
           <div class="tc-top">
-            <div class="tc-pair" id="trading-symbol"><span class="text-orange">BTC</span> / USD <span class="dim">Bitcoin</span></div>
+            <div class="tc-pair" id="trading-symbol">BTCUSD</div>
             <div class="tc-spans" id="trading-assets">
               <span class="active" data-symbol="BTCUSD">BTCUSD</span>
               <span data-symbol="EURUSD">EURUSD</span>
-              <span data-symbol="GBPUSD">GBPUSD</span>
+              <span data-symbol="US500">US500</span>
+              <span data-symbol="GER40">GER40</span>
               <span data-symbol="XAUUSD">XAUUSD</span>
-              <span data-symbol="ETHUSD">ETHUSD</span>
             </div>
           </div>
-          <div class="tc-price" id="trading-price">67,245.18</div>
-          <div class="tc-change text-green" id="trading-change">+1,245.32 +1.89%</div>
+          <div class="tc-price" id="trading-price">LIVE WARTET</div>
+          <div class="tc-change text-green" id="trading-change">LIVE</div>
           <div class="tc-chart">
             <svg viewBox="0 0 200 40" preserveAspectRatio="none">
               <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5" fill="none" stroke="var(--green)" stroke-width="1.5"/>
@@ -215,8 +215,8 @@
             </svg>
           </div>
           <div class="tc-signal">
-            <div class="sig-badge" id="trading-status">LONG</div>
-            <div class="sig-conf">UPDATED<br><span class="text-green" id="trading-updated">â€”</span></div>
+            <div class="sig-badge" id="trading-status">ONLINE</div>
+            <div class="sig-conf">UPDATED<br><span class="text-green" id="trading-updated">-</span></div>
           </div>
           <div class="tc-levels">
             <div><span class="dim">ENTRY</span><br>67,120.00</div>
@@ -1007,7 +1007,7 @@
             const hasPrice = Number.isFinite(priceValue);
 
             if (symbolEl) {
-                symbolEl.innerHTML = '<span class="text-orange">' + tradingSymbol + '</span> / USD <span class="dim">Bitcoin</span>';
+                symbolEl.innerHTML = '<span class="text-orange">' + tradingSymbol + '</span> / USD';
             }
 
             if (priceEl) {
@@ -1015,7 +1015,7 @@
             }
 
             if (changeEl) {
-                changeEl.textContent = hasPrice ? 'LIVE' : 'LIVE WARTET';
+                changeEl.textContent = 'LIVE ' + (data.provider || 'UNKNOWN');
             }
 
             if (statusEl) {
@@ -1023,7 +1023,7 @@
             }
 
             if (updatedEl) {
-                updatedEl.textContent = data.updated_at || '-';
+                updatedEl.textContent = (data.symbol || tradingSymbol) + ' | ' + (data.updated_at || '-');
             }
         } catch (err) {
             console.warn('Trading-Daten konnten nicht geladen werden:', err.message);
@@ -1051,3 +1051,4 @@
 
 </body>
 </html>
+
