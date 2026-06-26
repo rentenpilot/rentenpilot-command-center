@@ -282,6 +282,9 @@ def _store_ctrader_symbol_map(symbols):
             mapping.setdefault("S&P500", symbol_id)
             mapping.setdefault("SPX500", symbol_id)
             mapping.setdefault("SP500", symbol_id)
+        if ("GERMANY 40" in raw_name or "GER 40" in raw_name or "GER40" in compact or "DAX40" in compact) and bool(item.get("enabled", True)):
+            mapping.setdefault("GER40", symbol_id)
+            mapping.setdefault("DAX40", symbol_id)
         catalog[symbol_id] = {
             "symbol_id": str(symbol_id),
             "symbolName": str(item.get("symbol_name") or item.get("symbolName") or item.get("name") or ""),
@@ -303,7 +306,7 @@ def _resolve_ctrader_symbol_id(symbol):
     symbol_id = CTRADER_SYMBOL_MAP.get(upper) or CTRADER_SYMBOL_MAP.get(upper.replace("/", ""))
     if symbol_id:
         return symbol_id
-    if upper == "US500":
+    if upper in ("US500", "GER40"):
         for item_symbol_id, meta in CTRADER_SYMBOL_CATALOG.items():
             text = " ".join([
                 str(meta.get("symbolName", "")),
@@ -311,7 +314,9 @@ def _resolve_ctrader_symbol_id(symbol):
                 str(meta.get("display_name", "")),
                 str(meta.get("description", "")),
             ]).upper()
-            if ("US 500" in text or "US500" in text or "SPX500" in text or "SP500" in text) and bool(meta.get("enabled", True)):
+            if upper == "US500" and ("US 500" in text or "US500" in text or "SPX500" in text or "SP500" in text) and bool(meta.get("enabled", True)):
+                return item_symbol_id
+            if upper == "GER40" and ("GERMANY 40" in text or "GER 40" in text or "GER40" in text or "DAX40" in text) and bool(meta.get("enabled", True)):
                 return item_symbol_id
     return ""
 
@@ -1176,18 +1181,22 @@ def _ctrader_run_auth_chain(client, runtime):
         diagnostics["symbols_request"] = "ok"
         diagnostics["symbols_found"] = len(symbol_items)
         diagnostics["symbols"] = []
+        all_symbols = []
         try:
             from google.protobuf.json_format import MessageToDict  # type: ignore
         except Exception:
             MessageToDict = None
-        for item in symbol_items[:100]:
+        for item in symbol_items:
+            item_dict = None
             if MessageToDict is not None:
                 try:
-                    diagnostics["symbols"].append(MessageToDict(item, preserving_proto_field_name=True))
-                    continue
+                    item_dict = MessageToDict(item, preserving_proto_field_name=True)
                 except Exception:
-                    pass
-            diagnostics["symbols"].append(_message_to_dict(item))
+                    item_dict = None
+            if item_dict is None:
+                item_dict = _message_to_dict(item)
+            all_symbols.append(item_dict)
+        diagnostics["symbols"] = all_symbols[:100]
         if symbol_items:
             first_symbol = symbol_items[0]
             diagnostics["first_symbol_type"] = f"{type(first_symbol).__module__}.{type(first_symbol).__name__}"
@@ -1202,8 +1211,8 @@ def _ctrader_run_auth_chain(client, runtime):
             except Exception:
                 diagnostics["first_symbol_dict"] = {}
         try:
-            if diagnostics["symbols"]:
-                _store_ctrader_symbol_map(diagnostics["symbols"])
+            if all_symbols:
+                _store_ctrader_symbol_map(all_symbols)
         except Exception:
             pass
         diagnostics["message"] = ""
@@ -2019,7 +2028,7 @@ def _ctrader_symbol_name_from_id(symbol_id):
 def _ctrader_stream_worker():
     runtime = _get_ctrader_runtime()
     host, port = _ctrader_endpoint_info()
-    watchlist = ["XAUUSD", "EURUSD", "BTCUSD"]
+    watchlist = ["XAUUSD", "EURUSD", "BTCUSD", "US500", "GER40"]
     for sym in watchlist:
         try:
             get_mapped_symbol(sym, runtime=runtime, ensure_cache=True)
@@ -2117,6 +2126,24 @@ def _ctrader_stream_worker():
                         CTRADER_STREAM_STATUS["last_message_fields"] = [field.name for field, value in message.ListFields()]
                     except Exception:
                         CTRADER_STREAM_STATUS["last_message_fields"] = []
+                if payload_type == "2142":
+                    try:
+                        payload_bytes = getattr(message, "payload", None)
+                        if payload_bytes is None and hasattr(message, "message"):
+                            payload_bytes = getattr(message, "message")
+                        if isinstance(payload_bytes, (bytes, bytearray)):
+                            from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOAErrorRes  # type: ignore
+                            error_res = ProtoOAErrorRes()
+                            error_res.ParseFromString(payload_bytes)
+                            error_code = str(getattr(error_res, "errorCode", "") or "")
+                            error_desc = str(getattr(error_res, "description", "") or "")
+                            with CTRADER_STREAM_LOCK:
+                                CTRADER_STREAM_STATUS["last_error"] = (error_code + ": " + error_desc).strip(": ")[:240]
+                    except Exception as exc:
+                        with CTRADER_STREAM_LOCK:
+                            CTRADER_STREAM_STATUS["last_error"] = str(exc)[:240]
+                    return None
+
                 spot_payload_bytes = None
                 decoded_spot = None
                 if payload_type == "2131" or "spot" in _ctrader_message_name(message).lower():
