@@ -48,11 +48,13 @@
         <div class="circ-label">CPU</div>
         <div class="circ-val" id="live-cpu">23%</div>
         <div style="display:none;" id="live-cpu-bar"></div>
+        <svg class="spark" viewBox="0 0 40 10"><path d="M0,5 L10,2 L20,8 L30,4 L40,6" fill="none" stroke="var(--cyan)"/></svg>
       </div>
       <div class="sys-circ">
         <div class="circ-label">RAM</div>
         <div class="circ-val" id="live-ram">58%</div>
         <div style="display:none;" id="live-ram-bar"></div>
+        <svg class="spark" viewBox="0 0 40 10"><path d="M0,8 L10,5 L20,7 L30,2 L40,4" fill="none" stroke="var(--cyan)"/></svg>
       </div>
       <div class="sys-circ">
         <div class="circ-label">DISK</div>
@@ -78,7 +80,7 @@
 
     <!-- LEFT COLUMN -->
     <div class="col-left">
-      <div class="panel openrouter-panel">
+      <div class="panel">
         <div class="panel-header">HAUPTMODULE</div>
         <div class="mod-list">
           <!-- Research -->
@@ -167,15 +169,15 @@
 
         <div class="chat-controls">
           <button class="ctrl-btn" id="mic-btn">
-            <span class="icon">&#127897;&#65039;</span>
+            <span class="icon">ðŸŽ¤</span>
             <div class="ctrl-text">SPRACHE<br>EINGABE</div>
           </button>
           <button class="ctrl-btn" id="kbd-btn" onclick="document.querySelector('.chat-input-area').style.display='flex';document.getElementById('chat-input').focus();">
-            <span class="icon">&#9000;&#65039;</span>
+            <span class="icon">âŒ¨ï¸</span>
             <div class="ctrl-text">TASTATUR<br>MODUS</div>
           </button>
           <button class="ctrl-btn" id="speech-btn">
-            <span class="icon">&#128266;</span>
+            <span class="icon">ðŸ”Š</span>
             <div class="ctrl-text"><br>SPRACHAUSGABE</div>
           </button>
         </div>
@@ -186,43 +188,43 @@
     <div class="col-right">
       <!-- Trading Center -->
       <div class="panel">
-        <div class="panel-header trading-head">
-          <span>TRADING CENTER <span class="dot green-dot small"></span> STREAM LIVE</span>
-          <span class="trading-head-right">LIVE <strong>2S</strong></span>
-        </div>
+        <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
         <div class="trading-content">
-          <div class="tc-assets" id="trading-assets"></div>
-
-          <div class="tc-main">
-            <div class="tc-main-left">
-              <div class="tc-live-label">LIVE QUOTE</div>
-              <div class="tc-symbol" id="trading-symbol">EURUSD</div>
-              <div class="tc-price-row">
-                <span class="tc-trend" id="trading-trend"></span>
-                <div class="tc-price" id="trading-price">LIVE WARTET</div>
-              </div>
-              <div class="tc-updated-line">UPDATED <strong id="trading-updated">--</strong></div>
-            </div>
-            <div class="tc-main-right">
-              <div class="tc-side-row"><span>BID</span><strong id="trading-bid">--</strong></div>
-              <div class="tc-side-row"><span>ASK</span><strong id="trading-ask">--</strong></div>
-              <div class="tc-side-row"><span>SPREAD</span><strong id="trading-spread">--</strong></div>
+          <div class="tc-top">
+            <div class="tc-pair" id="trading-symbol"><span class="text-orange">BTC</span> / USD <span class="dim">Bitcoin</span></div>
+            <div class="tc-spans" id="trading-assets">
+              <span class="active" data-symbol="BTCUSD">BTCUSD</span>
+              <span data-symbol="EURUSD">EURUSD</span>
+              <span data-symbol="GBPUSD">GBPUSD</span>
+              <span data-symbol="XAUUSD">XAUUSD</span>
+              <span data-symbol="ETHUSD">ETHUSD</span>
             </div>
           </div>
-
-          <div class="tc-chart-panel">
-            <div class="tc-chart-head">
-              <span>LIVE CHART</span>
-            </div>
-            <div class="tc-chart-frame">
-              <div class="tradingview-widget-container">
-                <div id="tradingview_eurusd"></div>
-                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">TradingView</a></div>
-              </div>
-            </div>
+          <div class="tc-price" id="trading-price">67,245.18</div>
+          <div class="tc-change text-green" id="trading-change">+1,245.32 +1.89%</div>
+          <div class="tc-chart">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+              <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+              <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5 L200,40 L0,40 Z" fill="url(#greenGrad)" opacity="0.3"/>
+              <defs>
+                <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--green)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
-
-          <div class="tc-error" id="trading-error" aria-live="polite"></div>
+          <div class="tc-signal">
+            <div class="sig-badge" id="trading-status">LONG</div>
+            <div class="sig-conf">UPDATED<br><span class="text-green" id="trading-updated">â€”</span></div>
+          </div>
+          <div class="tc-levels">
+            <div><span class="dim">ENTRY</span><br>67,120.00</div>
+            <div><span class="dim">SL</span><br><span class="text-orange">65,800.00</span></div>
+            <div><span class="dim">TP1</span><br><span class="text-green">68,500.00</span></div>
+            <div><span class="dim">TP2</span><br><span class="text-green">70,200.00</span></div>
+            <div><span class="dim">STATUS</span><br><span class="text-green">ACTIVE <span class="dot green-dot small"></span></span></div>
+          </div>
         </div>
       </div>
 
@@ -975,252 +977,76 @@
     updateOpenRouterData();
     setInterval(updateOpenRouterData, 30000);
 
-    const tradingSymbols = ['EURUSD', 'GBPUSD', 'XAUUSD', 'BTCUSD', 'ETHUSD', 'GER40', 'US500'];
     const tradingAssetContainer = document.getElementById('trading-assets');
-    let selectedTradingSymbol = localStorage.getItem('selectedTradingSymbol') || 'XAUUSD';
-    let tradingRequestId = 0;
-    let tradingFetchInProgress = false;
-    const tradingLastQuotes = {};
-    const tradingLastPrices = {};
-    let tradingViewReady = false;
-    let tradingChartSymbol = null;
-    if (!tradingSymbols.includes(selectedTradingSymbol)) selectedTradingSymbol = 'XAUUSD';
-
-    const tradingEls = {
-        symbol: document.getElementById('trading-symbol'),
-        price: document.getElementById('trading-price'),
-        trend: document.getElementById('trading-trend'),
-        bid: document.getElementById('trading-bid'),
-        ask: document.getElementById('trading-ask'),
-        spread: document.getElementById('trading-spread'),
-        provider: document.getElementById('trading-provider'),
-        mode: document.getElementById('trading-mode'),
-        updated: document.getElementById('trading-updated'),
-        error: document.getElementById('trading-error')
-    };
-
-    const tradingSymbolMeta = {
-        EURUSD: 'EUR/USD Euro / US-Dollar',
-        GBPUSD: 'GBP/USD Britisches Pfund / US-Dollar',
-        XAUUSD: 'XAU/USD Gold / US-Dollar',
-        BTCUSD: 'BTC/USD Bitcoin / US-Dollar',
-        ETHUSD: 'ETH/USD Ethereum / US-Dollar',
-        GER40: 'GER40 Germany 40',
-        US500: 'US500 US 500'
-    };
-
-    const TRADINGVIEW_SYMBOL_MAP = {
-        EURUSD: 'FX:EURUSD',
-        GBPUSD: 'FX:GBPUSD',
-        XAUUSD: 'FX:XAUUSD',
-        BTCUSD: 'FX:BTCUSD',
-        ETHUSD: 'FX:ETHUSD',
-        GER40: ['CAPITALCOM:DE40', 'PEPPERSTONE:GER40', 'OANDA:DE40EUR'],
-        US500: ['CAPITALCOM:US500', 'PEPPERSTONE:US500', 'OANDA:SPX500USD']
-    };
-
-    function getTradingViewSymbol(symbol) {
-        const entry = TRADINGVIEW_SYMBOL_MAP[symbol];
-        if (Array.isArray(entry)) return entry.find(Boolean) || ('FX:' + symbol);
-        return entry || ('FX:' + symbol);
-    }
-
-    function formatTradingPrice(symbol, value) {
-        const num = Number(value);
-        if (!Number.isFinite(num)) return value === null || value === undefined || value === '' ? 'LIVE WARTET' : String(value);
-        if (symbol === 'GER40' || symbol === 'US500') return num.toFixed(2);
-        if (symbol === 'BTCUSD' || symbol === 'ETHUSD') return num.toFixed(2);
-        return num.toFixed(5);
-    }
-
-    function formatTradingUpdated(value) {
-        if (!value) return '--';
-        const text = String(value);
-        const match = text.match(/(\d{2}:\d{2}:\d{2})/);
-        if (match) return match[1];
-        return text;
-    }
-
-    function buildTradingViewWidget(symbol) {
-        const mount = document.getElementById('tradingview_eurusd');
-        if (!mount) return;
-        mount.innerHTML = '';
-        if (!window.TradingView || !window.TradingView.widget) {
-            mount.innerHTML = '<div style="display:grid;place-items:center;height:100%;color:var(--text-secondary);font-size:12px;">TradingView lädt...</div>';
-            return;
-        }
-        new TradingView.widget({
-            autosize: true,
-            symbol: getTradingViewSymbol(symbol),
-            interval: '5',
-            timezone: 'Europe/Berlin',
-            theme: 'dark',
-            style: '1',
-            locale: 'de',
-            toolbar_bg: '#020712',
-            enable_publishing: false,
-            hide_top_toolbar: true,
-            hide_legend: false,
-            save_image: false,
-            container_id: 'tradingview_eurusd',
-            studies: []
-        });
-        tradingViewReady = true;
-    }
-
-    function setText(node, value) {
-        if (node) node.textContent = value === null || value === undefined || value === '' ? '--' : String(value);
-    }
-
-    function setTradingError(message) {
-        if (tradingEls.error) tradingEls.error.textContent = message || '';
-    }
-
-    function applyPriceDirection(node, direction) {
-        if (!node) return;
-        node.classList.remove('tick-up', 'tick-down');
-        if (direction === 'up') node.classList.add('tick-up');
-        if (direction === 'down') node.classList.add('tick-down');
-    }
+    const tradingAssetButtons = tradingAssetContainer ? tradingAssetContainer.querySelectorAll('[data-symbol]') : [];
+    let selectedTradingSymbol = localStorage.getItem('selectedTradingSymbol') || 'BTCUSD';
 
     function setActiveTradingAsset(symbol) {
-        const buttons = tradingAssetContainer ? Array.from(tradingAssetContainer.querySelectorAll('[data-symbol]')) : [];
-        buttons.forEach(function (button) {
-            button.classList.remove('active', 'selected', 'tick-border', 'tick-up', 'tick-down');
+        tradingAssetButtons.forEach(function (node) {
+            node.classList.toggle('active', node.getAttribute('data-symbol') === symbol);
         });
-        const activeButton = buttons.find(function (button) { return button.getAttribute('data-symbol') === symbol; });
-        if (activeButton) activeButton.classList.add('active');
-    }
-
-    function renderTradingAssets(quotes) {
-        if (!tradingAssetContainer) return;
-        tradingAssetContainer.innerHTML = '';
-        tradingSymbols.forEach(function (symbol) {
-            const quote = quotes && quotes[symbol] ? quotes[symbol] : null;
-        const card = document.createElement('button');
-        card.type = 'button';
-        card.className = 'tc-asset-card' + (symbol === selectedTradingSymbol ? ' active' : '');
-        card.setAttribute('data-symbol', symbol);
-            const price = quote ? formatTradingPrice(symbol, quote.last_price ?? quote.ask ?? quote.bid) : 'LIVE WARTET';
-            card.innerHTML =
-                '<div class="tc-asset-head"><span class="tc-asset-name">' + symbol + '</span><span class="tc-asset-tick">' + (quote && quote.last_price ? '●' : '•') + '</span></div>' +
-                '<div class="tc-asset-price">' + price + '</div>';
-            card.addEventListener('click', function () { updateTradingCenter(symbol); });
-            tradingAssetContainer.appendChild(card);
-        });
-        setActiveTradingAsset(selectedTradingSymbol);
-    }
-
-    function updateAssetStates(quotes) {
-        const buttons = tradingAssetContainer ? Array.from(tradingAssetContainer.querySelectorAll('[data-symbol]')) : [];
-        buttons.forEach(function (button) {
-            const symbol = button.getAttribute('data-symbol');
-            const quote = quotes && quotes[symbol];
-            const nextPrice = quote ? Number(quote.last_price ?? quote.ask ?? quote.bid) : NaN;
-            const prevPrice = Number(tradingLastPrices[symbol]);
-            button.classList.remove('tick-up', 'tick-down');
-            applyPriceDirection(button.querySelector('.tc-asset-price'), Number.isFinite(nextPrice) && Number.isFinite(prevPrice) && nextPrice !== prevPrice ? (nextPrice > prevPrice ? 'up' : 'down') : null);
-            applyPriceDirection(button.querySelector('.tc-asset-tick'), Number.isFinite(nextPrice) && Number.isFinite(prevPrice) && nextPrice !== prevPrice ? (nextPrice > prevPrice ? 'up' : 'down') : null);
-        });
-    }
-
-    function setTradingWaiting(symbol, message) {
-        setText(tradingEls.symbol, symbol);
-        setText(tradingEls.price, 'LIVE WARTET');
-        setText(tradingEls.trend, '');
-        setText(tradingEls.bid, '--');
-        setText(tradingEls.ask, '--');
-        setText(tradingEls.spread, '--');
-        setText(tradingEls.provider, 'cTrader');
-        setText(tradingEls.mode, 'READ-ONLY');
-        setText(tradingEls.updated, '--');
-        setTradingError(message || 'Keine Live-Daten fuer ' + symbol);
-    }
-
-    function renderTradingData(symbol, data, stream) {
-        const price = data.last_price ?? data.ask ?? data.bid;
-        const hasPrice = price !== null && price !== undefined && price !== '';
-        const displaySymbol = data.symbol || symbol;
-        const formattedPrice = hasPrice ? formatTradingPrice(symbol, price) : 'LIVE WARTET';
-        const numericPrice = Number(price);
-        const previousPrice = Number(tradingLastPrices[symbol]);
-        const direction = Number.isFinite(numericPrice) && Number.isFinite(previousPrice) && numericPrice !== previousPrice ? (numericPrice > previousPrice ? 'up' : 'down') : null;
-        setText(tradingEls.symbol, displaySymbol);
-        setText(tradingEls.price, formattedPrice);
-        setText(tradingEls.trend, direction === 'up' ? '▲' : direction === 'down' ? '▼' : '');
-        setText(tradingEls.bid, data.bid);
-        setText(tradingEls.ask, data.ask);
-        setText(tradingEls.spread, data.spread);
-        setText(tradingEls.updated, formatTradingUpdated(data.updated_at));
-        applyPriceDirection(tradingEls.price, direction);
-        applyPriceDirection(tradingEls.trend, direction);
-        if (hasPrice && Number.isFinite(numericPrice)) tradingLastPrices[symbol] = numericPrice;
-        setTradingError(hasPrice ? '' : (data.message || data.error || 'Keine Live-Daten fuer ' + symbol));
     }
 
     async function updateTradingCenter(symbol) {
-        const tradingSymbol = tradingSymbols.includes(symbol) ? symbol : selectedTradingSymbol;
-        if (tradingFetchInProgress && tradingSymbol === selectedTradingSymbol) return;
-        const requestId = ++tradingRequestId;
-        tradingFetchInProgress = true;
-        selectedTradingSymbol = tradingSymbol;
-        localStorage.setItem('selectedTradingSymbol', tradingSymbol);
-        setActiveTradingAsset(tradingSymbol);
-        setText(tradingEls.symbol, tradingSymbol);
-        if (!tradingViewReady || tradingChartSymbol !== tradingSymbol) {
-            buildTradingViewWidget(tradingSymbol);
-            tradingChartSymbol = tradingSymbol;
-        }
-
         try {
-            const res = await fetch('/api/trading/quotes', { cache: 'no-store' });
-            if (requestId !== tradingRequestId) return;
+            const tradingSymbol = symbol || selectedTradingSymbol || 'BTCUSD';
+            const res = await fetch('/api/trading/live?symbol=' + encodeURIComponent(tradingSymbol), { cache: 'no-store' });
             if (!res.ok) {
-                if (tradingLastQuotes[tradingSymbol]) renderTradingData(tradingSymbol, tradingLastQuotes[tradingSymbol], null);
-                setTradingError('Trading API Fehler HTTP ' + res.status);
+                console.warn('api/trading/live: HTTP', res.status);
                 return;
             }
 
-            const payload = await res.json();
-            if (requestId !== tradingRequestId) return;
-            const quotes = payload.quotes || {};
-            renderTradingAssets(quotes);
-            updateAssetStates(quotes);
-            Object.keys(quotes).forEach(function (key) { tradingLastQuotes[key] = quotes[key]; });
-            const quote = quotes[tradingSymbol] || tradingLastQuotes[tradingSymbol];
-            if (quote) {
-                renderTradingData(tradingSymbol, quote, payload.stream || null);
-            } else {
-                setTradingWaiting(tradingSymbol, payload.stream && payload.stream.status ? 'Stream ' + payload.stream.status + ', keine Quote fuer ' + tradingSymbol : 'Keine Live-Daten fuer ' + tradingSymbol);
+            const data = await res.json();
+            const symbolEl = document.getElementById('trading-symbol');
+            const priceEl = document.getElementById('trading-price');
+            const changeEl = document.getElementById('trading-change');
+            const statusEl = document.getElementById('trading-status');
+            const updatedEl = document.getElementById('trading-updated');
+
+            const priceValue = Number(data.last_price || data.ask || data.bid);
+            const hasPrice = Number.isFinite(priceValue);
+
+            if (symbolEl) {
+                symbolEl.innerHTML = '<span class="text-orange">' + tradingSymbol + '</span> / USD <span class="dim">Bitcoin</span>';
+            }
+
+            if (priceEl) {
+                priceEl.textContent = hasPrice ? priceValue.toFixed(2) : 'LIVE WARTET';
+            }
+
+            if (changeEl) {
+                changeEl.textContent = hasPrice ? 'LIVE' : 'LIVE WARTET';
+            }
+
+            if (statusEl) {
+                statusEl.textContent = data.status || 'online';
+            }
+
+            if (updatedEl) {
+                updatedEl.textContent = data.updated_at || '-';
             }
         } catch (err) {
-            if (requestId !== tradingRequestId) return;
-            if (tradingLastQuotes[tradingSymbol]) renderTradingData(tradingSymbol, tradingLastQuotes[tradingSymbol], null);
-            setTradingError('Trading-Daten konnten nicht geladen werden: ' + err.message);
-            console.warn('Trading-Daten konnten nicht geladen werden:', err);
-        } finally {
-            if (requestId === tradingRequestId) tradingFetchInProgress = false;
+            console.warn('Trading-Daten konnten nicht geladen werden:', err.message);
         }
     }
 
-    if (window.TradingView) {
-        buildTradingViewWidget(selectedTradingSymbol);
-        tradingChartSymbol = selectedTradingSymbol;
-    } else {
-        var tvScript = document.createElement('script');
-        tvScript.src = 'https://s3.tradingview.com/tv.js';
-        tvScript.onload = function () {
-            buildTradingViewWidget(selectedTradingSymbol);
-            tradingChartSymbol = selectedTradingSymbol;
-        };
-        document.head.appendChild(tvScript);
+    if (tradingAssetButtons) {
+        tradingAssetButtons.forEach(function (node) {
+            node.addEventListener('click', function () {
+                const symbol = node.getAttribute('data-symbol') || 'BTCUSD';
+                selectedTradingSymbol = symbol;
+                localStorage.setItem('selectedTradingSymbol', symbol);
+                setActiveTradingAsset(symbol);
+                updateTradingCenter(symbol);
+            });
+        });
     }
 
-    renderTradingAssets({});
+    setActiveTradingAsset(selectedTradingSymbol);
     updateTradingCenter(selectedTradingSymbol);
     setInterval(function () {
         updateTradingCenter(selectedTradingSymbol);
-    }, 2000);
+    }, 5000);
     </script>
 
 </body>

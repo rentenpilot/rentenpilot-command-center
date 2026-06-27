@@ -1,0 +1,18 @@
+﻿{
+  "ask": null,
+  "bid": null,
+  "description": "US 500 Index",
+  "display_name": "US 500 Index",
+  "label": "S&P 500",
+  "last_price": null,
+  "mapping_source": "cache",
+  "message": "symbol mapped, quote subscription pending",
+  "mode": "read_only",
+  "provider": "cTrader",
+  "spread": null,
+  "status": "mapped",
+  "symbol": "US500",
+  "symbol_id": "228",
+  "updated_at": null
+}
+

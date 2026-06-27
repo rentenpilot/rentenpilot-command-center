@@ -1,0 +1,500 @@
+﻿diff --git a/app/app.py b/app/app.py
+index c61dfea..ebd0688 100644
+--- a/app/app.py
++++ b/app/app.py
+@@ -282,6 +282,9 @@ def _store_ctrader_symbol_map(symbols):
+             mapping.setdefault("S&P500", symbol_id)
+             mapping.setdefault("SPX500", symbol_id)
+             mapping.setdefault("SP500", symbol_id)
++        if ("GERMANY 40" in raw_name or "GER 40" in raw_name or "GER40" in compact or "DAX40" in compact) and bool(item.get("enabled", True)):
++            mapping.setdefault("GER40", symbol_id)
++            mapping.setdefault("DAX40", symbol_id)
+         catalog[symbol_id] = {
+             "symbol_id": str(symbol_id),
+             "symbolName": str(item.get("symbol_name") or item.get("symbolName") or item.get("name") or ""),
+@@ -303,7 +306,7 @@ def _resolve_ctrader_symbol_id(symbol):
+     symbol_id = CTRADER_SYMBOL_MAP.get(upper) or CTRADER_SYMBOL_MAP.get(upper.replace("/", ""))
+     if symbol_id:
+         return symbol_id
+-    if upper == "US500":
++    if upper in ("US500", "GER40"):
+         for item_symbol_id, meta in CTRADER_SYMBOL_CATALOG.items():
+             text = " ".join([
+                 str(meta.get("symbolName", "")),
+@@ -311,7 +314,9 @@ def _resolve_ctrader_symbol_id(symbol):
+                 str(meta.get("display_name", "")),
+                 str(meta.get("description", "")),
+             ]).upper()
+-            if ("US 500" in text or "US500" in text or "SPX500" in text or "SP500" in text) and bool(meta.get("enabled", True)):
++            if upper == "US500" and ("US 500" in text or "US500" in text or "SPX500" in text or "SP500" in text) and bool(meta.get("enabled", True)):
++                return item_symbol_id
++            if upper == "GER40" and ("GERMANY 40" in text or "GER 40" in text or "GER40" in text or "DAX40" in text) and bool(meta.get("enabled", True)):
+                 return item_symbol_id
+     return ""
+ 
+@@ -1176,18 +1181,22 @@ def _ctrader_run_auth_chain(client, runtime):
+         diagnostics["symbols_request"] = "ok"
+         diagnostics["symbols_found"] = len(symbol_items)
+         diagnostics["symbols"] = []
++        all_symbols = []
+         try:
+             from google.protobuf.json_format import MessageToDict  # type: ignore
+         except Exception:
+             MessageToDict = None
+-        for item in symbol_items[:100]:
++        for item in symbol_items:
++            item_dict = None
+             if MessageToDict is not None:
+                 try:
+-                    diagnostics["symbols"].append(MessageToDict(item, preserving_proto_field_name=True))
+-                    continue
++                    item_dict = MessageToDict(item, preserving_proto_field_name=True)
+                 except Exception:
+-                    pass
+-            diagnostics["symbols"].append(_message_to_dict(item))
++                    item_dict = None
++            if item_dict is None:
++                item_dict = _message_to_dict(item)
++            all_symbols.append(item_dict)
++        diagnostics["symbols"] = all_symbols[:100]
+         if symbol_items:
+             first_symbol = symbol_items[0]
+             diagnostics["first_symbol_type"] = f"{type(first_symbol).__module__}.{type(first_symbol).__name__}"
+@@ -1202,8 +1211,8 @@ def _ctrader_run_auth_chain(client, runtime):
+             except Exception:
+                 diagnostics["first_symbol_dict"] = {}
+         try:
+-            if diagnostics["symbols"]:
+-                _store_ctrader_symbol_map(diagnostics["symbols"])
++            if all_symbols:
++                _store_ctrader_symbol_map(all_symbols)
+         except Exception:
+             pass
+         diagnostics["message"] = ""
+@@ -2019,7 +2028,7 @@ def _ctrader_symbol_name_from_id(symbol_id):
+ def _ctrader_stream_worker():
+     runtime = _get_ctrader_runtime()
+     host, port = _ctrader_endpoint_info()
+-    watchlist = ["XAUUSD", "EURUSD", "BTCUSD"]
++    watchlist = ["XAUUSD", "EURUSD", "BTCUSD", "US500", "GER40"]
+     for sym in watchlist:
+         try:
+             get_mapped_symbol(sym, runtime=runtime, ensure_cache=True)
+@@ -2117,6 +2126,24 @@ def _ctrader_stream_worker():
+                         CTRADER_STREAM_STATUS["last_message_fields"] = [field.name for field, value in message.ListFields()]
+                     except Exception:
+                         CTRADER_STREAM_STATUS["last_message_fields"] = []
++                if payload_type == "2142":
++                    try:
++                        payload_bytes = getattr(message, "payload", None)
++                        if payload_bytes is None and hasattr(message, "message"):
++                            payload_bytes = getattr(message, "message")
++                        if isinstance(payload_bytes, (bytes, bytearray)):
++                            from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOAErrorRes  # type: ignore
++                            error_res = ProtoOAErrorRes()
++                            error_res.ParseFromString(payload_bytes)
++                            error_code = str(getattr(error_res, "errorCode", "") or "")
++                            error_desc = str(getattr(error_res, "description", "") or "")
++                            with CTRADER_STREAM_LOCK:
++                                CTRADER_STREAM_STATUS["last_error"] = (error_code + ": " + error_desc).strip(": ")[:240]
++                    except Exception as exc:
++                        with CTRADER_STREAM_LOCK:
++                            CTRADER_STREAM_STATUS["last_error"] = str(exc)[:240]
++                    return None
++
+                 spot_payload_bytes = None
+                 decoded_spot = None
+                 if payload_type == "2131" or "spot" in _ctrader_message_name(message).lower():
+diff --git a/app/static/css/style.css b/app/static/css/style.css
+index 4a73e7f..5b02805 100644
+--- a/app/static/css/style.css
++++ b/app/static/css/style.css
+@@ -228,20 +228,139 @@ body::before {
+   gap: 10px;
+   min-width: 0;
+ }
+-.trading-content { display: flex; flex-direction: column; gap: 6px; }
+-.tc-top { display: flex; justify-content: space-between; align-items: center; }
+-.tc-pair { font-size: 14px; font-weight: 700; }
+-.tc-spans { display: flex; gap: 4px; font-size: 8px; }
+-.tc-spans span { padding: 2px 4px; background: rgba(255,255,255,0.05); border-radius: 2px; }
+-.tc-spans span.active { background: var(--cyan); color: #000; }
+-.tc-price { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; }
+-.tc-change { font-size: 10px; }
+-.tc-chart { height: 40px; margin: 4px 0; }
+-.tc-chart svg { width: 100%; height: 100%; }
+-.tc-signal { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 6px; }
+-.sig-badge { background: rgba(0,255,102,0.2); border: 1px solid var(--green); color: var(--green); padding: 4px 12px; font-family: 'Orbitron', sans-serif; font-weight: 700; border-radius: 4px; }
+-.sig-conf { font-size: 9px; text-align: right; }
+-.tc-levels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; font-size: 10px; font-weight: 600; text-align: center; }
++.trading-content {
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++}
++.tc-kicker {
++  font-size: 8px;
++  color: var(--text-secondary);
++  letter-spacing: 1.8px;
++  text-transform: uppercase;
++}
++.tc-assets {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 6px;
++}
++.tc-assets button {
++  flex: 1 1 64px;
++  min-width: 64px;
++  padding: 7px 8px 6px;
++  background: rgba(255,255,255,0.04);
++  border: 1px solid rgba(0,212,255,0.08);
++  border-radius: 6px;
++  color: var(--text-primary);
++  cursor: pointer;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  justify-content: center;
++  gap: 2px;
++  text-align: center;
++  transition: 0.2s;
++}
++.tc-assets button b {
++  font-size: 9px;
++  font-weight: 700;
++  letter-spacing: 0.4px;
++}
++.tc-assets button small {
++  color: var(--text-secondary);
++  font-size: 7px;
++  letter-spacing: 0.8px;
++}
++.tc-assets button.active {
++  background: rgba(0, 255, 102, 0.16);
++  border-color: rgba(0, 255, 102, 0.9);
++  color: #fff;
++  box-shadow: 0 0 18px rgba(0, 255, 102, 0.18);
++}
++.tc-assets button[data-symbol="US500"],
++.tc-assets button[data-symbol="GER40"] {
++  background: rgba(140, 140, 140, 0.08);
++  border-color: rgba(140, 140, 140, 0.18);
++}
++.tc-live-main {
++  display: grid;
++  grid-template-columns: 0.8fr 1.2fr;
++  gap: 10px;
++  align-items: end;
++}
++.tc-live-main > div,
++.tc-data-cell {
++  background: rgba(0, 0, 0, 0.18);
++  border: 1px solid rgba(0,212,255,0.08);
++  border-radius: 8px;
++  padding: 10px 12px;
++}
++.tc-symbol {
++  font-family: 'Orbitron', sans-serif;
++  font-size: 20px;
++  font-weight: 800;
++  line-height: 1;
++  margin-top: 4px;
++}
++.tc-price {
++  font-family: 'Orbitron', sans-serif;
++  font-size: 30px;
++  font-weight: 800;
++  color: var(--green);
++  line-height: 1;
++  letter-spacing: 0.5px;
++  margin-top: 2px;
++}
++.tc-data-grid {
++  display: grid;
++  grid-template-columns: repeat(3, 1fr);
++  gap: 6px;
++}
++.tc-data-cell {
++  display: flex;
++  flex-direction: column;
++  gap: 2px;
++  min-width: 0;
++}
++.tc-data-cell span,
++.tc-footer-line span {
++  font-size: 7px;
++  letter-spacing: 1px;
++  color: var(--text-secondary);
++  text-transform: uppercase;
++}
++.tc-data-cell strong,
++.tc-footer-line strong {
++  font-family: 'Orbitron', sans-serif;
++  font-size: 11px;
++  line-height: 1;
++  color: #fff;
++  overflow-wrap: anywhere;
++}
++.tc-footer-line {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  gap: 10px;
++  border-top: 1px solid var(--border);
++  padding-top: 8px;
++}
++.tc-error {
++  min-height: 14px;
++  color: var(--orange);
++  font-size: 10px;
++}
++.tc-chart {
++  height: 56px;
++  padding: 8px 10px;
++  background: linear-gradient(180deg, rgba(0,212,255,0.05), rgba(0,0,0,0.08));
++  border: 1px solid rgba(0,212,255,0.08);
++  border-radius: 8px;
++}
++.tc-chart svg {
++  width: 100%;
++  height: 100%;
++}
+ 
+ .cost-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: stretch; }
+ .cost-box { min-height: 70px; height: auto; background: rgba(0,0,0,0.3); border: 1px solid rgba(0,212,255,0.1); border-radius: 4px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+diff --git a/app/templates/index.html b/app/templates/index.html
+index be8a0ef..3faf951 100644
+--- a/app/templates/index.html
++++ b/app/templates/index.html
+@@ -190,19 +190,42 @@
+       <div class="panel">
+         <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
+         <div class="trading-content">
+-          <div class="tc-top">
+-            <div class="tc-pair" id="trading-symbol">BTCUSD</div>
+-            <div class="tc-spans" id="trading-assets">
+-              <span class="active" data-symbol="BTCUSD">BTCUSD</span>
+-              <span data-symbol="EURUSD">EURUSD</span>
+-              <span data-symbol="US500">US500</span>
+-              <span data-symbol="GER40">GER40</span>
+-              <span data-symbol="XAUUSD">XAUUSD</span>
++          <div class="tc-assets" id="trading-assets">
++            <button type="button" class="active" data-symbol="XAUUSD"><b>XAUUSD</b><small>LIVE</small></button>
++            <button type="button" data-symbol="EURUSD"><b>EURUSD</b><small>LIVE</small></button>
++            <button type="button" data-symbol="BTCUSD"><b>BTCUSD</b><small>LIVE</small></button>
++            <button type="button" data-symbol="US500"><b>US500</b><small>LIVE WARTET</small></button>
++            <button type="button" data-symbol="GER40"><b>GER40</b><small>LIVE WARTET</small></button>
++          </div>
++
++          <div class="tc-live-main">
++            <div>
++              <div class="tc-kicker">AKTIVES INSTRUMENT</div>
++              <div class="tc-symbol" id="trading-symbol">XAUUSD</div>
+             </div>
++            <div>
++              <div class="tc-kicker">PREIS</div>
++              <div class="tc-price" id="trading-price">LIVE WARTET</div>
++            </div>
++          </div>
++
++          <div class="tc-data-grid">
++            <div class="tc-data-cell"><span>BID</span><strong id="trading-bid">--</strong></div>
++            <div class="tc-data-cell"><span>ASK</span><strong id="trading-ask">--</strong></div>
++            <div class="tc-data-cell"><span>SPREAD</span><strong id="trading-spread">--</strong></div>
++            <div class="tc-data-cell"><span>STATUS</span><strong id="trading-status">LIVE WARTET</strong></div>
++            <div class="tc-data-cell"><span>PROVIDER</span><strong id="trading-provider">--</strong></div>
++            <div class="tc-data-cell"><span>MODE</span><strong id="trading-mode">Read Only</strong></div>
++          </div>
++
++          <div class="tc-footer-line">
++            <span>AKTUALISIERT</span>
++            <strong id="trading-updated">--</strong>
+           </div>
+-          <div class="tc-price" id="trading-price">LIVE WARTET</div>
+-          <div class="tc-change text-green" id="trading-change">LIVE</div>
+-          <div class="tc-chart">
++
++          <div class="tc-error" id="trading-error" aria-live="polite"></div>
++
++          <div class="tc-chart" aria-hidden="true">
+             <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+               <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+               <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5 L200,40 L0,40 Z" fill="url(#greenGrad)" opacity="0.3"/>
+@@ -214,17 +237,6 @@
+               </defs>
+             </svg>
+           </div>
+-          <div class="tc-signal">
+-            <div class="sig-badge" id="trading-status">ONLINE</div>
+-            <div class="sig-conf">UPDATED<br><span class="text-green" id="trading-updated">-</span></div>
+-          </div>
+-          <div class="tc-levels">
+-            <div><span class="dim">ENTRY</span><br>67,120.00</div>
+-            <div><span class="dim">SL</span><br><span class="text-orange">65,800.00</span></div>
+-            <div><span class="dim">TP1</span><br><span class="text-green">68,500.00</span></div>
+-            <div><span class="dim">TP2</span><br><span class="text-green">70,200.00</span></div>
+-            <div><span class="dim">STATUS</span><br><span class="text-green">ACTIVE <span class="dot green-dot small"></span></span></div>
+-          </div>
+         </div>
+       </div>
+ 
+@@ -977,72 +989,108 @@
+     updateOpenRouterData();
+     setInterval(updateOpenRouterData, 30000);
+ 
++    const tradingSymbols = ['XAUUSD', 'EURUSD', 'BTCUSD', 'US500', 'GER40'];
+     const tradingAssetContainer = document.getElementById('trading-assets');
+-    const tradingAssetButtons = tradingAssetContainer ? tradingAssetContainer.querySelectorAll('[data-symbol]') : [];
+-    let selectedTradingSymbol = localStorage.getItem('selectedTradingSymbol') || 'BTCUSD';
++    const tradingAssetButtons = tradingAssetContainer ? Array.from(tradingAssetContainer.querySelectorAll('[data-symbol]')) : [];
++    let selectedTradingSymbol = localStorage.getItem('selectedTradingSymbol') || 'XAUUSD';
++    let tradingRequestId = 0;
++    let tradingFetchInProgress = false;
++    if (!tradingSymbols.includes(selectedTradingSymbol)) selectedTradingSymbol = 'XAUUSD';
++
++    const tradingEls = {
++        symbol: document.getElementById('trading-symbol'),
++        price: document.getElementById('trading-price'),
++        bid: document.getElementById('trading-bid'),
++        ask: document.getElementById('trading-ask'),
++        spread: document.getElementById('trading-spread'),
++        status: document.getElementById('trading-status'),
++        provider: document.getElementById('trading-provider'),
++        mode: document.getElementById('trading-mode'),
++        updated: document.getElementById('trading-updated'),
++        error: document.getElementById('trading-error')
++    };
++
++    function setText(node, value) {
++        if (node) node.textContent = value === null || value === undefined || value === '' ? '--' : String(value);
++    }
++
++    function setTradingError(message) {
++        if (tradingEls.error) tradingEls.error.textContent = message || '';
++    }
+ 
+     function setActiveTradingAsset(symbol) {
+-        tradingAssetButtons.forEach(function (node) {
+-            node.classList.toggle('active', node.getAttribute('data-symbol') === symbol);
++        tradingAssetButtons.forEach(function (button) {
++            button.classList.toggle('active', button.getAttribute('data-symbol') === symbol);
+         });
+     }
+ 
++    function setTradingWaiting(symbol, message) {
++        setText(tradingEls.symbol, symbol);
++        setText(tradingEls.price, 'LIVE WARTET');
++        setText(tradingEls.bid, '--');
++        setText(tradingEls.ask, '--');
++        setText(tradingEls.spread, '--');
++        setText(tradingEls.status, 'LIVE WARTET');
++        setText(tradingEls.provider, '--');
++        setText(tradingEls.mode, 'Read Only');
++        setText(tradingEls.updated, '--');
++        setTradingError(message || '');
++    }
++
+     async function updateTradingCenter(symbol) {
++        const tradingSymbol = tradingSymbols.includes(symbol) ? symbol : 'XAUUSD';
++        if (tradingFetchInProgress && tradingSymbol === selectedTradingSymbol) return;
++        const requestId = ++tradingRequestId;
++        tradingFetchInProgress = true;
++        selectedTradingSymbol = tradingSymbol;
++        localStorage.setItem('selectedTradingSymbol', tradingSymbol);
++        setActiveTradingAsset(tradingSymbol);
++        setText(tradingEls.symbol, tradingSymbol);
++        setText(tradingEls.price, 'LIVE WARTET');
++        setText(tradingEls.status, 'LIVE WARTET');
++        setTradingError('');
++
+         try {
+-            const tradingSymbol = symbol || selectedTradingSymbol || 'BTCUSD';
+             const res = await fetch('/api/trading/live?symbol=' + encodeURIComponent(tradingSymbol), { cache: 'no-store' });
++            if (requestId !== tradingRequestId) return;
+             if (!res.ok) {
+-                console.warn('api/trading/live: HTTP', res.status);
++                setTradingWaiting(tradingSymbol, 'Trading API Fehler HTTP ' + res.status);
+                 return;
+             }
+ 
+             const data = await res.json();
+-            const symbolEl = document.getElementById('trading-symbol');
+-            const priceEl = document.getElementById('trading-price');
+-            const changeEl = document.getElementById('trading-change');
+-            const statusEl = document.getElementById('trading-status');
+-            const updatedEl = document.getElementById('trading-updated');
+-
+-            const priceValue = Number(data.last_price || data.ask || data.bid);
+-            const hasPrice = Number.isFinite(priceValue);
+-
+-            if (symbolEl) {
+-                symbolEl.innerHTML = '<span class="text-orange">' + tradingSymbol + '</span> / USD';
+-            }
+-
+-            if (priceEl) {
+-                priceEl.textContent = hasPrice ? priceValue.toFixed(2) : 'LIVE WARTET';
+-            }
+-
+-            if (changeEl) {
+-                changeEl.textContent = 'LIVE ' + (data.provider || 'UNKNOWN');
+-            }
+-
+-            if (statusEl) {
+-                statusEl.textContent = data.status || 'online';
+-            }
+-
+-            if (updatedEl) {
+-                updatedEl.textContent = (data.symbol || tradingSymbol) + ' | ' + (data.updated_at || '-');
++            if (requestId !== tradingRequestId) return;
++            const price = data.last_price ?? data.ask ?? data.bid;
++            const hasPrice = price !== null && price !== undefined && price !== '';
++
++            setText(tradingEls.symbol, data.symbol || tradingSymbol);
++            setText(tradingEls.price, hasPrice ? price : 'LIVE WARTET');
++            setText(tradingEls.bid, data.bid);
++            setText(tradingEls.ask, data.ask);
++            setText(tradingEls.spread, data.spread);
++            setText(tradingEls.status, hasPrice ? (data.status || 'online') : 'LIVE WARTET');
++            setText(tradingEls.provider, data.provider || 'cTrader');
++            setText(tradingEls.mode, data.mode || 'Read Only');
++            setText(tradingEls.updated, data.updated_at || data.updated_at_utc || data.timestamp || '--');
++
++            if (!hasPrice) {
++                setTradingError(data.message || data.error || 'Keine Live-Daten fuer ' + tradingSymbol);
+             }
+         } catch (err) {
+-            console.warn('Trading-Daten konnten nicht geladen werden:', err.message);
++            if (requestId !== tradingRequestId) return;
++            setTradingWaiting(tradingSymbol, 'Trading-Daten konnten nicht geladen werden: ' + err.message);
++            console.warn('Trading-Daten konnten nicht geladen werden:', err);
++        } finally {
++            if (requestId === tradingRequestId) tradingFetchInProgress = false;
+         }
+     }
+ 
+-    if (tradingAssetButtons) {
+-        tradingAssetButtons.forEach(function (node) {
+-            node.addEventListener('click', function () {
+-                const symbol = node.getAttribute('data-symbol') || 'BTCUSD';
+-                selectedTradingSymbol = symbol;
+-                localStorage.setItem('selectedTradingSymbol', symbol);
+-                setActiveTradingAsset(symbol);
+-                updateTradingCenter(symbol);
+-            });
++    tradingAssetButtons.forEach(function (button) {
++        button.addEventListener('click', function () {
++            updateTradingCenter(button.getAttribute('data-symbol'));
+         });
+-    }
++    });
+ 
+-    setActiveTradingAsset(selectedTradingSymbol);
+     updateTradingCenter(selectedTradingSymbol);
+     setInterval(function () {
+         updateTradingCenter(selectedTradingSymbol);
+@@ -1051,4 +1099,3 @@
+ 
+ </body>
+ </html>
+-

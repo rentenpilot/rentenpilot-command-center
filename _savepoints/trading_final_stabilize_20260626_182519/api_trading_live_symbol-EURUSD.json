@@ -1,0 +1,18 @@
+﻿{
+  "ask": 1.13911,
+  "bid": 1.13911,
+  "description": "Euro vs US Dollar",
+  "display_name": "Euro vs US Dollar",
+  "label": "Euro / US-Dollar",
+  "last_price": 1.13911,
+  "mapping_source": "cache",
+  "message": "live quote",
+  "mode": "read_only",
+  "provider": "cTrader",
+  "spread": 0.0,
+  "status": "online",
+  "symbol": "EURUSD",
+  "symbol_id": "1",
+  "updated_at": "2026-06-26T16:25:58.880685+00:00"
+}
+

@@ -1,0 +1,147 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #020712;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.pixel-viewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #020712;
+}
+
+.pixel-stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: top left;
+  transform: scale(var(--pixel-scale, 1));
+  display: grid;
+  grid-template-rows: 58px minmax(0, 1fr) 152px 34px;
+  gap: 8px;
+  padding: 8px 14px;
+  box-sizing: border-box;
+  background: #020712;
+  position: absolute;
+}
+
+.pixel-row {
+  display: grid;
+  gap: 8px;
+  min-height: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.pixel-reference-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  background-image: url('/static/img/hermes_dashboard_reference.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.92;
+}
+
+.pixel-header {
+  grid-template-columns: 16% 11% 18% 12% 5% 5% 5% 11% 4%;
+  align-items: stretch;
+}
+
+.pixel-main {
+  grid-template-columns: 13.2% minmax(0, 1fr) 19.6%;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.pixel-left,
+.pixel-center,
+.pixel-right {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  gap: 8px;
+}
+
+.pixel-left { grid-template-rows: 28.7% 18.2% 18.6% 1fr; }
+.pixel-center { grid-template-rows: 42.7% 18.7% 6.2%; }
+.pixel-right { grid-template-rows: 31.6% 19.3% 1fr; }
+
+.pixel-buttons {
+  display: grid;
+  grid-template-columns: 16% 16% 18%;
+  gap: 8px;
+  min-height: 0;
+}
+
+.pixel-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-height: 0;
+}
+
+.pixel-bottom {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  min-height: 0;
+}
+
+.pixel-footer {
+  grid-template-columns: 15% 1fr 18%;
+  align-items: stretch;
+}
+
+.pixel-component {
+  position: relative;
+  border: 1px solid rgba(0, 210, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.01);
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pixel-component:hover {
+  border-color: rgba(255, 0, 0, 0.95);
+  background: rgba(255, 0, 0, 0.03);
+}
+
+.pixel-component[data-overlay] {
+  outline: none;
+}
+
+.pixel-component[data-overlay]:hover {
+  box-shadow: inset 0 0 0 1px rgba(255, 0, 0, 0.95);
+}
+
+.pixel-buttons .pixel-component {
+  min-height: 100%;
+}
+
+.pixel-stage {
+  outline: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+button.pixel-component {
+  appearance: none;
+  border: 1px solid rgba(0, 210, 255, 0.14);
+  background-color: rgba(0, 0, 0, 0.01);
+  padding: 0;
+}

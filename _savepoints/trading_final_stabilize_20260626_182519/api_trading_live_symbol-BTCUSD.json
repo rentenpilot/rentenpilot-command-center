@@ -1,0 +1,18 @@
+﻿{
+  "ask": null,
+  "bid": 59922.0,
+  "description": "Bitcoin vs US Dollar",
+  "display_name": "Bitcoin vs US Dollar",
+  "label": "Bitcoin",
+  "last_price": null,
+  "mapping_source": "cache",
+  "message": "live quote",
+  "mode": "read_only",
+  "provider": "cTrader",
+  "spread": null,
+  "status": "online",
+  "symbol": "BTCUSD",
+  "symbol_id": "101",
+  "updated_at": "2026-06-26T16:25:59.225187+00:00"
+}
+

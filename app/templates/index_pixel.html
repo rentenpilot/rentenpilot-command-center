@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentenPilot – Pixel Components</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pixel_dashboard.css') }}" />
+</head>
+<body>
+  <div class="pixel-viewport">
+    <div class="pixel-stage">
+      <div class="pixel-reference-layer" aria-hidden="true"></div>
+
+      <div class="pixel-row pixel-header">
+        <section class="pixel-component comp-brand" id="comp-brand" data-overlay="brand"></section>
+        <section class="pixel-component comp-status" id="comp-status" data-overlay="status"></section>
+        <section class="pixel-component comp-model" id="comp-model" data-overlay="model"></section>
+        <section class="pixel-component comp-uptime" id="comp-uptime" data-overlay="uptime"></section>
+        <section class="pixel-component comp-cpu" id="comp-cpu" data-overlay="cpu"></section>
+        <section class="pixel-component comp-ram" id="comp-ram" data-overlay="ram"></section>
+        <section class="pixel-component comp-disk" id="comp-disk" data-overlay="disk"></section>
+        <section class="pixel-component comp-clock" id="comp-clock" data-overlay="clock"></section>
+        <section class="pixel-component comp-expand" id="comp-expand" data-overlay="expand"></section>
+      </div>
+
+      <div class="pixel-row pixel-main">
+        <aside class="pixel-column pixel-left">
+          <section class="pixel-component comp-research" id="comp-research" data-overlay="research"></section>
+          <section class="pixel-component comp-content" id="comp-content" data-overlay="content"></section>
+          <section class="pixel-component comp-trading-left" id="comp-trading-left" data-overlay="trading"></section>
+          <section class="pixel-component comp-actions" id="comp-actions" data-overlay="actions"></section>
+        </aside>
+
+        <main class="pixel-column pixel-center">
+          <section class="pixel-component comp-sphere" id="comp-sphere" data-overlay="sphere"></section>
+          <section class="pixel-component comp-chat" id="comp-chat" data-overlay="chat"></section>
+          <section class="pixel-buttons">
+            <button class="pixel-component comp-mic" id="comp-mic" data-overlay="mic"></button>
+            <button class="pixel-component comp-kbd" id="comp-kbd" data-overlay="kbd"></button>
+            <button class="pixel-component comp-speech" id="comp-speech" data-overlay="speech"></button>
+          </section>
+        </main>
+
+        <aside class="pixel-column pixel-right">
+          <section class="pixel-component comp-trading-center" id="comp-trading-center" data-overlay="trading-center"></section>
+          <section class="pixel-component comp-openrouter" id="comp-openrouter" data-overlay="openrouter"></section>
+          <section class="pixel-split">
+            <section class="pixel-component comp-agents" id="comp-agents" data-overlay="agents"></section>
+            <section class="pixel-component comp-quality" id="comp-quality" data-overlay="quality"></section>
+          </section>
+        </aside>
+      </div>
+
+      <div class="pixel-row pixel-bottom">
+        <section class="pixel-component comp-publisher" id="comp-publisher" data-overlay="publisher"></section>
+        <section class="pixel-component comp-social" id="comp-social" data-overlay="social"></section>
+        <section class="pixel-component comp-tasks" id="comp-tasks" data-overlay="tasks"></section>
+        <section class="pixel-component comp-tradejournal" id="comp-tradejournal" data-overlay="tradejournal"></section>
+        <section class="pixel-component comp-paperless" id="comp-paperless" data-overlay="paperless"></section>
+        <section class="pixel-component comp-gbrain" id="comp-gbrain" data-overlay="gbrain"></section>
+        <section class="pixel-component comp-ai" id="comp-ai" data-overlay="ai"></section>
+        <section class="pixel-component comp-video" id="comp-video" data-overlay="video"></section>
+      </div>
+
+      <div class="pixel-row pixel-footer">
+        <section class="pixel-component comp-update" id="comp-update" data-overlay="update"></section>
+        <section class="pixel-component comp-claim" id="comp-claim" data-overlay="claim"></section>
+        <section class="pixel-component comp-security" id="comp-security" data-overlay="security"></section>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const stage = document.querySelector('.pixel-stage');
+      if (!stage) return;
+
+      const BASE_WIDTH = 1920;
+      const BASE_HEIGHT = 1080;
+
+      function applyScale() {
+        const scale = Math.min(window.innerWidth / BASE_WIDTH, window.innerHeight / BASE_HEIGHT);
+        stage.style.setProperty('--pixel-scale', String(scale));
+      }
+
+      window.addEventListener('resize', applyScale, { passive: true });
+      applyScale();
+    })();
+  </script>
+</body>
+</html>

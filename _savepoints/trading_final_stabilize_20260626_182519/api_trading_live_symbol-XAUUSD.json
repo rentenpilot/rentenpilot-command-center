@@ -1,0 +1,18 @@
+﻿{
+  "ask": 4085.76,
+  "bid": 4085.71,
+  "description": "Gold vs US Dollar",
+  "display_name": "Gold vs US Dollar",
+  "label": "Gold",
+  "last_price": 4085.735,
+  "mapping_source": "cache",
+  "message": "live quote",
+  "mode": "read_only",
+  "provider": "cTrader",
+  "spread": 0.05,
+  "status": "online",
+  "symbol": "XAUUSD",
+  "symbol_id": "41",
+  "updated_at": "2026-06-26T16:25:58.954484+00:00"
+}
+

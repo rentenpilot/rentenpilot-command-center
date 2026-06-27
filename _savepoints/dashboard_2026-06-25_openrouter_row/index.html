@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentenPilot – Hermes Command Center</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<div class="scan-lines"></div>
+
+<div id="dashboard">
+
+  <!-- TOP HEADER -->
+  <div class="top-header">
+    <div class="header-left">
+      <div class="logo-box">
+        <div class="logo-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M50 10 L90 30 L50 90 L10 30 Z" fill="rgba(0,212,255,0.2)"/>
+                <path d="M50 10 L50 90" stroke="rgba(0,212,255,0.5)"/>
+            </svg>
+        </div>
+        <div class="logo-text">
+          <div class="logo-title">RENTEN<span>PILOT</span></div>
+          <div class="logo-subtitle">HERMES COMMAND CENTER</div>
+        </div>
+      </div>
+      <div class="agent-status">
+        <div class="as-label"><span class="dot green-dot small"></span> AGENT STATUS</div>
+        <div class="as-val text-green">ONLINE</div>
+      </div>
+      <div class="aktives-modell">
+        <div class="as-label">AKTIVES MODELL</div>
+        <div class="as-val" id="live-model">deepseek/deepseek-v4-flash <span class="dim">(via OpenRouter)</span></div>
+        <div style="display:none;" id="usage-provider"></div> <!-- Hidden requirement -->
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="sys-stat">
+        <div class="stat-label">UPTIME</div>
+        <div class="stat-val" id="live-uptime">7D 14H 32M</div>
+        <div style="display:none;" id="live-hermes-uptime"></div>
+      </div>
+      <div class="sys-circ">
+        <div class="circ-label">CPU</div>
+        <div class="circ-val" id="live-cpu">23%</div>
+        <div style="display:none;" id="live-cpu-bar"></div>
+        <svg class="spark" viewBox="0 0 40 10"><path d="M0,5 L10,2 L20,8 L30,4 L40,6" fill="none" stroke="var(--cyan)"/></svg>
+      </div>
+      <div class="sys-circ">
+        <div class="circ-label">RAM</div>
+        <div class="circ-val" id="live-ram">58%</div>
+        <div style="display:none;" id="live-ram-bar"></div>
+        <svg class="spark" viewBox="0 0 40 10"><path d="M0,8 L10,5 L20,7 L30,2 L40,4" fill="none" stroke="var(--cyan)"/></svg>
+      </div>
+      <div class="sys-circ">
+        <div class="circ-label">DISK</div>
+        <div class="circ-val" id="live-disk">41%</div>
+        <div style="display:none;" id="live-disk-bar"></div>
+        <div style="display:none;" id="disk-gauge-fill"></div>
+        <div style="display:none;" id="disk-gauge-val"></div>
+        <div style="display:none;" id="disk-total"></div>
+        <div style="display:none;" id="disk-free"></div>
+      </div>
+      <div class="time-box">
+        <div id="time-display">15:01:30</div>
+        <div class="date-row">
+          <span id="date-display">14.05.2025</span>
+          <span id="day-display">Sonntag</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-left">
+      <div class="panel">
+        <div class="panel-header">HAUPTMODULE</div>
+        <div class="mod-list">
+          <!-- Research -->
+          <div class="mod-item" id="mod-research">
+            <div class="mod-icon">🔍</div>
+            <div class="mod-details">
+              <div class="mod-title">RESEARCH <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-row"><span>Neue Themen</span><span>14</span></div>
+              <div class="mod-row"><span>Quellen heute</span><span>32</span></div>
+              <div class="mod-row"><span>Letzter Scan</span><span>08:42</span></div>
+            </div>
+            <div class="mod-arrow">›</div>
+          </div>
+          <!-- Content -->
+          <div class="mod-item" id="mod-content">
+            <div class="mod-icon">▷</div>
+            <div class="mod-details">
+              <div class="mod-title">CONTENT <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-row"><span>Artikel Entwürfe</span><span>7</span></div>
+              <div class="mod-row"><span>In Prüfung</span><span>2</span></div>
+              <div class="mod-row"><span>Veröffentlicht heute</span><span>1</span></div>
+            </div>
+            <div class="mod-arrow">›</div>
+          </div>
+          <!-- Trading -->
+          <div class="mod-item" id="mod-trading">
+            <div class="mod-icon">⚲</div>
+            <div class="mod-details">
+              <div class="mod-title">TRADING <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-row"><span>Aktive Signale</span><span>2</span></div>
+              <div class="mod-row"><span>Trefferquote</span><span>71%</span></div>
+              <div class="mod-row"><span>Monat</span><span class="text-green">+4.2R</span></div>
+            </div>
+            <div class="mod-arrow">›</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:1;">
+        <div class="panel-header">SCHNELLAKTIONEN</div>
+        <div class="action-list">
+          <button class="action-btn"><span>🔍 Recherche starten</span></button>
+          <button class="action-btn"><span>📝 Artikel erstellen</span></button>
+          <button class="action-btn"><span>📊 SEO Analyse</span></button>
+          <button class="action-btn"><span>📈 Trading Scan</span></button>
+          <button class="action-btn"><span>📁 Paperless Import</span></button>
+          <div class="action-link">Alle Workflows anzeigen ›</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN -->
+    <div class="col-center">
+      <div class="sphere-panel">
+        <div id="sphere-container">
+          <div class="sphere-rings">
+            <div class="sphere-ring"></div>
+            <div class="sphere-ring"></div>
+            <div class="sphere-ring"></div>
+          </div>
+          <div class="sphere-glow-ring"></div>
+          <canvas id="sphere-canvas"></canvas>
+          <div class="sphere-overlay-logo">
+             <svg viewBox="0 0 100 100" fill="none" stroke="var(--cyan)" stroke-width="2">
+                <path d="M50 20 L80 40 L50 80 L20 40 Z" fill="rgba(0,212,255,0.1)"/>
+            </svg>
+          </div>
+          <div id="hermes-status-text" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="chat-panel">
+        <div class="chat-header">
+          <span>HERMES SPHÄRE – CHAT</span>
+          <span class="chat-status"><span class="dot green-dot small"></span> ONLINE</span>
+        </div>
+        <div class="chat-answer-label" id="chat-answer-label" style="display:none;"></div>
+        <div class="chat-answer-box visible" id="chat-answer-box"></div>
+        <div style="display:none;" id="live-response-time"></div>
+        
+        <div class="chat-input-area" style="display:none;">
+            <!-- Hidden input but kept for JS compatibility -->
+            <input type="text" id="chat-input" placeholder="Sprich oder schreibe mit Hermes..." />
+            <button id="send-btn">SENDEN</button>
+        </div>
+
+        <div class="chat-controls">
+          <button class="ctrl-btn" id="mic-btn">
+            <span class="icon">🎤</span>
+            <div class="ctrl-text">SPRACH<br>EINGABE</div>
+          </button>
+          <button class="ctrl-btn" id="kbd-btn" onclick="document.querySelector('.chat-input-area').style.display='flex';document.getElementById('chat-input').focus();">
+            <span class="icon">⌨️</span>
+            <div class="ctrl-text">TASTATUR<br>MODUS</div>
+          </button>
+          <button class="ctrl-btn" id="speech-btn">
+            <span class="icon">🔊</span>
+            <div class="ctrl-text"><br>SPRACHAUSGABE</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-right">
+      <!-- Trading Center -->
+      <div class="panel">
+        <div class="panel-header">TRADING CENTER <span class="float-right text-green"><span class="dot green-dot small"></span> LIVE</span></div>
+        <div class="trading-content">
+          <div class="tc-top">
+            <div class="tc-pair"><span class="text-orange">BTC</span> / USD <span class="dim">Bitcoin</span></div>
+            <div class="tc-spans"><span>1H</span><span>4H</span><span class="active">1D</span><span>1W</span><span>1M</span></div>
+          </div>
+          <div class="tc-price">67,245.18</div>
+          <div class="tc-change text-green">+1,245.32 +1.89%</div>
+          <div class="tc-chart">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+              <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+              <path d="M0,30 Q10,25 20,28 T40,20 T60,25 T80,15 T100,10 T120,18 T140,5 T160,8 T180,2 T200,5 L200,40 L0,40 Z" fill="url(#greenGrad)" opacity="0.3"/>
+              <defs>
+                <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--green)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="tc-signal">
+            <div class="sig-badge">LONG</div>
+            <div class="sig-conf">CONFIDENCE<br><span class="text-green">84%</span></div>
+          </div>
+          <div class="tc-levels">
+            <div><span class="dim">ENTRY</span><br>67,120.00</div>
+            <div><span class="dim">SL</span><br><span class="text-orange">65,800.00</span></div>
+            <div><span class="dim">TP1</span><br><span class="text-green">68,500.00</span></div>
+            <div><span class="dim">TP2</span><br><span class="text-green">70,200.00</span></div>
+            <div><span class="dim">STATUS</span><br><span class="text-green">ACTIVE <span class="dot green-dot small"></span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kosten & Guthaben -->
+      <div class="panel">
+        <div class="panel-header">KOSTEN & GUTHABEN – OPENROUTER</div>
+        <div class="cost-grid">
+          <div class="cost-box">
+            <div class="cb-label">VERBRAUCH HEUTE</div>
+            <div class="cb-val text-cyan" id="usage-cost-today">$0.02</div>
+            <div class="cb-sub text-green">+5% <span class="dim">vs gestern</span></div>
+            <div style="display:none;" id="usage-cost-total"></div>
+          </div>
+          <div class="cost-box">
+            <div class="cb-label">VERBRAUCH MONAT</div>
+            <div class="cb-val text-cyan" id="usage-cost-month">$0.42</div>
+            <div class="cb-sub text-green">+12% <span class="dim">vs Vormonat</span></div>
+          </div>
+          <div class="cost-box last">
+            <div class="cb-label">GUTHABEN</div>
+            <div class="cb-val text-cyan" id="usage-credit">$8.72</div>
+            <div class="cb-circle"><span>87%</span><br><span style="font-size:5px">verfügbar</span></div>
+          </div>
+          <div class="cost-legend">
+            <div><span class="dot green-dot small"></span> > $10</div>
+            <div><span class="dot" style="background:#ffcc00"></span> $5 - $10</div>
+            <div><span class="dot" style="background:var(--orange)"></span> < $5</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agenten & Quality -->
+      <div class="split-panels">
+        <div class="panel" style="padding:10px;">
+          <div class="panel-header" style="margin-bottom:6px;">HERMES AGENTEN</div>
+          <div class="agent-list" id="hi-agents-container">
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Research Agent</span> <span class="text-green">Läuft ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Content Agent</span> <span class="text-green">Läuft ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>SEO Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Publisher Agent</span> <span class="text-green">Läuft ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Social Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Trading Agent</span> <span class="text-cyan">Aktiv ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Fact Check Agent</span> <span class="text-cyan">Aktiv ›</span></div>
+            <div class="al-row"><input type="checkbox" checked disabled> <span>Legal Agent</span> <span class="text-orange">Wartet ›</span></div>
+            <!-- Hidden requirements -->
+            <div style="display:none;" id="hi-version"></div>
+            <div style="display:none;" id="hi-agents"></div>
+            <div style="display:none;" id="hi-skills"></div>
+          </div>
+        </div>
+        <div class="panel" style="padding:10px;">
+          <div class="panel-header" style="margin-bottom:6px;">QUALITY CONTROL</div>
+          <div class="qc-list">
+            <div class="qc-row"><span class="icon text-green">✔</span> Generator <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">✔</span> Critic <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">✔</span> Fact Check <span class="float-right text-green">✔</span></div>
+            <div class="qc-row"><span class="icon text-green">✔</span> Judge <span class="float-right text-green">✔</span></div>
+          </div>
+          <div class="qc-rate">
+            <span>Freigaberate</span>
+            <span class="text-green" style="font-size:14px; font-weight:bold;">94%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEITERE MODULE -->
+  <div class="bottom-modules">
+    <div class="panel bmod" id="mod-publisher">
+      <div class="bmod-head">📄 PUBLISHER</div>
+      <div class="bmod-row"><span>Artikel veröffentlicht</span></div>
+      <div class="bmod-row"><span>Heute:</span><span>3</span></div>
+      <div class="bmod-row"><span>Geplant</span><span>5</span></div>
+      <div class="bmod-row"><span>Nächste</span><span>09:00 Uhr</span></div>
+    </div>
+    <div class="panel bmod" id="mod-social">
+      <div class="bmod-head">👥 SOCIAL MEDIA</div>
+      <div class="bmod-row"><span>TikTok</span><span class="text-green">12 geplant</span></div>
+      <div class="bmod-row"><span>Instagram</span><span>8 geplant</span></div>
+      <div class="bmod-row"><span>Facebook</span><span>4 geplant</span></div>
+    </div>
+    <div class="panel bmod" id="mod-tasks">
+      <div class="bmod-head">📋 TASKS</div>
+      <div class="bmod-row"><span>Offene Aufgaben</span><span>18</span></div>
+      <div class="bmod-row"><span>In Arbeit</span><span>7</span></div>
+      <div class="bmod-row"><span>Erledigt heute</span><span>23</span></div>
+    </div>
+    <div class="panel bmod">
+      <div class="bmod-head">📖 TRADE JOURNAL</div>
+      <div class="bmod-row"><span>Trades gesamt</span><span>124</span></div>
+      <div class="bmod-row"><span>Gewonnen</span><span>87</span></div>
+      <div class="bmod-row"><span>Verloren</span><span>37</span></div>
+      <div class="bmod-row"><span>Trefferquote</span><span>70.1%</span></div>
+    </div>
+    <div class="panel bmod" id="mod-paperless">
+      <div class="bmod-head">📁 PAPERLESS</div>
+      <div class="bmod-row"><span>Dokumente</span><span>12.450</span></div>
+      <div class="bmod-row"><span>Neue Dokumente</span><span>17</span></div>
+      <div class="bmod-row"><span>OCR Queue</span><span>3</span></div>
+      <div class="bmod-row"><span>Status</span><span class="text-green">Online</span></div>
+    </div>
+    <div class="panel bmod" id="mod-gbrain">
+      <div class="bmod-head">🌐 GBRAIN</div>
+      <div class="bmod-row"><span>Quellen</span><span>4.120</span></div>
+      <div class="bmod-row"><span>Personen</span><span>620</span></div>
+      <div class="bmod-row"><span>Firmen</span><span>380</span></div>
+      <div class="bmod-row"><span>Konzepte</span><span>980</span></div>
+      <div class="bmod-row"><span>Status</span><span class="text-green">Online</span></div>
+    </div>
+    <div class="panel bmod" id="mod-ai">
+      <div class="bmod-head">🔍 AI SCOUT</div>
+      <div class="bmod-row"><span>Neue Tools</span><span>14</span></div>
+      <div class="bmod-row"><span>Bewertet</span><span>8</span></div>
+      <div class="bmod-row"><span>Interessant</span><span>3</span></div>
+      <div class="bmod-row"><span>Top Fund</span><span class="text-green">Emergent</span></div>
+    </div>
+    <div class="panel bmod" id="mod-video">
+      <div class="bmod-head">🎬 VIDEO CONTENT</div>
+      <div class="bmod-row"><span>YouTube Shorts</span><span>7</span></div>
+      <div class="bmod-row"><span>TikTok Skripte</span><span>12</span></div>
+      <div class="bmod-row"><span>In Produktion</span><span>3</span></div>
+      <div class="bmod-row"><span>Status</span><span class="text-green">Aktiv</span></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="fb-left">
+      <span>LETZTES UPDATE</span><br>
+      <span class="dim">14.05.2025 - 15:01:30</span>
+    </div>
+    <div class="fb-center">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="var(--cyan)"><path d="M10 2 L18 6 L10 18 L2 6 Z"/></svg>
+      HERMES DENKT. HERMES HANDELT. HERMES LIEFERT.
+    </div>
+    <div class="fb-right">
+      <span style="font-size:14px">🔒</span>
+      <div>
+        SICHER & PRIVAT<br>
+        <span class="text-green">ALLE SYSTEME VERSCHLÜSSELT</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /dashboard -->
+
+<!-- HUD OVERLAY -->
+<div id="hud-overlay" class="hud-overlay">
+  <div class="hud-overlay-box">
+    <button class="hud-close-btn" id="hud-close-btn">×</button>
+    <div class="hud-overlay-header">
+      <span class="hud-overlay-title" id="hud-overlay-title">MODUL</span>
+    </div>
+    <div class="hud-overlay-content" id="hud-overlay-content">
+      <!-- Content dynamically injected here -->
+    </div>
+  </div>
+</div>
+
+<script>
+    // ─────────────────────────────────────────────
+    // CLOCK
+    // ─────────────────────────────────────────────
+    const DAYS_DE = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+
+    function updateClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('de-DE');
+        const dateStr = now.toLocaleDateString('de-DE');
+        const dayStr  = DAYS_DE[now.getDay()];
+        document.getElementById('time-display').textContent = timeStr;
+        document.getElementById('date-display').textContent = dateStr;
+        document.getElementById('day-display').textContent  = dayStr;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ─────────────────────────────────────────────
+    // SPHERE ANIMATION
+    // ─────────────────────────────────────────────
+    const canvas = document.getElementById('sphere-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    function resizeSphere() {
+        const container = canvas.parentElement;
+        canvas.width  = container.clientWidth;
+        canvas.height = container.clientHeight;
+    }
+    window.addEventListener('resize', resizeSphere);
+    resizeSphere();
+
+    let sphereTime = 0;
+    let sphereState = 'idle'; // 'idle' | 'thinking' | 'error'
+
+    function drawSphere() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width  / 2;
+        const cy = canvas.height / 2;
+        const r  = Math.min(cx, cy) * 0.85;
+
+        // Pulse factor for thinking state
+        const pulse = sphereState === 'thinking'
+            ? 1 + 0.12 * Math.sin(sphereTime * 6)
+            : 1;
+
+        // Base glow
+        const innerColor = sphereState === 'error'
+            ? 'rgba(255, 80, 0, 0.5)'
+            : sphereState === 'thinking'
+                ? 'rgba(0, 200, 255, 0.55)'
+                : 'rgba(0, 150, 255, 0.4)';
+
+        const radGrad = ctx.createRadialGradient(cx, cy, r * 0.3, cx, cy, r);
+        radGrad.addColorStop(0, innerColor);
+        radGrad.addColorStop(1, 'rgba(0, 30, 100, 0.05)');
+        ctx.fillStyle = radGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * pulse, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Grid lines (latitudes)
+        ctx.strokeStyle = sphereState === 'error'
+            ? 'rgba(255, 100, 0, 0.15)'
+            : 'rgba(0, 212, 255, 0.15)';
+        ctx.lineWidth = 1;
+
+        for (let i = -3; i <= 3; i++) {
+            const yOffset  = (i / 4) * r;
+            const radiusX  = Math.sqrt(r * r - yOffset * yOffset);
+            const radiusY  = radiusX * 0.2;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy + yOffset, radiusX, radiusY, 0, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // Sine wave
+        const waveColor = sphereState === 'error'
+            ? 'rgba(255, 120, 0, 0.9)'
+            : sphereState === 'thinking'
+                ? 'rgba(0, 255, 255, 1)'
+                : 'rgba(0, 255, 255, 0.8)';
+        const waveAmp  = sphereState === 'thinking' ? 0.38 : 0.3;
+        const waveSpd  = sphereState === 'thinking' ? 4    : 2;
+
+        ctx.beginPath();
+        ctx.strokeStyle = waveColor;
+        ctx.lineWidth   = sphereState === 'thinking' ? 2.5 : 2;
+        ctx.shadowColor = sphereState === 'error' ? '#ff6000' : '#00ffff';
+        ctx.shadowBlur  = sphereState === 'thinking' ? 18 : 10;
+
+        for (let x = -r; x <= r; x++) {
+            const nx  = x / r;
+            const env = Math.sqrt(1 - nx * nx);
+            const y   = Math.sin(nx * 10 - sphereTime * waveSpd) * (r * waveAmp) * env;
+            if (x === -r) ctx.moveTo(cx + x, cy + y);
+            else          ctx.lineTo(cx + x, cy + y);
+        }
+        ctx.stroke();
+
+        // Second wave
+        ctx.beginPath();
+        ctx.strokeStyle = sphereState === 'error'
+            ? 'rgba(255, 60, 0, 0.6)'
+            : 'rgba(0, 150, 255, 0.6)';
+        ctx.lineWidth   = 3;
+        ctx.shadowBlur  = 0;
+
+        for (let x = -r; x <= r; x++) {
+            const nx  = x / r;
+            const env = Math.sqrt(1 - nx * nx);
+            const y   = Math.cos(nx * 8 - sphereTime * 1.5) * (r * 0.2) * env;
+            if (x === -r) ctx.moveTo(cx + x, cy + y);
+            else          ctx.lineTo(cx + x, cy + y);
+        }
+        ctx.stroke();
+
+        ctx.shadowBlur = 0;
+
+        // Particles
+        ctx.fillStyle = sphereState === 'error' ? '#ff8030' : '#00ffff';
+        for (let i = 0; i < 30; i++) {
+            const px = cx + Math.sin(sphereTime * 0.5 + i) * r * 0.9 * Math.cos(i * 123);
+            const py = cy + Math.cos(sphereTime * 0.5 + i) * r * 0.9 * Math.sin(i * 321);
+            if (Math.pow(px - cx, 2) + Math.pow(py - cy, 2) < r * r) {
+                ctx.beginPath();
+                ctx.arc(px, py, Math.random() * 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        sphereTime += sphereState === 'thinking' ? 0.04 : 0.02;
+        requestAnimationFrame(drawSphere);
+    }
+    drawSphere();
+
+    // ─────────────────────────────────────────────
+    // SPHERE STATE HELPERS
+    // ─────────────────────────────────────────────
+    const sphereContainer = document.getElementById('sphere-container');
+    const hermesStatusText = document.getElementById('hermes-status-text');
+
+    function setSphereIdle() {
+        sphereState = 'idle';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking', 'sphere-listening');
+        hermesStatusText.textContent = 'IDLE';
+        hermesStatusText.classList.remove('error-text');
+        hermesStatusText.classList.add('visible'); // Show IDLE text
+    }
+
+    function setSphereThinking() {
+        sphereState = 'thinking';
+        sphereContainer.classList.remove('sphere-error', 'sphere-speaking', 'sphere-listening');
+        sphereContainer.classList.add('sphere-thinking');
+        hermesStatusText.textContent = 'HERMES DENKT...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    function setSphereError() {
+        sphereState = 'error';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-speaking', 'sphere-listening');
+        sphereContainer.classList.add('sphere-error');
+        hermesStatusText.textContent = 'VERBINDUNGSFEHLER';
+        hermesStatusText.classList.add('visible', 'error-text');
+        // Auto-reset nach 3s
+        setTimeout(setSphereIdle, 3000);
+    }
+
+    function setSphereSpeaking() {
+        sphereState = 'speaking';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-listening');
+        sphereContainer.classList.add('sphere-speaking');
+        hermesStatusText.textContent = 'HERMES SPRICHT...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    function setSphereListening() {
+        sphereState = 'listening';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking');
+        sphereContainer.classList.add('sphere-listening');
+        hermesStatusText.textContent = 'HERMES HÖRT ZU...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    // ─────────────────────────────────────────────
+    // CHAT LOGIC
+    // ─────────────────────────────────────────────
+    const chatInput   = document.getElementById('chat-input');
+    const sendBtn     = document.getElementById('send-btn');
+    const answerBox   = document.getElementById('chat-answer-box');
+    const answerLabel = document.getElementById('chat-answer-label');
+    const responseTimeEl = document.getElementById('live-response-time');
+
+    let chatHistory = JSON.parse(localStorage.getItem('hermesChatHistory') || '[]');
+
+    function saveHistory() {
+        localStorage.setItem('hermesChatHistory', JSON.stringify(chatHistory));
+    }
+
+    function renderHistory(tempMsg = null, tempType = null) {
+        answerBox.innerHTML = '';
+        
+        if (chatHistory.length === 0 && !tempMsg) {
+            answerBox.className = 'chat-answer-box';
+            answerLabel.className = 'chat-answer-label';
+            return;
+        }
+
+        answerBox.className = 'chat-answer-box visible';
+        answerLabel.className = 'chat-answer-label visible';
+
+        chatHistory.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'msg-row msg-' + item.role;
+            div.textContent = item.text;
+            answerBox.appendChild(div);
+        });
+
+        if (tempMsg) {
+            const div = document.createElement('div');
+            div.className = 'msg-row msg-' + tempType;
+            div.textContent = tempMsg;
+            answerBox.appendChild(div);
+        }
+
+        // Add cursor
+        const cur = document.createElement('span');
+        cur.className = 'terminal-cursor';
+        answerBox.appendChild(cur);
+
+        answerBox.scrollTop = answerBox.scrollHeight;
+    }
+
+    function addMessageToHistory(role, text) {
+        chatHistory.push({ role, text });
+        if (chatHistory.length > 20) { // Letzte 10 Nachrichten-Paare
+            chatHistory = chatHistory.slice(-20);
+        }
+        saveHistory();
+        renderHistory();
+    }
+
+    function setInputBusy(busy) {
+        chatInput.disabled = busy;
+        sendBtn.disabled   = busy;
+    }
+
+    // ─────────────────────────────────────────────
+    // SPEECH SYNTHESIS
+    // ─────────────────────────────────────────────
+    const speechBtn = document.getElementById('speech-btn');
+    let speechEnabled = false;
+    let synth = window.speechSynthesis;
+
+    // Toggle button
+    speechBtn.addEventListener('click', () => {
+        speechEnabled = !speechEnabled;
+        if (speechEnabled) {
+            speechBtn.classList.add('speech-active');
+            if (!synth) {
+                console.warn("Speech Synthesis wird von diesem Browser nicht unterstützt.");
+            }
+        } else {
+            speechBtn.classList.remove('speech-active');
+            stopSpeech();
+        }
+    });
+
+    function stopSpeech() {
+        if (synth && synth.speaking) {
+            synth.cancel();
+        }
+    }
+
+    function speakText(text) {
+        if (!speechEnabled || !synth) {
+            setSphereIdle();
+            return;
+        }
+        
+        stopSpeech(); // Stop any ongoing speech
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'de-DE';
+        
+        // Versuche eine deutsche Stimme zu finden, falls verfügbar
+        const voices = synth.getVoices();
+        const germanVoice = voices.find(v => v.lang.startsWith('de'));
+        if (germanVoice) {
+            utterance.voice = germanVoice;
+        }
+
+        utterance.onstart = () => {
+            setSphereSpeaking();
+        };
+
+        utterance.onend = () => {
+            setSphereIdle();
+        };
+
+        utterance.onerror = (e) => {
+            console.warn('SpeechSynthesis error:', e);
+            setSphereIdle();
+        };
+
+        synth.speak(utterance);
+    }
+    
+    // ─────────────────────────────────────────────
+    // SPEECH RECOGNITION (Mic Input)
+    // ─────────────────────────────────────────────
+    const micBtn = document.getElementById('mic-btn');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+    
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'de-DE';
+        recognition.interimResults = false;
+        recognition.continuous = false;
+        
+        recognition.onstart = () => {
+            isListening = true;
+            micBtn.classList.add('mic-active');
+            setSphereListening();
+            chatInput.placeholder = "Hermes hört zu...";
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            chatInput.value = transcript;
+            sendMessage(); // Auto-send
+        };
+        
+        recognition.onerror = (event) => {
+            console.warn('SpeechRecognition error:', event.error);
+            setSphereIdle();
+        };
+        
+        recognition.onend = () => {
+            isListening = false;
+            micBtn.classList.remove('mic-active');
+            chatInput.placeholder = "Sprich oder schreibe mit Hermes...";
+            if (sphereState === 'listening') {
+                setSphereIdle();
+            }
+        };
+        
+        micBtn.addEventListener('click', () => {
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        });
+    } else {
+        micBtn.style.opacity = '0.5';
+        micBtn.title = 'Speech Recognition wird in diesem Browser nicht unterstützt.';
+    }
+
+    // Initial load
+    setSphereIdle();
+    renderHistory();
+
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+
+        if (!message) {
+            chatInput.focus();
+            return;
+        }
+
+        // Stop previous speech when sending new message
+        stopSpeech();
+
+        // UI: Senden vorbereiten
+        setInputBusy(true);
+        chatInput.value = '';
+        setSphereThinking();
+        
+        addMessageToHistory('user', message);
+        renderHistory('Hermes denkt...', 'thinking');
+
+        const t0 = Date.now();
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            const elapsed = ((Date.now() - t0) / 1000).toFixed(2) + 's';
+            if (responseTimeEl) responseTimeEl.textContent = elapsed;
+
+            if (!res.ok) {
+                // HTTP-Fehler (4xx / 5xx)
+                let errMsg = `HTTP ${res.status}`;
+                try {
+                    const errData = await res.json();
+                    errMsg = errData.error || errMsg;
+                } catch (_) {}
+                renderHistory('⚠ Fehler: ' + errMsg, 'error');
+                setSphereError();
+                return;
+            }
+
+            const data = await res.json();
+
+            if (!data.ok) {
+                renderHistory('⚠ Hermes meldet: ' + (data.error || 'Unbekannter Fehler'), 'error');
+                setSphereError();
+                return;
+            }
+
+            addMessageToHistory('hermes', data.answer);
+            
+            // Vorlesen, wenn aktiviert, sonst IDLE
+            if (speechEnabled && synth) {
+                speakText(data.answer);
+            } else {
+                setSphereIdle();
+            }
+
+        } catch (err) {
+            // Netzwerkfehler / API nicht erreichbar
+            if (responseTimeEl) responseTimeEl.textContent = '–';
+            renderHistory('⚠ Verbindung zu Hermes fehlgeschlagen. Server erreichbar?', 'error');
+            setSphereError();
+        } finally {
+            setInputBusy(false);
+            chatInput.focus();
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    chatInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // ─────────────────────────────────────────────
+    // LIVE SYSTEM DATA  (alle 5 Sekunden)
+    // ─────────────────────────────────────────────
+    // Disk-Gauge: Radius=45, Umfang=282.7
+    // dashoffset = 282.7 * (1 - percent/100)
+    const GAUGE_CIRC = 282.7;
+
+    async function updateSystemData() {
+        try {
+            const res  = await fetch('/api/system', { cache: 'no-store' });
+
+            if (!res.ok) {
+                console.warn('api/system: HTTP', res.status);
+                return;
+            }
+
+            const d = await res.json();
+
+            // Linke Statuspanel: Modell
+            const modelEl = document.getElementById('live-model');
+            if (modelEl) modelEl.textContent = d.model + ' (via ' + d.provider + ')';
+
+            // Rechte Statuspanel: Uptimes
+            const uptimeEl       = document.getElementById('live-uptime');
+            const hermesUptimeEl = document.getElementById('live-hermes-uptime');
+            if (uptimeEl)       uptimeEl.textContent       = d.system_uptime_text || '–';
+            if (hermesUptimeEl) hermesUptimeEl.textContent = d.hermes_uptime_text || '–';
+
+            // CPU
+            const cpuPct  = parseFloat(d.cpu_percent)  || 0;
+            const cpuEl   = document.getElementById('live-cpu');
+            const cpuBar  = document.getElementById('live-cpu-bar');
+            if (cpuEl)  cpuEl.textContent     = cpuPct.toFixed(1) + '%';
+            if (cpuBar) cpuBar.style.width     = cpuPct.toFixed(1) + '%';
+
+            // RAM
+            const ramPct  = parseFloat(d.ram_percent)  || 0;
+            const ramEl   = document.getElementById('live-ram');
+            const ramBar  = document.getElementById('live-ram-bar');
+            if (ramEl)  ramEl.textContent     = ramPct.toFixed(1) + '%';
+            if (ramBar) ramBar.style.width     = ramPct.toFixed(1) + '%';
+
+            // Disk (Header)
+            const diskPct = parseFloat(d.disk_percent) || 0;
+            const diskEl  = document.getElementById('live-disk');
+            const diskBar = document.getElementById('live-disk-bar');
+            if (diskEl)  diskEl.textContent   = diskPct.toFixed(1) + '%';
+            if (diskBar) diskBar.style.width   = diskPct.toFixed(1) + '%';
+
+            // Disk-Gauge im Footer
+            const gaugeOffset = GAUGE_CIRC * (1 - diskPct / 100);
+            const gaugeFill   = document.getElementById('disk-gauge-fill');
+            const gaugeVal    = document.getElementById('disk-gauge-val');
+            if (gaugeFill) gaugeFill.style.strokeDashoffset = gaugeOffset.toFixed(1);
+            if (gaugeVal)  gaugeVal.textContent = diskPct.toFixed(0) + '%';
+
+            // Disk-Detail im Footer
+            const totalEl = document.getElementById('disk-total');
+            const freeEl  = document.getElementById('disk-free');
+            if (totalEl && d.disk_total_gb) totalEl.textContent = d.disk_total_gb.toFixed(1) + ' TB';
+            if (freeEl  && d.disk_free_gb)  freeEl.textContent  = d.disk_free_gb.toFixed(1)  + ' GB';
+
+        } catch (err) {
+            // Kurzzeitiger Fehler → nur loggen, kein Crash
+            console.warn('Systemdaten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateSystemData();
+    setInterval(updateSystemData, 5000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2752 @@
+﻿{
+  "account_id_present": true,
+  "endpoint_used": "ctrader_symbol_cache",
+  "http_status": 200,
+  "message": "",
+  "provider": "cTrader",
+  "status": "online",
+  "symbols": [
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs US Dollar",
+      "display_name": "Euro vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "EURUSD",
+      "symbol_id": "1",
+      "symbol_name": "EURUSD"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Norwegian Krone",
+      "display_name": "US Dollar vs Norwegian Krone",
+      "enabled": true,
+      "quote_asset_id": "10",
+      "symbolName": "USDNOK",
+      "symbol_id": "22",
+      "symbol_name": "USDNOK"
+    },
+    {
+      "base_asset_id": "17",
+      "description": "Gold vs US Dollar",
+      "display_name": "Gold vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XAUUSD",
+      "symbol_id": "41",
+      "symbol_name": "XAUUSD"
+    },
+    {
+      "base_asset_id": "29",
+      "description": "West Texas Intermediate vs US Dollar",
+      "display_name": "West Texas Intermediate vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XTIUSD",
+      "symbol_id": "99",
+      "symbol_name": "XTIUSD"
+    },
+    {
+      "base_asset_id": "31",
+      "description": "Bitcoin vs US Dollar",
+      "display_name": "Bitcoin vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "BTCUSD",
+      "symbol_id": "101",
+      "symbol_name": "BTCUSD"
+    },
+    {
+      "base_asset_id": "1031",
+      "description": "Australia 200 Index",
+      "display_name": "Australia 200 Index",
+      "enabled": true,
+      "quote_asset_id": "1",
+      "symbolName": "AUS200",
+      "symbol_id": "219",
+      "symbol_name": "AUS200"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Hong Kong Dollar",
+      "display_name": "Australian Dollar vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "AUDHKD",
+      "symbol_id": "231",
+      "symbol_name": "AUDHKD"
+    },
+    {
+      "base_asset_id": "1006",
+      "description": "Soybeans vs US Dollar",
+      "display_name": "Soybeans vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "SOYBEAN",
+      "symbol_id": "261",
+      "symbol_name": "SOYBEAN"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs US Dollar",
+      "display_name": "Euro vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "EURUSD.i",
+      "symbol_id": "277",
+      "symbol_name": "EURUSD.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs South African Rand",
+      "display_name": "US Dollar vs South African Rand",
+      "enabled": false,
+      "quote_asset_id": "22",
+      "symbolName": "USDZAR.i",
+      "symbol_id": "279",
+      "symbol_name": "USDZAR.i"
+    },
+    {
+      "base_asset_id": "1081",
+      "description": "Lead vs US Dollar",
+      "display_name": "Lead vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XPBUSD.i",
+      "symbol_id": "293",
+      "symbol_name": "XPBUSD.i"
+    },
+    {
+      "base_asset_id": "1058",
+      "description": "Euro 50 Index",
+      "display_name": "Euro 50 Index",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "EUSTX50.i",
+      "symbol_id": "375",
+      "symbol_name": "EUSTX50.i"
+    },
+    {
+      "base_asset_id": "1090",
+      "description": "Brent Crude Oil vs US Dollar",
+      "display_name": "Brent Crude Oil vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XBRUSD.i",
+      "symbol_id": "391",
+      "symbol_name": "XBRUSD.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs US Dollar",
+      "display_name": "British Pound vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "GBPUSD",
+      "symbol_id": "2",
+      "symbol_name": "GBPUSD"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Mexican Peso",
+      "display_name": "US Dollar vs Mexican Peso",
+      "enabled": true,
+      "quote_asset_id": "9",
+      "symbolName": "USDMXN",
+      "symbol_id": "24",
+      "symbol_name": "USDMXN"
+    },
+    {
+      "base_asset_id": "16",
+      "description": "Silver vs US Dollar",
+      "display_name": "Silver vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XAGUSD",
+      "symbol_id": "42",
+      "symbol_name": "XAGUSD"
+    },
+    {
+      "base_asset_id": "30",
+      "description": "Brent Crude Oil vs US Dollar",
+      "display_name": "Brent Crude Oil vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XBRUSD",
+      "symbol_id": "100",
+      "symbol_name": "XBRUSD"
+    },
+    {
+      "base_asset_id": "32",
+      "description": "Ethereum vs US Dollar",
+      "display_name": "Ethereum vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "ETHUSD",
+      "symbol_id": "102",
+      "symbol_name": "ETHUSD"
+    },
+    {
+      "base_asset_id": "1034",
+      "description": "Spain 35 Index",
+      "display_name": "Spain 35 Index",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "E35",
+      "symbol_id": "220",
+      "symbol_name": "E35"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Norwegian Krone",
+      "display_name": "Australian Dollar vs Norwegian Krone",
+      "enabled": false,
+      "quote_asset_id": "10",
+      "symbolName": "AUDNOK",
+      "symbol_id": "232",
+      "symbol_name": "AUDNOK"
+    },
+    {
+      "base_asset_id": "1008",
+      "description": "Raw Sugar vs US Dollar",
+      "display_name": "Raw Sugar vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "SUGARRAW",
+      "symbol_id": "262",
+      "symbol_name": "SUGARRAW"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs Canadian Dollar",
+      "display_name": "Australian Dollar vs Canadian Dollar",
+      "enabled": false,
+      "quote_asset_id": "2",
+      "symbolName": "AUDCAD.i",
+      "symbol_id": "278",
+      "symbol_name": "AUDCAD.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Mexican Peso",
+      "display_name": "Euro vs Mexican Peso",
+      "enabled": false,
+      "quote_asset_id": "9",
+      "symbolName": "EURMXN.i",
+      "symbol_id": "281",
+      "symbol_name": "EURMXN.i"
+    },
+    {
+      "base_asset_id": "1084",
+      "description": "Zinc vs US Dollar",
+      "display_name": "Zinc vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XZNUSD.i",
+      "symbol_id": "297",
+      "symbol_name": "XZNUSD.i"
+    },
+    {
+      "base_asset_id": "1056",
+      "description": "Spain 35 Index",
+      "display_name": "Spain 35 Index",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "E35.i",
+      "symbol_id": "376",
+      "symbol_name": "E35.i"
+    },
+    {
+      "base_asset_id": "1089",
+      "description": "Natural Gas vs US Dollar",
+      "display_name": "Natural Gas vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XNGUSD.i",
+      "symbol_id": "392",
+      "symbol_name": "XNGUSD.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Japanese Yen",
+      "display_name": "Euro vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "EURJPY",
+      "symbol_id": "3",
+      "symbol_name": "EURJPY"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Singaporean Dollar",
+      "display_name": "US Dollar vs Singaporean Dollar",
+      "enabled": true,
+      "quote_asset_id": "14",
+      "symbolName": "USDSGD",
+      "symbol_id": "28",
+      "symbol_name": "USDSGD"
+    },
+    {
+      "base_asset_id": "16",
+      "description": "Silver vs Euro",
+      "display_name": "Silver vs Euro",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "XAGEUR",
+      "symbol_id": "92",
+      "symbol_name": "XAGEUR"
+    },
+    {
+      "base_asset_id": "1000",
+      "description": "Natural Gas vs US Dollar",
+      "display_name": "Natural Gas vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XNGUSD",
+      "symbol_id": "204",
+      "symbol_name": "XNGUSD"
+    },
+    {
+      "base_asset_id": "1035",
+      "description": "Euro 50 Index",
+      "display_name": "Euro 50 Index",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "EUSTX50",
+      "symbol_id": "221",
+      "symbol_name": "EUSTX50"
+    },
+    {
+      "base_asset_id": "1019",
+      "description": "Bitcoin Cash vs US Dollar",
+      "display_name": "Bitcoin Cash vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "BCHUSD",
+      "symbol_id": "229",
+      "symbol_name": "BCHUSD"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Thai Baht",
+      "display_name": "Australian Dollar vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "AUDTHB",
+      "symbol_id": "233",
+      "symbol_name": "AUDTHB"
+    },
+    {
+      "base_asset_id": "1007",
+      "description": "White Sugar vs US Dollar",
+      "display_name": "White Sugar vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "SUGAR",
+      "symbol_id": "263",
+      "symbol_name": "SUGAR"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Canadian Dollar",
+      "display_name": "British Pound vs Canadian Dollar",
+      "enabled": false,
+      "quote_asset_id": "2",
+      "symbolName": "GBPCAD.i",
+      "symbol_id": "280",
+      "symbol_name": "GBPCAD.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Polish Zloty",
+      "display_name": "Euro vs Polish Zloty",
+      "enabled": false,
+      "quote_asset_id": "12",
+      "symbolName": "EURPLN.i",
+      "symbol_id": "283",
+      "symbol_name": "EURPLN.i"
+    },
+    {
+      "base_asset_id": "1077",
+      "description": "Aluminium vs US Dollar",
+      "display_name": "Aluminium vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XALUSD.i",
+      "symbol_id": "347",
+      "symbol_name": "XALUSD.i"
+    },
+    {
+      "base_asset_id": "1051",
+      "description": "Australia 200 Index",
+      "display_name": "Australia 200 Index",
+      "enabled": false,
+      "quote_asset_id": "1",
+      "symbolName": "AUS200.i",
+      "symbol_id": "377",
+      "symbol_name": "AUS200.i"
+    },
+    {
+      "base_asset_id": "1088",
+      "description": "West Texas Intermediate vs US Dollar",
+      "display_name": "West Texas Intermediate vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XTIUSD.i",
+      "symbol_id": "393",
+      "symbol_name": "XTIUSD.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Japanese Yen",
+      "display_name": "US Dollar vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "USDJPY",
+      "symbol_id": "4",
+      "symbol_name": "USDJPY"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Swedish Krona",
+      "display_name": "US Dollar vs Swedish Krona",
+      "enabled": true,
+      "quote_asset_id": "13",
+      "symbolName": "USDSEK",
+      "symbol_id": "29",
+      "symbol_name": "USDSEK"
+    },
+    {
+      "base_asset_id": "17",
+      "description": "Gold vs Euro",
+      "display_name": "Gold vs Euro",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "XAUEUR",
+      "symbol_id": "93",
+      "symbol_name": "XAUEUR"
+    },
+    {
+      "base_asset_id": "1036",
+      "description": "France 40 Index",
+      "display_name": "France 40 Index",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "FRA40",
+      "symbol_id": "222",
+      "symbol_name": "FRA40"
+    },
+    {
+      "base_asset_id": "1025",
+      "description": "Litecoin vs US Dollar",
+      "display_name": "Litecoin vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "LTCUSD",
+      "symbol_id": "230",
+      "symbol_name": "LTCUSD"
+    },
+    {
+      "base_asset_id": "14",
+      "description": "Singaporean Dollar vs Hong Kong Dollar",
+      "display_name": "Singaporean Dollar vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "SGDHKD",
+      "symbol_id": "247",
+      "symbol_name": "SGDHKD"
+    },
+    {
+      "base_asset_id": "1009",
+      "description": "UK Cocoa vs Great British Pound",
+      "display_name": "UK Cocoa vs Great British Pound",
+      "enabled": true,
+      "quote_asset_id": "6",
+      "symbolName": "UKCOCOA",
+      "symbol_id": "264",
+      "symbol_name": "UKCOCOA"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs New Zealand Dollar",
+      "display_name": "Australian Dollar vs New Zealand Dollar",
+      "enabled": false,
+      "quote_asset_id": "11",
+      "symbolName": "AUDNZD.i",
+      "symbol_id": "282",
+      "symbol_name": "AUDNZD.i"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs South African Rand",
+      "display_name": "British Pound vs South African Rand",
+      "enabled": false,
+      "quote_asset_id": "22",
+      "symbolName": "GBPZAR.i",
+      "symbol_id": "285",
+      "symbol_name": "GBPZAR.i"
+    },
+    {
+      "base_asset_id": "1078",
+      "description": "Gold vs Euro",
+      "display_name": "Gold vs Euro",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "XAUEUR.i",
+      "symbol_id": "349",
+      "symbol_name": "XAUEUR.i"
+    },
+    {
+      "base_asset_id": "1074",
+      "description": "US 500 Index",
+      "display_name": "US 500 Index",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "US500.i",
+      "symbol_id": "378",
+      "symbol_name": "US500.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Swiss Franc",
+      "display_name": "US Dollar vs Swiss Franc",
+      "enabled": true,
+      "quote_asset_id": "3",
+      "symbolName": "USDCHF",
+      "symbol_id": "6",
+      "symbol_name": "USDCHF"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Swedish Krona",
+      "display_name": "Euro vs Swedish Krona",
+      "enabled": true,
+      "quote_asset_id": "13",
+      "symbolName": "EURSEK",
+      "symbol_id": "31",
+      "symbol_name": "EURSEK"
+    },
+    {
+      "base_asset_id": "27",
+      "description": "Palladium vs US Dollar",
+      "display_name": "Palladium vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XPDUSD",
+      "symbol_id": "95",
+      "symbol_name": "XPDUSD"
+    },
+    {
+      "base_asset_id": "1038",
+      "description": "Hong Kong 50 Index",
+      "display_name": "Hong Kong 50 Index",
+      "enabled": true,
+      "quote_asset_id": "23",
+      "symbolName": "HK50",
+      "symbol_id": "223",
+      "symbol_name": "HK50"
+    },
+    {
+      "base_asset_id": "1029",
+      "description": "Stellar vs US Dollar",
+      "display_name": "Stellar vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XLMUSD",
+      "symbol_id": "235",
+      "symbol_name": "XLMUSD"
+    },
+    {
+      "base_asset_id": "14",
+      "description": "Singaporean Dollar vs Thai Baht",
+      "display_name": "Singaporean Dollar vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "SGDTHB",
+      "symbol_id": "248",
+      "symbol_name": "SGDTHB"
+    },
+    {
+      "base_asset_id": "1010",
+      "description": "US Cocoa vs US Dollar",
+      "display_name": "US Cocoa vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "USCOCOA",
+      "symbol_id": "265",
+      "symbol_name": "USCOCOA"
+    },
+    {
+      "base_asset_id": "1069",
+      "description": "New Zealand Dollar vs Japanese Yen",
+      "display_name": "New Zealand Dollar vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "NZDJPY.i",
+      "symbol_id": "284",
+      "symbol_name": "NZDJPY.i"
+    },
+    {
+      "base_asset_id": "1069",
+      "description": "New Zealand Dollar vs Singaporean Dollar",
+      "display_name": "New Zealand Dollar vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "NZDSGD.i",
+      "symbol_id": "287",
+      "symbol_name": "NZDSGD.i"
+    },
+    {
+      "base_asset_id": "1076",
+      "description": "Silver vs US Dollar",
+      "display_name": "Silver vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XAGUSD.i",
+      "symbol_id": "351",
+      "symbol_name": "XAGUSD.i"
+    },
+    {
+      "base_asset_id": "1067",
+      "description": "Netherlands 25 Index",
+      "display_name": "Netherlands 25 Index",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "NETH25.i",
+      "symbol_id": "379",
+      "symbol_name": "NETH25.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Japanese Yen",
+      "display_name": "British Pound vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "GBPJPY",
+      "symbol_id": "7",
+      "symbol_name": "GBPJPY"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Singaporean Dollar",
+      "display_name": "British Pound vs Singaporean Dollar",
+      "enabled": true,
+      "quote_asset_id": "14",
+      "symbolName": "GBPSGD",
+      "symbol_id": "32",
+      "symbol_name": "GBPSGD"
+    },
+    {
+      "base_asset_id": "28",
+      "description": "Platinum vs US Dollar",
+      "display_name": "Platinum vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XPTUSD",
+      "symbol_id": "97",
+      "symbol_name": "XPTUSD"
+    },
+    {
+      "base_asset_id": "1039",
+      "description": "Japan 225 Index",
+      "display_name": "Japan 225 Index",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "JPN225",
+      "symbol_id": "224",
+      "symbol_name": "JPN225"
+    },
+    {
+      "base_asset_id": "1023",
+      "description": "EOS vs US Dollar",
+      "display_name": "EOS vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "EOSUSD",
+      "symbol_id": "236",
+      "symbol_name": "EOSUSD"
+    },
+    {
+      "base_asset_id": "2",
+      "description": "Canadian Dollar vs Thai Baht",
+      "display_name": "Canadian Dollar vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "CADTHB",
+      "symbol_id": "249",
+      "symbol_name": "CADTHB"
+    },
+    {
+      "base_asset_id": "1002",
+      "description": "Robusta Coffee vs US Dollar",
+      "display_name": "Robusta Coffee vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "COFROB",
+      "symbol_id": "266",
+      "symbol_name": "COFROB"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs Swiss Franc",
+      "display_name": "Australian Dollar vs Swiss Franc",
+      "enabled": false,
+      "quote_asset_id": "3",
+      "symbolName": "AUDCHF.i",
+      "symbol_id": "286",
+      "symbol_name": "AUDCHF.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Hungarian Forint",
+      "display_name": "US Dollar vs Hungarian Forint",
+      "enabled": false,
+      "quote_asset_id": "7",
+      "symbolName": "USDHUF.i",
+      "symbol_id": "289",
+      "symbol_name": "USDHUF.i"
+    },
+    {
+      "base_asset_id": "1076",
+      "description": "Silver vs Euro",
+      "display_name": "Silver vs Euro",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "XAGEUR.i",
+      "symbol_id": "356",
+      "symbol_name": "XAGEUR.i"
+    },
+    {
+      "base_asset_id": "1073",
+      "description": "US 30 Index",
+      "display_name": "US 30 Index",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "US30.i",
+      "symbol_id": "380",
+      "symbol_name": "US30.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Canadian Dollar",
+      "display_name": "US Dollar vs Canadian Dollar",
+      "enabled": true,
+      "quote_asset_id": "2",
+      "symbolName": "USDCAD",
+      "symbol_id": "8",
+      "symbol_name": "USDCAD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Norwegian Krone",
+      "display_name": "Euro vs Norwegian Krone",
+      "enabled": true,
+      "quote_asset_id": "10",
+      "symbolName": "EURNOK",
+      "symbol_id": "33",
+      "symbol_name": "EURNOK"
+    },
+    {
+      "base_asset_id": "17",
+      "description": "Gold vs Australian Dollar",
+      "display_name": "Gold vs Australian Dollar",
+      "enabled": true,
+      "quote_asset_id": "1",
+      "symbolName": "XAUAUD",
+      "symbol_id": "213",
+      "symbol_name": "XAUAUD"
+    },
+    {
+      "base_asset_id": "1040",
+      "description": "US Tech 100 Index",
+      "display_name": "US Tech 100 Index",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "NAS100",
+      "symbol_id": "225",
+      "symbol_name": "NAS100"
+    },
+    {
+      "base_asset_id": "1022",
+      "description": "Polkadot vs US Dollar",
+      "display_name": "Polkadot vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "DOTUSD",
+      "symbol_id": "237",
+      "symbol_name": "DOTUSD"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Thai Baht",
+      "display_name": "Swiss Franc vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "CHFTHB",
+      "symbol_id": "250",
+      "symbol_name": "CHFTHB"
+    },
+    {
+      "base_asset_id": "1001",
+      "description": "Arabica Coffee vs US Dollar",
+      "display_name": "Arabica Coffee vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "COFARA",
+      "symbol_id": "267",
+      "symbol_name": "COFARA"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs New Zealand Dollar",
+      "display_name": "British Pound vs New Zealand Dollar",
+      "enabled": false,
+      "quote_asset_id": "11",
+      "symbolName": "GBPNZD.i",
+      "symbol_id": "288",
+      "symbol_name": "GBPNZD.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Czech Koruna",
+      "display_name": "Euro vs Czech Koruna",
+      "enabled": false,
+      "quote_asset_id": "20",
+      "symbolName": "EURCZK.i",
+      "symbol_id": "291",
+      "symbol_name": "EURCZK.i"
+    },
+    {
+      "base_asset_id": "1083",
+      "description": "Platinum vs US Dollar",
+      "display_name": "Platinum vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XPTUSD.i",
+      "symbol_id": "357",
+      "symbol_name": "XPTUSD.i"
+    },
+    {
+      "base_asset_id": "1055",
+      "description": "China H-SHARES Index",
+      "display_name": "China H-SHARES Index",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "CHINAH.i",
+      "symbol_id": "381",
+      "symbol_name": "CHINAH.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs British Pound",
+      "display_name": "Euro vs British Pound",
+      "enabled": true,
+      "quote_asset_id": "6",
+      "symbolName": "EURGBP",
+      "symbol_id": "9",
+      "symbol_name": "EURGBP"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Hungarian Forint",
+      "display_name": "Euro vs Hungarian Forint",
+      "enabled": true,
+      "quote_asset_id": "7",
+      "symbolName": "EURHUF",
+      "symbol_id": "34",
+      "symbol_name": "EURHUF"
+    },
+    {
+      "base_asset_id": "1012",
+      "description": "Aluminium vs US Dollar",
+      "display_name": "Aluminium vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XALUSD",
+      "symbol_id": "214",
+      "symbol_name": "XALUSD"
+    },
+    {
+      "base_asset_id": "1042",
+      "description": "UK 100 Index",
+      "display_name": "UK 100 Index",
+      "enabled": true,
+      "quote_asset_id": "6",
+      "symbolName": "UK100",
+      "symbol_id": "226",
+      "symbol_name": "UK100"
+    },
+    {
+      "base_asset_id": "1024",
+      "description": "Chainlink vs US Dollar",
+      "display_name": "Chainlink vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "LNKUSD",
+      "symbol_id": "238",
+      "symbol_name": "LNKUSD"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Hong Kong Dollar",
+      "display_name": "Swiss Franc vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "CHFHKD",
+      "symbol_id": "251",
+      "symbol_name": "CHFHKD"
+    },
+    {
+      "base_asset_id": "1005",
+      "description": "Orange Juice vs US Dollar",
+      "display_name": "Orange Juice vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "OJ",
+      "symbol_id": "268",
+      "symbol_name": "OJ"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs New Zealand Dollar",
+      "display_name": "Euro vs New Zealand Dollar",
+      "enabled": false,
+      "quote_asset_id": "11",
+      "symbolName": "EURNZD.i",
+      "symbol_id": "290",
+      "symbol_name": "EURNZD.i"
+    },
+    {
+      "base_asset_id": "1071",
+      "description": "Singaporean Dollar vs Japanese Yen",
+      "display_name": "Singaporean Dollar vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "SGDJPY.i",
+      "symbol_id": "292",
+      "symbol_name": "SGDJPY.i"
+    },
+    {
+      "base_asset_id": "1078",
+      "description": "Gold vs Australian Dollar",
+      "display_name": "Gold vs Australian Dollar",
+      "enabled": false,
+      "quote_asset_id": "1",
+      "symbolName": "XAUAUD.i",
+      "symbol_id": "358",
+      "symbol_name": "XAUAUD.i"
+    },
+    {
+      "base_asset_id": "1052",
+      "description": "Canada 60 Index",
+      "display_name": "Canada 60 Index",
+      "enabled": false,
+      "quote_asset_id": "2",
+      "symbolName": "CA60.i",
+      "symbol_id": "382",
+      "symbol_name": "CA60.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Swiss Franc",
+      "display_name": "Euro vs Swiss Franc",
+      "enabled": true,
+      "quote_asset_id": "3",
+      "symbolName": "EURCHF",
+      "symbol_id": "10",
+      "symbol_name": "EURCHF"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Polish Zloty",
+      "display_name": "US Dollar vs Polish Zloty",
+      "enabled": true,
+      "quote_asset_id": "12",
+      "symbolName": "USDPLN",
+      "symbol_id": "35",
+      "symbol_name": "USDPLN"
+    },
+    {
+      "base_asset_id": "1013",
+      "description": "Copper vs US Dollar",
+      "display_name": "Copper vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XCUUSD",
+      "symbol_id": "215",
+      "symbol_name": "XCUUSD"
+    },
+    {
+      "base_asset_id": "1043",
+      "description": "US 30 Index",
+      "display_name": "US 30 Index",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "US30",
+      "symbol_id": "227",
+      "symbol_name": "US30"
+    },
+    {
+      "base_asset_id": "8",
+      "description": "Japanese Yen vs Thai Baht",
+      "display_name": "Japanese Yen vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "JPYTHB",
+      "symbol_id": "252",
+      "symbol_name": "JPYTHB"
+    },
+    {
+      "base_asset_id": "1021",
+      "description": "Dogecoin vs US Dollar",
+      "display_name": "Dogecoin vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "DOGEUSD",
+      "symbol_id": "257",
+      "symbol_name": "DOGEUSD"
+    },
+    {
+      "base_asset_id": "1004",
+      "description": "Cotton vs US Dollar",
+      "display_name": "Cotton vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "COTTON",
+      "symbol_id": "269",
+      "symbol_name": "COTTON"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs South Korean Won",
+      "display_name": "US Dollar vs South Korean Won",
+      "enabled": false,
+      "quote_asset_id": "1047",
+      "symbolName": "USDKRW.i",
+      "symbol_id": "294",
+      "symbol_name": "USDKRW.i"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Japanese Yen",
+      "display_name": "Swiss Franc vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "CHFJPY.i",
+      "symbol_id": "295",
+      "symbol_name": "CHFJPY.i"
+    },
+    {
+      "base_asset_id": "1080",
+      "description": "Nickel vs US Dollar",
+      "display_name": "Nickel vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XNIUSD.i",
+      "symbol_id": "362",
+      "symbol_name": "XNIUSD.i"
+    },
+    {
+      "base_asset_id": "1061",
+      "description": "German 40 Index",
+      "display_name": "German 40 Index",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "GER40.i",
+      "symbol_id": "383",
+      "symbol_name": "GER40.i"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Japanese Yen",
+      "display_name": "Australian Dollar vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "AUDJPY",
+      "symbol_id": "11",
+      "symbol_name": "AUDJPY"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Danish Krone",
+      "display_name": "US Dollar vs Danish Krone",
+      "enabled": true,
+      "quote_asset_id": "4",
+      "symbolName": "USDDKK",
+      "symbol_id": "36",
+      "symbol_name": "USDDKK"
+    },
+    {
+      "base_asset_id": "1014",
+      "description": "Nickel vs US Dollar",
+      "display_name": "Nickel vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XNIUSD",
+      "symbol_id": "216",
+      "symbol_name": "XNIUSD"
+    },
+    {
+      "base_asset_id": "1044",
+      "description": "US 500 Index",
+      "display_name": "US 500 Index",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "US500",
+      "symbol_id": "228",
+      "symbol_name": "US500"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Thai Baht",
+      "display_name": "Euro vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "EURTHB",
+      "symbol_id": "253",
+      "symbol_name": "EURTHB"
+    },
+    {
+      "base_asset_id": "1020",
+      "description": "Binance Coin vs US Dollar",
+      "display_name": "Binance Coin vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "BNBUSD",
+      "symbol_id": "258",
+      "symbol_name": "BNBUSD"
+    },
+    {
+      "base_asset_id": "1003",
+      "description": "Corn vs US Dollar",
+      "display_name": "Corn vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "CORN",
+      "symbol_id": "270",
+      "symbol_name": "CORN"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Turkish Lira",
+      "display_name": "US Dollar vs Turkish Lira",
+      "enabled": false,
+      "quote_asset_id": "18",
+      "symbolName": "USDTRY.i",
+      "symbol_id": "296",
+      "symbol_name": "USDTRY.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Australian Dollar",
+      "display_name": "Euro vs Australian Dollar",
+      "enabled": false,
+      "quote_asset_id": "1",
+      "symbolName": "EURAUD.i",
+      "symbol_id": "298",
+      "symbol_name": "EURAUD.i"
+    },
+    {
+      "base_asset_id": "1078",
+      "description": "Gold vs US Dollar",
+      "display_name": "Gold vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XAUUSD.i",
+      "symbol_id": "367",
+      "symbol_name": "XAUUSD.i"
+    },
+    {
+      "base_asset_id": "1072",
+      "description": "UK 100 Index",
+      "display_name": "UK 100 Index",
+      "enabled": false,
+      "quote_asset_id": "6",
+      "symbolName": "UK100.i",
+      "symbol_id": "384",
+      "symbol_name": "UK100.i"
+    },
+    {
+      "base_asset_id": "11",
+      "description": "New Zealand Dollar vs US Dollar",
+      "display_name": "New Zealand Dollar vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "NZDUSD",
+      "symbol_id": "12",
+      "symbol_name": "NZDUSD"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Norwegian Krone",
+      "display_name": "British Pound vs Norwegian Krone",
+      "enabled": true,
+      "quote_asset_id": "10",
+      "symbolName": "GBPNOK",
+      "symbol_id": "37",
+      "symbol_name": "GBPNOK"
+    },
+    {
+      "base_asset_id": "1015",
+      "description": "Lead vs US Dollar",
+      "display_name": "Lead vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XPBUSD",
+      "symbol_id": "217",
+      "symbol_name": "XPBUSD"
+    },
+    {
+      "base_asset_id": "1030",
+      "description": "US Dollar Index",
+      "display_name": "US Dollar Index",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "USDX",
+      "symbol_id": "239",
+      "symbol_name": "USDX"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Thai Baht",
+      "display_name": "British Pound vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "GBPTHB",
+      "symbol_id": "254",
+      "symbol_name": "GBPTHB"
+    },
+    {
+      "base_asset_id": "1017",
+      "description": "Cardano vs US Dollar",
+      "display_name": "Cardano vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "ADAUSD",
+      "symbol_id": "259",
+      "symbol_name": "ADAUSD"
+    },
+    {
+      "base_asset_id": "1011",
+      "description": "Wheat vs US Dollar",
+      "display_name": "Wheat vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "WHEAT",
+      "symbol_id": "271",
+      "symbol_name": "WHEAT"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Turkish Lira",
+      "display_name": "Euro vs Turkish Lira",
+      "enabled": false,
+      "quote_asset_id": "18",
+      "symbolName": "EURTRY.i",
+      "symbol_id": "299",
+      "symbol_name": "EURTRY.i"
+    },
+    {
+      "base_asset_id": "1053",
+      "description": "Canadian Dollar vs Japanese Yen",
+      "display_name": "Canadian Dollar vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "CADJPY.i",
+      "symbol_id": "300",
+      "symbol_name": "CADJPY.i"
+    },
+    {
+      "base_asset_id": "1082",
+      "description": "Palladium vs US Dollar",
+      "display_name": "Palladium vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XPDUSD.i",
+      "symbol_id": "368",
+      "symbol_name": "XPDUSD.i"
+    },
+    {
+      "base_asset_id": "1066",
+      "description": "US Tech 100 Index",
+      "display_name": "US Tech 100 Index",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "NAS100.i",
+      "symbol_id": "385",
+      "symbol_name": "NAS100.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Japanese Yen",
+      "display_name": "Swiss Franc vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "CHFJPY",
+      "symbol_id": "13",
+      "symbol_name": "CHFJPY"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Turkish Lira",
+      "display_name": "US Dollar vs Turkish Lira",
+      "enabled": false,
+      "quote_asset_id": "18",
+      "symbolName": "USDTRY",
+      "symbol_id": "43",
+      "symbol_name": "USDTRY"
+    },
+    {
+      "base_asset_id": "1016",
+      "description": "Zinc vs US Dollar",
+      "display_name": "Zinc vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "XZNUSD",
+      "symbol_id": "218",
+      "symbol_name": "XZNUSD"
+    },
+    {
+      "base_asset_id": "1041",
+      "description": "Netherlands 25 Index",
+      "display_name": "Netherlands 25 Index",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "NETH25",
+      "symbol_id": "244",
+      "symbol_name": "NETH25"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Hong Kong Dollar",
+      "display_name": "British Pound vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "GBPHKD",
+      "symbol_id": "255",
+      "symbol_name": "GBPHKD"
+    },
+    {
+      "base_asset_id": "1018",
+      "description": "Avalanche vs US Dollar",
+      "display_name": "Avalanche vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "AVAXUSD",
+      "symbol_id": "273",
+      "symbol_name": "AVAXUSD"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Hong Kong Dollar",
+      "display_name": "Euro vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "EURHKD.i",
+      "symbol_id": "301",
+      "symbol_name": "EURHKD.i"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Australian Dollar",
+      "display_name": "British Pound vs Australian Dollar",
+      "enabled": false,
+      "quote_asset_id": "1",
+      "symbolName": "GBPAUD.i",
+      "symbol_id": "302",
+      "symbol_name": "GBPAUD.i"
+    },
+    {
+      "base_asset_id": "1079",
+      "description": "Copper vs US Dollar",
+      "display_name": "Copper vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "XCUUSD.i",
+      "symbol_id": "369",
+      "symbol_name": "XCUUSD.i"
+    },
+    {
+      "base_asset_id": "1064",
+      "description": "Japan 225 Index",
+      "display_name": "Japan 225 Index",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "JPN225.i",
+      "symbol_id": "386",
+      "symbol_name": "JPN225.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Australian Dollar",
+      "display_name": "Euro vs Australian Dollar",
+      "enabled": true,
+      "quote_asset_id": "1",
+      "symbolName": "EURAUD",
+      "symbol_id": "14",
+      "symbol_name": "EURAUD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Turkish Lira",
+      "display_name": "Euro vs Turkish Lira",
+      "enabled": false,
+      "quote_asset_id": "18",
+      "symbolName": "EURTRY",
+      "symbol_id": "44",
+      "symbol_name": "EURTRY"
+    },
+    {
+      "base_asset_id": "1033",
+      "description": "China H-SHARES Index",
+      "display_name": "China H-SHARES Index",
+      "enabled": true,
+      "quote_asset_id": "23",
+      "symbolName": "CHINAH",
+      "symbol_id": "245",
+      "symbol_name": "CHINAH"
+    },
+    {
+      "base_asset_id": "23",
+      "description": "Hong Kong Dollar vs Thai Baht",
+      "display_name": "Hong Kong Dollar vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "HKDTHB",
+      "symbol_id": "256",
+      "symbol_name": "HKDTHB"
+    },
+    {
+      "base_asset_id": "1028",
+      "description": "Solana vs US Dollar",
+      "display_name": "Solana vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "SOLUSD",
+      "symbol_id": "274",
+      "symbol_name": "SOLUSD"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs South African Rand",
+      "display_name": "Euro vs South African Rand",
+      "enabled": false,
+      "quote_asset_id": "22",
+      "symbolName": "EURZAR.i",
+      "symbol_id": "303",
+      "symbol_name": "EURZAR.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Canadian Dollar",
+      "display_name": "Euro vs Canadian Dollar",
+      "enabled": false,
+      "quote_asset_id": "2",
+      "symbolName": "EURCAD.i",
+      "symbol_id": "304",
+      "symbol_name": "EURCAD.i"
+    },
+    {
+      "base_asset_id": "1062",
+      "description": "Hong Kong 50 Index",
+      "display_name": "Hong Kong 50 Index",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "HK50.i",
+      "symbol_id": "387",
+      "symbol_name": "HK50.i"
+    },
+    {
+      "base_asset_id": "2",
+      "description": "Canadian Dollar vs Japanese Yen",
+      "display_name": "Canadian Dollar vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "CADJPY",
+      "symbol_id": "15",
+      "symbol_name": "CADJPY"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Hong Kong Dollar",
+      "display_name": "Euro vs Hong Kong Dollar",
+      "enabled": true,
+      "quote_asset_id": "23",
+      "symbolName": "EURHKD",
+      "symbol_id": "45",
+      "symbol_name": "EURHKD"
+    },
+    {
+      "base_asset_id": "18",
+      "description": "Turkish Lira vs Japanese Yen",
+      "display_name": "Turkish Lira vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "TRYJPY",
+      "symbol_id": "89",
+      "symbol_name": "TRYJPY"
+    },
+    {
+      "base_asset_id": "1032",
+      "description": "Canada 60 Index",
+      "display_name": "Canada 60 Index",
+      "enabled": true,
+      "quote_asset_id": "2",
+      "symbolName": "CA60",
+      "symbol_id": "246",
+      "symbol_name": "CA60"
+    },
+    {
+      "base_asset_id": "1027",
+      "description": "Polygon vs US Dollar",
+      "display_name": "Polygon vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "MATICUSD",
+      "symbol_id": "275",
+      "symbol_name": "MATICUSD"
+    },
+    {
+      "base_asset_id": "1053",
+      "description": "Canadian Dollar vs Swiss Franc",
+      "display_name": "Canadian Dollar vs Swiss Franc",
+      "enabled": false,
+      "quote_asset_id": "3",
+      "symbolName": "CADCHF.i",
+      "symbol_id": "305",
+      "symbol_name": "CADCHF.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Czech Koruna",
+      "display_name": "US Dollar vs Czech Koruna",
+      "enabled": false,
+      "quote_asset_id": "20",
+      "symbolName": "USDCZK.i",
+      "symbol_id": "306",
+      "symbol_name": "USDCZK.i"
+    },
+    {
+      "base_asset_id": "1059",
+      "description": "France 40 Index",
+      "display_name": "France 40 Index",
+      "enabled": false,
+      "quote_asset_id": "5",
+      "symbolName": "FRA40.i",
+      "symbol_id": "388",
+      "symbol_name": "FRA40.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Australian Dollar",
+      "display_name": "British Pound vs Australian Dollar",
+      "enabled": true,
+      "quote_asset_id": "1",
+      "symbolName": "GBPAUD",
+      "symbol_id": "16",
+      "symbol_name": "GBPAUD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs South African Rand",
+      "display_name": "Euro vs South African Rand",
+      "enabled": true,
+      "quote_asset_id": "22",
+      "symbolName": "EURZAR",
+      "symbol_id": "46",
+      "symbol_name": "EURZAR"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Swedish Krona",
+      "display_name": "Australian Dollar vs Swedish Krona",
+      "enabled": false,
+      "quote_asset_id": "13",
+      "symbolName": "AUDSEK",
+      "symbol_id": "63",
+      "symbol_name": "AUDSEK"
+    },
+    {
+      "base_asset_id": "1037",
+      "description": "German 40 Index",
+      "display_name": "German 40 Index",
+      "enabled": true,
+      "quote_asset_id": "5",
+      "symbolName": "GER40",
+      "symbol_id": "260",
+      "symbol_name": "GER40"
+    },
+    {
+      "base_asset_id": "1069",
+      "description": "New Zealand Dollar vs Canadian Dollar",
+      "display_name": "New Zealand Dollar vs Canadian Dollar",
+      "enabled": false,
+      "quote_asset_id": "2",
+      "symbolName": "NZDCAD.i",
+      "symbol_id": "307",
+      "symbol_name": "NZDCAD.i"
+    },
+    {
+      "base_asset_id": "1068",
+      "description": "Norwegian Krone vs Japanese Yen",
+      "display_name": "Norwegian Krone vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "NOKJPY.i",
+      "symbol_id": "308",
+      "symbol_name": "NOKJPY.i"
+    },
+    {
+      "base_asset_id": "1087",
+      "description": "US 2000 Index",
+      "display_name": "US 2000 Index",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "US2000.i",
+      "symbol_id": "390",
+      "symbol_name": "US2000.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Canadian Dollar",
+      "display_name": "Euro vs Canadian Dollar",
+      "enabled": true,
+      "quote_asset_id": "2",
+      "symbolName": "EURCAD",
+      "symbol_id": "17",
+      "symbol_name": "EURCAD"
+    },
+    {
+      "base_asset_id": "14",
+      "description": "Singaporean Dollar vs Japanese Yen",
+      "display_name": "Singaporean Dollar vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "SGDJPY",
+      "symbol_id": "47",
+      "symbol_name": "SGDJPY"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs South African Rand",
+      "display_name": "Australian Dollar vs South African Rand",
+      "enabled": false,
+      "quote_asset_id": "22",
+      "symbolName": "AUDZAR",
+      "symbol_id": "65",
+      "symbol_name": "AUDZAR"
+    },
+    {
+      "base_asset_id": "1068",
+      "description": "Norwegian Krone vs Swedish Krona",
+      "display_name": "Norwegian Krone vs Swedish Krona",
+      "enabled": false,
+      "quote_asset_id": "13",
+      "symbolName": "NOKSEK.i",
+      "symbol_id": "309",
+      "symbol_name": "NOKSEK.i"
+    },
+    {
+      "base_asset_id": "1069",
+      "description": "New Zealand Dollar vs Swiss Franc",
+      "display_name": "New Zealand Dollar vs Swiss Franc",
+      "enabled": false,
+      "quote_asset_id": "3",
+      "symbolName": "NZDCHF.i",
+      "symbol_id": "328",
+      "symbol_name": "NZDCHF.i"
+    },
+    {
+      "base_asset_id": "1086",
+      "description": "US 2000 Index",
+      "display_name": "US 2000 Index",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "US2000",
+      "symbol_id": "389",
+      "symbol_name": "US2000"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Canadian Dollar",
+      "display_name": "Australian Dollar vs Canadian Dollar",
+      "enabled": true,
+      "quote_asset_id": "2",
+      "symbolName": "AUDCAD",
+      "symbol_id": "18",
+      "symbol_name": "AUDCAD"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs South African Rand",
+      "display_name": "US Dollar vs South African Rand",
+      "enabled": true,
+      "quote_asset_id": "22",
+      "symbolName": "USDZAR",
+      "symbol_id": "49",
+      "symbol_name": "USDZAR"
+    },
+    {
+      "base_asset_id": "2",
+      "description": "Canadian Dollar vs Hong Kong Dollar",
+      "display_name": "Canadian Dollar vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "CADHKD",
+      "symbol_id": "67",
+      "symbol_name": "CADHKD"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Thai Baht",
+      "display_name": "US Dollar vs Thai Baht",
+      "enabled": false,
+      "quote_asset_id": "26",
+      "symbolName": "USDTHB.i",
+      "symbol_id": "310",
+      "symbol_name": "USDTHB.i"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Swiss Franc",
+      "display_name": "British Pound vs Swiss Franc",
+      "enabled": false,
+      "quote_asset_id": "3",
+      "symbolName": "GBPCHF.i",
+      "symbol_id": "330",
+      "symbol_name": "GBPCHF.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Canadian Dollar",
+      "display_name": "British Pound vs Canadian Dollar",
+      "enabled": true,
+      "quote_asset_id": "2",
+      "symbolName": "GBPCAD",
+      "symbol_id": "19",
+      "symbol_name": "GBPCAD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Mexican Peso",
+      "display_name": "Euro vs Mexican Peso",
+      "enabled": true,
+      "quote_asset_id": "9",
+      "symbolName": "EURMXN",
+      "symbol_id": "50",
+      "symbol_name": "EURMXN"
+    },
+    {
+      "base_asset_id": "2",
+      "description": "Canadian Dollar vs Singaporean Dollar",
+      "display_name": "Canadian Dollar vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "CADSGD",
+      "symbol_id": "71",
+      "symbol_name": "CADSGD"
+    },
+    {
+      "base_asset_id": "1085",
+      "description": "South African Rand vs Japanese Yen",
+      "display_name": "South African Rand vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "ZARJPY.i",
+      "symbol_id": "311",
+      "symbol_name": "ZARJPY.i"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs US Dollar",
+      "display_name": "Australian Dollar vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "AUDUSD.i",
+      "symbol_id": "332",
+      "symbol_name": "AUDUSD.i"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs New Zealand Dollar",
+      "display_name": "Australian Dollar vs New Zealand Dollar",
+      "enabled": true,
+      "quote_asset_id": "11",
+      "symbolName": "AUDNZD",
+      "symbol_id": "20",
+      "symbol_name": "AUDNZD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Polish Zloty",
+      "display_name": "Euro vs Polish Zloty",
+      "enabled": true,
+      "quote_asset_id": "12",
+      "symbolName": "EURPLN",
+      "symbol_id": "51",
+      "symbol_name": "EURPLN"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs Hungarian Forint",
+      "display_name": "Australian Dollar vs Hungarian Forint",
+      "enabled": false,
+      "quote_asset_id": "7",
+      "symbolName": "AUDHUF.i",
+      "symbol_id": "312",
+      "symbol_name": "AUDHUF.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Hong Kong Dollar",
+      "display_name": "US Dollar vs Hong Kong Dollar",
+      "enabled": false,
+      "quote_asset_id": "23",
+      "symbolName": "USDHKD.i",
+      "symbol_id": "335",
+      "symbol_name": "USDHKD.i"
+    },
+    {
+      "base_asset_id": "11",
+      "description": "New Zealand Dollar vs Japanese Yen",
+      "display_name": "New Zealand Dollar vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "NZDJPY",
+      "symbol_id": "21",
+      "symbol_name": "NZDJPY"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs South African Rand",
+      "display_name": "British Pound vs South African Rand",
+      "enabled": true,
+      "quote_asset_id": "22",
+      "symbolName": "GBPZAR",
+      "symbol_id": "52",
+      "symbol_name": "GBPZAR"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Danish Krone",
+      "display_name": "Swiss Franc vs Danish Krone",
+      "enabled": false,
+      "quote_asset_id": "4",
+      "symbolName": "CHFDKK.i",
+      "symbol_id": "313",
+      "symbol_name": "CHFDKK.i"
+    },
+    {
+      "base_asset_id": "1069",
+      "description": "New Zealand Dollar vs US Dollar",
+      "display_name": "New Zealand Dollar vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "NZDUSD.i",
+      "symbol_id": "344",
+      "symbol_name": "NZDUSD.i"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Swiss Franc",
+      "display_name": "Australian Dollar vs Swiss Franc",
+      "enabled": true,
+      "quote_asset_id": "3",
+      "symbolName": "AUDCHF",
+      "symbol_id": "23",
+      "symbol_name": "AUDCHF"
+    },
+    {
+      "base_asset_id": "11",
+      "description": "New Zealand Dollar vs Singaporean Dollar",
+      "display_name": "New Zealand Dollar vs Singaporean Dollar",
+      "enabled": true,
+      "quote_asset_id": "14",
+      "symbolName": "NZDSGD",
+      "symbol_id": "53",
+      "symbol_name": "NZDSGD"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Hungarian Forint",
+      "display_name": "Swiss Franc vs Hungarian Forint",
+      "enabled": false,
+      "quote_asset_id": "7",
+      "symbolName": "CHFHUF.i",
+      "symbol_id": "314",
+      "symbol_name": "CHFHUF.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs British Pound",
+      "display_name": "Euro vs British Pound",
+      "enabled": false,
+      "quote_asset_id": "6",
+      "symbolName": "EURGBP.i",
+      "symbol_id": "350",
+      "symbol_name": "EURGBP.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs New Zealand Dollar",
+      "display_name": "British Pound vs New Zealand Dollar",
+      "enabled": true,
+      "quote_asset_id": "11",
+      "symbolName": "GBPNZD",
+      "symbol_id": "25",
+      "symbol_name": "GBPNZD"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Hungarian Forint",
+      "display_name": "US Dollar vs Hungarian Forint",
+      "enabled": true,
+      "quote_asset_id": "7",
+      "symbolName": "USDHUF",
+      "symbol_id": "54",
+      "symbol_name": "USDHUF"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Hungarian Forint",
+      "display_name": "British Pound vs Hungarian Forint",
+      "enabled": false,
+      "quote_asset_id": "7",
+      "symbolName": "GBPHUF.i",
+      "symbol_id": "315",
+      "symbol_name": "GBPHUF.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Japanese Yen",
+      "display_name": "Euro vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "EURJPY.i",
+      "symbol_id": "352",
+      "symbol_name": "EURJPY.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs New Zealand Dollar",
+      "display_name": "Euro vs New Zealand Dollar",
+      "enabled": true,
+      "quote_asset_id": "11",
+      "symbolName": "EURNZD",
+      "symbol_id": "26",
+      "symbol_name": "EURNZD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Czech Koruna",
+      "display_name": "Euro vs Czech Koruna",
+      "enabled": true,
+      "quote_asset_id": "20",
+      "symbolName": "EURCZK",
+      "symbol_id": "55",
+      "symbol_name": "EURCZK"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Mexican Peso",
+      "display_name": "British Pound vs Mexican Peso",
+      "enabled": false,
+      "quote_asset_id": "9",
+      "symbolName": "GBPMXN.i",
+      "symbol_id": "316",
+      "symbol_name": "GBPMXN.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Canadian Dollar",
+      "display_name": "US Dollar vs Canadian Dollar",
+      "enabled": false,
+      "quote_asset_id": "2",
+      "symbolName": "USDCAD.i",
+      "symbol_id": "354",
+      "symbol_name": "USDCAD.i"
+    },
+    {
+      "base_asset_id": "2",
+      "description": "Canadian Dollar vs Swiss Franc",
+      "display_name": "Canadian Dollar vs Swiss Franc",
+      "enabled": true,
+      "quote_asset_id": "3",
+      "symbolName": "CADCHF",
+      "symbol_id": "27",
+      "symbol_name": "CADCHF"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Czech Koruna",
+      "display_name": "US Dollar vs Czech Koruna",
+      "enabled": true,
+      "quote_asset_id": "20",
+      "symbolName": "USDCZK",
+      "symbol_id": "56",
+      "symbol_name": "USDCZK"
+    },
+    {
+      "base_asset_id": "1069",
+      "description": "New Zealand Dollar vs Hungarian Forint",
+      "display_name": "New Zealand Dollar vs Hungarian Forint",
+      "enabled": false,
+      "quote_asset_id": "7",
+      "symbolName": "NZDHUF.i",
+      "symbol_id": "317",
+      "symbol_name": "NZDHUF.i"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Swiss Franc",
+      "display_name": "Euro vs Swiss Franc",
+      "enabled": false,
+      "quote_asset_id": "3",
+      "symbolName": "EURCHF.i",
+      "symbol_id": "361",
+      "symbol_name": "EURCHF.i"
+    },
+    {
+      "base_asset_id": "11",
+      "description": "New Zealand Dollar vs Canadian Dollar",
+      "display_name": "New Zealand Dollar vs Canadian Dollar",
+      "enabled": true,
+      "quote_asset_id": "2",
+      "symbolName": "NZDCAD",
+      "symbol_id": "30",
+      "symbol_name": "NZDCAD"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Danish Krone",
+      "display_name": "Euro vs Danish Krone",
+      "enabled": true,
+      "quote_asset_id": "4",
+      "symbolName": "EURDKK",
+      "symbol_id": "57",
+      "symbol_name": "EURDKK"
+    },
+    {
+      "base_asset_id": "1070",
+      "description": "Swedish Krona vs Japanese Yen",
+      "display_name": "Swedish Krona vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "SEKJPY.i",
+      "symbol_id": "318",
+      "symbol_name": "SEKJPY.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Japanese Yen",
+      "display_name": "US Dollar vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "USDJPY.i",
+      "symbol_id": "364",
+      "symbol_name": "USDJPY.i"
+    },
+    {
+      "base_asset_id": "11",
+      "description": "New Zealand Dollar vs Swiss Franc",
+      "display_name": "New Zealand Dollar vs Swiss Franc",
+      "enabled": true,
+      "quote_asset_id": "3",
+      "symbolName": "NZDCHF",
+      "symbol_id": "39",
+      "symbol_name": "NZDCHF"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Russian Ruble",
+      "display_name": "US Dollar vs Russian Ruble",
+      "enabled": false,
+      "quote_asset_id": "19",
+      "symbolName": "USDRUB",
+      "symbol_id": "59",
+      "symbol_name": "USDRUB"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Israeli Shekel",
+      "display_name": "US Dollar vs Israeli Shekel",
+      "enabled": false,
+      "quote_asset_id": "24",
+      "symbolName": "USDILS.i",
+      "symbol_id": "319",
+      "symbol_name": "USDILS.i"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs Japanese Yen",
+      "display_name": "Australian Dollar vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "AUDJPY.i",
+      "symbol_id": "366",
+      "symbol_name": "AUDJPY.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Swiss Franc",
+      "display_name": "British Pound vs Swiss Franc",
+      "enabled": true,
+      "quote_asset_id": "3",
+      "symbolName": "GBPCHF",
+      "symbol_id": "40",
+      "symbol_name": "GBPCHF"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Chinese Yuan",
+      "display_name": "US Dollar vs Chinese Yuan",
+      "enabled": true,
+      "quote_asset_id": "21",
+      "symbolName": "USDCNH",
+      "symbol_id": "60",
+      "symbol_name": "USDCNH"
+    },
+    {
+      "base_asset_id": "1065",
+      "description": "Mexican Peso vs Japanese Yen",
+      "display_name": "Mexican Peso vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "MXNJPY.i",
+      "symbol_id": "320",
+      "symbol_name": "MXNJPY.i"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs US Dollar",
+      "display_name": "British Pound vs US Dollar",
+      "enabled": false,
+      "quote_asset_id": "15",
+      "symbolName": "GBPUSD.i",
+      "symbol_id": "371",
+      "symbol_name": "GBPUSD.i"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs US Dollar",
+      "display_name": "Australian Dollar vs US Dollar",
+      "enabled": true,
+      "quote_asset_id": "15",
+      "symbolName": "AUDUSD",
+      "symbol_id": "5",
+      "symbol_name": "AUDUSD"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Swedish Krona",
+      "display_name": "British Pound vs Swedish Krona",
+      "enabled": true,
+      "quote_asset_id": "13",
+      "symbolName": "GBPSEK",
+      "symbol_id": "61",
+      "symbol_name": "GBPSEK"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Indian Rupee",
+      "display_name": "US Dollar vs Indian Rupee",
+      "enabled": false,
+      "quote_asset_id": "1045",
+      "symbolName": "USDINR.i",
+      "symbol_id": "321",
+      "symbol_name": "USDINR.i"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Swiss Franc",
+      "display_name": "US Dollar vs Swiss Franc",
+      "enabled": false,
+      "quote_asset_id": "3",
+      "symbolName": "USDCHF.i",
+      "symbol_id": "373",
+      "symbol_name": "USDCHF.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Hong Kong Dollar",
+      "display_name": "US Dollar vs Hong Kong Dollar",
+      "enabled": true,
+      "quote_asset_id": "23",
+      "symbolName": "USDHKD",
+      "symbol_id": "48",
+      "symbol_name": "USDHKD"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Polish Zloty",
+      "display_name": "British Pound vs Polish Zloty",
+      "enabled": true,
+      "quote_asset_id": "12",
+      "symbolName": "GBPPLN",
+      "symbol_id": "62",
+      "symbol_name": "GBPPLN"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Indonesian Rupiah",
+      "display_name": "US Dollar vs Indonesian Rupiah",
+      "enabled": false,
+      "quote_asset_id": "1046",
+      "symbolName": "USDIDR.i",
+      "symbol_id": "322",
+      "symbol_name": "USDIDR.i"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Japanese Yen",
+      "display_name": "British Pound vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "GBPJPY.i",
+      "symbol_id": "374",
+      "symbol_name": "GBPJPY.i"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Singaporean Dollar",
+      "display_name": "Australian Dollar vs Singaporean Dollar",
+      "enabled": true,
+      "quote_asset_id": "14",
+      "symbolName": "AUDSGD",
+      "symbol_id": "64",
+      "symbol_name": "AUDSGD"
+    },
+    {
+      "base_asset_id": "1063",
+      "description": "Hong Kong Dollar vs Japanese Yen",
+      "display_name": "Hong Kong Dollar vs Japanese Yen",
+      "enabled": false,
+      "quote_asset_id": "8",
+      "symbolName": "HKDJPY.i",
+      "symbol_id": "323",
+      "symbol_name": "HKDJPY.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Norwegian Krone",
+      "display_name": "Swiss Franc vs Norwegian Krone",
+      "enabled": true,
+      "quote_asset_id": "10",
+      "symbolName": "CHFNOK",
+      "symbol_id": "72",
+      "symbol_name": "CHFNOK"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Turkish Lira",
+      "display_name": "British Pound vs Turkish Lira",
+      "enabled": false,
+      "quote_asset_id": "18",
+      "symbolName": "GBPTRY.i",
+      "symbol_id": "324",
+      "symbol_name": "GBPTRY.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Polish Zloty",
+      "display_name": "Swiss Franc vs Polish Zloty",
+      "enabled": true,
+      "quote_asset_id": "12",
+      "symbolName": "CHFPLN",
+      "symbol_id": "73",
+      "symbol_name": "CHFPLN"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Danish Krone",
+      "display_name": "British Pound vs Danish Krone",
+      "enabled": false,
+      "quote_asset_id": "4",
+      "symbolName": "GBPDKK.i",
+      "symbol_id": "325",
+      "symbol_name": "GBPDKK.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Swedish Krona",
+      "display_name": "Swiss Franc vs Swedish Krona",
+      "enabled": true,
+      "quote_asset_id": "13",
+      "symbolName": "CHFSEK",
+      "symbol_id": "74",
+      "symbol_name": "CHFSEK"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Singaporean Dollar",
+      "display_name": "Euro vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "EURSGD.i",
+      "symbol_id": "326",
+      "symbol_name": "EURSGD.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Singaporean Dollar",
+      "display_name": "Swiss Franc vs Singaporean Dollar",
+      "enabled": true,
+      "quote_asset_id": "14",
+      "symbolName": "CHFSGD",
+      "symbol_id": "75",
+      "symbol_name": "CHFSGD"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Danish Krone",
+      "display_name": "Euro vs Danish Krone",
+      "enabled": false,
+      "quote_asset_id": "4",
+      "symbolName": "EURDKK.i",
+      "symbol_id": "327",
+      "symbol_name": "EURDKK.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Israeli Shekel",
+      "display_name": "Euro vs Israeli Shekel",
+      "enabled": true,
+      "quote_asset_id": "24",
+      "symbolName": "EURILS",
+      "symbol_id": "80",
+      "symbol_name": "EURILS"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Russian Ruble",
+      "display_name": "US Dollar vs Russian Ruble",
+      "enabled": false,
+      "quote_asset_id": "19",
+      "symbolName": "USDRUB.i",
+      "symbol_id": "331",
+      "symbol_name": "USDRUB.i"
+    },
+    {
+      "base_asset_id": "5",
+      "description": "Euro vs Singaporean Dollar",
+      "display_name": "Euro vs Singaporean Dollar",
+      "enabled": true,
+      "quote_asset_id": "14",
+      "symbolName": "EURSGD",
+      "symbol_id": "82",
+      "symbol_name": "EURSGD"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Chinese Yuan",
+      "display_name": "US Dollar vs Chinese Yuan",
+      "enabled": false,
+      "quote_asset_id": "21",
+      "symbolName": "USDCNH.i",
+      "symbol_id": "333",
+      "symbol_name": "USDCNH.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Danish Krone",
+      "display_name": "British Pound vs Danish Krone",
+      "enabled": true,
+      "quote_asset_id": "4",
+      "symbolName": "GBPDKK",
+      "symbol_id": "83",
+      "symbol_name": "GBPDKK"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Norwegian Krone",
+      "display_name": "British Pound vs Norwegian Krone",
+      "enabled": false,
+      "quote_asset_id": "10",
+      "symbolName": "GBPNOK.i",
+      "symbol_id": "334",
+      "symbol_name": "GBPNOK.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Turkish Lira",
+      "display_name": "British Pound vs Turkish Lira",
+      "enabled": false,
+      "quote_asset_id": "18",
+      "symbolName": "GBPTRY",
+      "symbol_id": "84",
+      "symbol_name": "GBPTRY"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Polish Zloty",
+      "display_name": "British Pound vs Polish Zloty",
+      "enabled": false,
+      "quote_asset_id": "12",
+      "symbolName": "GBPPLN.i",
+      "symbol_id": "336",
+      "symbol_name": "GBPPLN.i"
+    },
+    {
+      "base_asset_id": "23",
+      "description": "Hong Kong Dollar vs Japanese Yen",
+      "display_name": "Hong Kong Dollar vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "HKDJPY",
+      "symbol_id": "85",
+      "symbol_name": "HKDJPY"
+    },
+    {
+      "base_asset_id": "1050",
+      "description": "Australian Dollar vs Singaporean Dollar",
+      "display_name": "Australian Dollar vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "AUDSGD.i",
+      "symbol_id": "337",
+      "symbol_name": "AUDSGD.i"
+    },
+    {
+      "base_asset_id": "10",
+      "description": "Norwegian Krone vs Japanese Yen",
+      "display_name": "Norwegian Krone vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "NOKJPY",
+      "symbol_id": "86",
+      "symbol_name": "NOKJPY"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Norwegian Krone",
+      "display_name": "Swiss Franc vs Norwegian Krone",
+      "enabled": false,
+      "quote_asset_id": "10",
+      "symbolName": "CHFNOK.i",
+      "symbol_id": "338",
+      "symbol_name": "CHFNOK.i"
+    },
+    {
+      "base_asset_id": "10",
+      "description": "Norwegian Krone vs Swedish Krona",
+      "display_name": "Norwegian Krone vs Swedish Krona",
+      "enabled": true,
+      "quote_asset_id": "13",
+      "symbolName": "NOKSEK",
+      "symbol_id": "87",
+      "symbol_name": "NOKSEK"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Polish Zloty",
+      "display_name": "Swiss Franc vs Polish Zloty",
+      "enabled": false,
+      "quote_asset_id": "12",
+      "symbolName": "CHFPLN.i",
+      "symbol_id": "339",
+      "symbol_name": "CHFPLN.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Thai Baht",
+      "display_name": "US Dollar vs Thai Baht",
+      "enabled": true,
+      "quote_asset_id": "26",
+      "symbolName": "USDTHB",
+      "symbol_id": "91",
+      "symbol_name": "USDTHB"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Swedish Krona",
+      "display_name": "Swiss Franc vs Swedish Krona",
+      "enabled": false,
+      "quote_asset_id": "13",
+      "symbolName": "CHFSEK.i",
+      "symbol_id": "340",
+      "symbol_name": "CHFSEK.i"
+    },
+    {
+      "base_asset_id": "22",
+      "description": "South African Rand vs Japanese Yen",
+      "display_name": "South African Rand vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "ZARJPY",
+      "symbol_id": "98",
+      "symbol_name": "ZARJPY"
+    },
+    {
+      "base_asset_id": "1054",
+      "description": "Swiss Franc vs Singaporean Dollar",
+      "display_name": "Swiss Franc vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "CHFSGD.i",
+      "symbol_id": "341",
+      "symbol_name": "CHFSGD.i"
+    },
+    {
+      "base_asset_id": "1",
+      "description": "Australian Dollar vs Hungarian Forint",
+      "display_name": "Australian Dollar vs Hungarian Forint",
+      "enabled": true,
+      "quote_asset_id": "7",
+      "symbolName": "AUDHUF",
+      "symbol_id": "205",
+      "symbol_name": "AUDHUF"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Israeli Shekel",
+      "display_name": "Euro vs Israeli Shekel",
+      "enabled": false,
+      "quote_asset_id": "24",
+      "symbolName": "EURILS.i",
+      "symbol_id": "342",
+      "symbol_name": "EURILS.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Danish Krone",
+      "display_name": "Swiss Franc vs Danish Krone",
+      "enabled": true,
+      "quote_asset_id": "4",
+      "symbolName": "CHFDKK",
+      "symbol_id": "206",
+      "symbol_name": "CHFDKK"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Swedish Krona",
+      "display_name": "British Pound vs Swedish Krona",
+      "enabled": false,
+      "quote_asset_id": "13",
+      "symbolName": "GBPSEK.i",
+      "symbol_id": "343",
+      "symbol_name": "GBPSEK.i"
+    },
+    {
+      "base_asset_id": "3",
+      "description": "Swiss Franc vs Hungarian Forint",
+      "display_name": "Swiss Franc vs Hungarian Forint",
+      "enabled": true,
+      "quote_asset_id": "7",
+      "symbolName": "CHFHUF",
+      "symbol_id": "207",
+      "symbol_name": "CHFHUF"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Brazilian Real",
+      "display_name": "US Dollar vs Brazilian Real",
+      "enabled": false,
+      "quote_asset_id": "1048",
+      "symbolName": "USDBRL.i",
+      "symbol_id": "345",
+      "symbol_name": "USDBRL.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Hungarian Forint",
+      "display_name": "British Pound vs Hungarian Forint",
+      "enabled": true,
+      "quote_asset_id": "7",
+      "symbolName": "GBPHUF",
+      "symbol_id": "208",
+      "symbol_name": "GBPHUF"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Swedish Krona",
+      "display_name": "US Dollar vs Swedish Krona",
+      "enabled": false,
+      "quote_asset_id": "13",
+      "symbolName": "USDSEK.i",
+      "symbol_id": "346",
+      "symbol_name": "USDSEK.i"
+    },
+    {
+      "base_asset_id": "6",
+      "description": "British Pound vs Mexican Peso",
+      "display_name": "British Pound vs Mexican Peso",
+      "enabled": true,
+      "quote_asset_id": "9",
+      "symbolName": "GBPMXN",
+      "symbol_id": "209",
+      "symbol_name": "GBPMXN"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Hungarian Forint",
+      "display_name": "Euro vs Hungarian Forint",
+      "enabled": false,
+      "quote_asset_id": "7",
+      "symbolName": "EURHUF.i",
+      "symbol_id": "348",
+      "symbol_name": "EURHUF.i"
+    },
+    {
+      "base_asset_id": "11",
+      "description": "New Zealand Dollar vs Hungarian Forint",
+      "display_name": "New Zealand Dollar vs Hungarian Forint",
+      "enabled": true,
+      "quote_asset_id": "7",
+      "symbolName": "NZDHUF",
+      "symbol_id": "210",
+      "symbol_name": "NZDHUF"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Norwegian Krone",
+      "display_name": "Euro vs Norwegian Krone",
+      "enabled": false,
+      "quote_asset_id": "10",
+      "symbolName": "EURNOK.i",
+      "symbol_id": "353",
+      "symbol_name": "EURNOK.i"
+    },
+    {
+      "base_asset_id": "13",
+      "description": "Swedish Krona vs Japanese Yen",
+      "display_name": "Swedish Krona vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "SEKJPY",
+      "symbol_id": "211",
+      "symbol_name": "SEKJPY"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Singaporean Dollar",
+      "display_name": "US Dollar vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "USDSGD.i",
+      "symbol_id": "355",
+      "symbol_name": "USDSGD.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Israeli Shekel",
+      "display_name": "US Dollar vs Israeli Shekel",
+      "enabled": true,
+      "quote_asset_id": "24",
+      "symbolName": "USDILS",
+      "symbol_id": "212",
+      "symbol_name": "USDILS"
+    },
+    {
+      "base_asset_id": "1060",
+      "description": "British Pound vs Singaporean Dollar",
+      "display_name": "British Pound vs Singaporean Dollar",
+      "enabled": false,
+      "quote_asset_id": "14",
+      "symbolName": "GBPSGD.i",
+      "symbol_id": "359",
+      "symbol_name": "GBPSGD.i"
+    },
+    {
+      "base_asset_id": "9",
+      "description": "Mexican Peso vs Japanese Yen",
+      "display_name": "Mexican Peso vs Japanese Yen",
+      "enabled": true,
+      "quote_asset_id": "8",
+      "symbolName": "MXNJPY",
+      "symbol_id": "234",
+      "symbol_name": "MXNJPY"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Mexican Peso",
+      "display_name": "US Dollar vs Mexican Peso",
+      "enabled": false,
+      "quote_asset_id": "9",
+      "symbolName": "USDMXN.i",
+      "symbol_id": "360",
+      "symbol_name": "USDMXN.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Indian Rupee",
+      "display_name": "US Dollar vs Indian Rupee",
+      "enabled": true,
+      "quote_asset_id": "1045",
+      "symbolName": "USDINR",
+      "symbol_id": "240",
+      "symbol_name": "USDINR"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Danish Krone",
+      "display_name": "US Dollar vs Danish Krone",
+      "enabled": false,
+      "quote_asset_id": "4",
+      "symbolName": "USDDKK.i",
+      "symbol_id": "363",
+      "symbol_name": "USDDKK.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Indonesian Rupiah",
+      "display_name": "US Dollar vs Indonesian Rupiah",
+      "enabled": true,
+      "quote_asset_id": "1046",
+      "symbolName": "USDIDR",
+      "symbol_id": "241",
+      "symbol_name": "USDIDR"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Norwegian Krone",
+      "display_name": "US Dollar vs Norwegian Krone",
+      "enabled": false,
+      "quote_asset_id": "10",
+      "symbolName": "USDNOK.i",
+      "symbol_id": "365",
+      "symbol_name": "USDNOK.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs South Korean Won",
+      "display_name": "US Dollar vs South Korean Won",
+      "enabled": true,
+      "quote_asset_id": "1047",
+      "symbolName": "USDKRW",
+      "symbol_id": "242",
+      "symbol_name": "USDKRW"
+    },
+    {
+      "base_asset_id": "1075",
+      "description": "US Dollar vs Polish Zloty",
+      "display_name": "US Dollar vs Polish Zloty",
+      "enabled": false,
+      "quote_asset_id": "12",
+      "symbolName": "USDPLN.i",
+      "symbol_id": "370",
+      "symbol_name": "USDPLN.i"
+    },
+    {
+      "base_asset_id": "15",
+      "description": "US Dollar vs Brazilian Real",
+      "display_name": "US Dollar vs Brazilian Real",
+      "enabled": true,
+      "quote_asset_id": "1048",
+      "symbolName": "USDBRL",
+      "symbol_id": "243",
+      "symbol_name": "USDBRL"
+    },
+    {
+      "base_asset_id": "1057",
+      "description": "Euro vs Swedish Krona",
+      "display_name": "Euro vs Swedish Krona",
+      "enabled": false,
+      "quote_asset_id": "13",
+      "symbolName": "EURSEK.i",
+      "symbol_id": "372",
+      "symbol_name": "EURSEK.i"
+    }
+  ],
+  "symbols_found": 274
+}
+

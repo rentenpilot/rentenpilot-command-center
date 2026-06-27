@@ -1,0 +1,18 @@
+﻿{
+  "ask": null,
+  "bid": null,
+  "description": "German 40 Index",
+  "display_name": "German 40 Index",
+  "label": "DAX",
+  "last_price": null,
+  "mapping_source": "cache",
+  "message": "symbol mapped, quote subscription pending",
+  "mode": "read_only",
+  "provider": "cTrader",
+  "spread": null,
+  "status": "mapped",
+  "symbol": "GER40",
+  "symbol_id": "260",
+  "updated_at": null
+}
+

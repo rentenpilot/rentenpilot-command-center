@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentenPilot – Hermes Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="background-effects">
+        <canvas id="bg-stars"></canvas>
+        <div class="radial-glow"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <!-- HEADER -->
+        <header class="header">
+            <!-- Left Status -->
+            <div class="hud-panel status-panel left-status">
+                <div class="panel-header">
+                    <span class="panel-title">HERMES STATUS</span>
+                    <span class="status-indicator"><span class="dot green-dot"></span> ONLINE</span>
+                </div>
+                <div class="status-grid">
+                    <div class="sg-row"><span class="sg-label">Modus:</span> <span class="sg-value text-cyan">Aktiver Assistent</span></div>
+                    <div class="sg-row"><span class="sg-label">Verbindung:</span> <span class="sg-value text-blue">Stabil</span></div>
+                    <div class="sg-row"><span class="sg-label">Modell:</span> <span id="live-model" class="sg-value text-cyan">–</span></div>
+                    <div class="sg-row"><span class="sg-label">Antwortzeit:</span> <span id="live-response-time" class="sg-value">–</span></div>
+                </div>
+                <div class="graph-placeholder">
+                    <svg viewBox="0 0 100 20" preserveAspectRatio="none" class="sparkline">
+                        <path d="M0,15 L10,12 L20,18 L30,8 L40,14 L50,5 L60,16 L70,10 L80,15 L90,6 L100,12" fill="none" stroke="#00d4ff" stroke-width="1.5" />
+                        <path d="M0,15 L10,12 L20,18 L30,8 L40,14 L50,5 L60,16 L70,10 L80,15 L90,6 L100,12 L100,20 L0,20 Z" fill="url(#grad)" opacity="0.3"/>
+                        <defs>
+                            <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#00d4ff"/>
+                                <stop offset="100%" stop-color="transparent"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Center Brand -->
+            <div class="brand-container">
+                <h1 class="brand-title">RENTENPILOT</h1>
+                <div class="brand-subtitle">HERMES COMMAND CENTER</div>
+            </div>
+
+            <!-- Right Status -->
+            <div class="hud-panel status-panel right-status">
+                <div class="datetime-display">
+                    <div class="date-col">
+                        <div id="date-display">–</div>
+                        <div id="day-display">–</div>
+                    </div>
+                    <div class="time-col" id="time-display">––:––:––</div>
+                </div>
+                <div class="system-online-badge">
+                    <span class="dot green-dot"></span> SYSTEM ONLINE
+                </div>
+                <div class="status-grid sys-metrics">
+                    <div class="sg-row"><span class="sg-label">Uptime:</span> <span id="live-uptime" class="sg-value">–</span></div>
+                    <div class="sg-row"><span class="sg-label">Hermes:</span> <span id="live-hermes-uptime" class="sg-value">–</span></div>
+                    <div class="sg-row"><span class="sg-label">CPU:</span> <span id="live-cpu" class="sg-value">–</span> <div class="progress-bar"><div id="live-cpu-bar" class="progress-fill" style="width:0%"></div></div></div>
+                    <div class="sg-row"><span class="sg-label">RAM:</span> <span id="live-ram" class="sg-value">–</span> <div class="progress-bar"><div id="live-ram-bar" class="progress-fill" style="width:0%"></div></div></div>
+                    <div class="sg-row"><span class="sg-label">Disk:</span> <span id="live-disk" class="sg-value">–</span> <div class="progress-bar"><div id="live-disk-bar" class="progress-fill" style="width:0%"></div></div></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <main class="main-area">
+            <!-- LEFT COLUMN -->
+            <div class="side-col left-col">
+                <div class="nav-card">
+                    <div class="nc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
+                    </div>
+                    <div class="nc-text">
+                        <div class="nc-title">BUSINESS SCOUT</div>
+                        <div class="nc-subtitle">Märkte &amp; Chancen</div>
+                    </div>
+                    <div class="nc-arrow">›</div>
+                </div>
+                <div class="nav-card">
+                    <div class="nc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    </div>
+                    <div class="nc-text">
+                        <div class="nc-title">WEBSITE</div>
+                        <div class="nc-subtitle">Websites &amp; SEO</div>
+                    </div>
+                    <div class="nc-arrow">›</div>
+                </div>
+                <div class="nav-card">
+                    <div class="nc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    </div>
+                    <div class="nc-text">
+                        <div class="nc-title">TASKS</div>
+                        <div class="nc-subtitle">Aufgaben &amp; Planung</div>
+                    </div>
+                    <div class="nc-arrow">›</div>
+                </div>
+            </div>
+
+            <!-- CENTER: SPHERE & CHAT -->
+            <div class="center-col">
+                <div id="sphere-container" class="sphere-container">
+                    <div class="sphere-rings">
+                        <div class="ring outer-ring"></div>
+                        <div class="ring middle-ring"></div>
+                        <div class="ring inner-ring"></div>
+                    </div>
+                    <div class="sphere-core">
+                        <canvas id="sphere-canvas"></canvas>
+                        <div class="sphere-glow"></div>
+                    </div>
+                    <div class="sphere-base"></div>
+                </div>
+
+                <div class="hermes-label">
+                    <div class="hl-title">HERMES</div>
+                    <div class="hl-subtitle">CHIEF AI OFFICER</div>
+                </div>
+
+                <!-- Hermes-Statustext (thinking / error) -->
+                <div id="hermes-status-text" class="hermes-status-text"></div>
+
+                <div class="chat-console hud-panel">
+                    <div class="chat-header">
+                        SPRECHE MIT HERMES <div class="audio-wave"><span></span><span></span><span></span><span></span><span></span></div>
+                    </div>
+
+                    <!-- Antwortbereich: AI-Terminal -->
+                    <div id="chat-answer-label" class="chat-answer-label">
+                        <span class="terminal-dot"></span>
+                        <span class="terminal-prompt">HERMES&nbsp;//&nbsp;OUTPUT</span>
+                    </div>
+                    <div id="chat-answer-box" class="chat-answer-box" role="log" aria-live="polite"></div>
+
+                    <div class="chat-input-row">
+                        <input id="chat-input" type="text" placeholder="Sprich oder schreibe mit Hermes..." class="chat-input">
+                        <button id="send-btn" class="send-btn" title="Senden">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                        </button>
+                    </div>
+                    <div class="chat-controls">
+                        <button id="mic-btn" class="ctrl-btn"><span class="mic-icon"></span> SPRACHE EIN</button>
+                        <button id="kbd-btn" class="ctrl-btn"><span class="kbd-icon"></span> TASTATUR MODUS</button>
+                        <button id="speech-btn" class="ctrl-btn"><span class="spk-icon"></span> SPRACHE AUSGABE <span class="dropdown-arrow"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="side-col right-col">
+                <div class="nav-card">
+                    <div class="nc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 1.1-.9 2-2 2s-2-.9-2-2a2 2 0 0 1 2-2zm0 6c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-8 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm16 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                    </div>
+                    <div class="nc-text">
+                        <div class="nc-title">AI SCOUT</div>
+                        <div class="nc-subtitle">KI-Tools &amp; Trends</div>
+                    </div>
+                    <div class="nc-arrow">›</div>
+                </div>
+                <div class="nav-card">
+                    <div class="nc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 7h5M17 17h5"/></svg>
+                    </div>
+                    <div class="nc-text">
+                        <div class="nc-title">VIDEO</div>
+                        <div class="nc-subtitle">Videos &amp; Content</div>
+                    </div>
+                    <div class="nc-arrow">›</div>
+                </div>
+                <div class="nav-card">
+                    <div class="nc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <div class="nc-text">
+                        <div class="nc-title">SYSTEM</div>
+                        <div class="nc-subtitle">Einstellungen &amp; Logs</div>
+                    </div>
+                    <div class="nc-arrow">›</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer-area">
+            <div class="hud-panel footer-card">
+                <div class="fc-title">ÜBERSICHT</div>
+                <div class="fc-content uebersicht-content">
+                    <div class="radar-animation">
+                        <div class="radar-circle"></div>
+                        <div class="radar-sweep"></div>
+                        <div class="radar-dot" style="top:30%; left:70%"></div>
+                    </div>
+                    <div class="fc-list">
+                        <div class="fc-row"><span class="fc-k">Gesamtsystem</span> <span class="fc-v text-green">ONLINE <span class="dot green-dot small"></span></span></div>
+                        <div class="fc-row"><span class="fc-k">Hermes Core</span> <span class="fc-v text-green">AKTIV <span class="dot green-dot small"></span></span></div>
+                        <div class="fc-row"><span class="fc-k">Module</span> <span class="fc-v text-green">6 / 6 <span class="dot green-dot small"></span></span></div>
+                        <div class="fc-row"><span class="fc-k">Verbindungen</span> <span class="fc-v text-green">STABIL <span class="dot green-dot small"></span></span></div>
+                        <div class="fc-row"><span class="fc-k">Letztes Backup</span> <span class="fc-v">06.06.2026 02:13</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-panel footer-card">
+                <div class="fc-title">SPEICHER</div>
+                <div class="fc-content gauge-content">
+                    <div class="gauge-chart">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
+                            <circle id="disk-gauge-fill" class="gauge-fill" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="107.4" stroke="url(#cyan-grad)"></circle>
+                            <defs>
+                                <linearGradient id="cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0055ff"/>
+                                    <stop offset="100%" stop-color="#00d4ff"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="gauge-text">
+                            <div id="disk-gauge-val" class="g-val">–</div>
+                            <div class="g-lbl">verwendet</div>
+                        </div>
+                    </div>
+                    <div class="fc-list">
+                        <div class="fc-row"><span class="fc-k">Gesamt</span> <span id="disk-total" class="fc-v">–</span></div>
+                        <div class="fc-row"><span class="fc-k">Frei</span> <span id="disk-free" class="fc-v">–</span></div>
+                        <button class="details-btn">DETAILS</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-panel footer-card">
+                <div class="fc-title">TOKENS</div>
+                <div class="fc-content gauge-content">
+                    <div class="gauge-chart">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
+                            <circle id="token-gauge-fill" class="gauge-fill" cx="50" cy="50" r="45" stroke-dasharray="282.7" stroke-dashoffset="62.2" stroke="url(#blue-grad)"></circle>
+                            <defs>
+                                <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0033aa"/>
+                                    <stop offset="100%" stop-color="#00ffcc"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="gauge-text">
+                            <div id="token-gauge-val" class="g-val">0</div>
+                            <div class="g-lbl">Gesamt</div>
+                        </div>
+                    </div>
+                    <div class="fc-list">
+                        <div class="fc-row"><span class="fc-k">Requests</span> <span id="usage-requests" class="fc-v">0</span></div>
+                        <div class="fc-row"><span class="fc-k">Input</span> <span id="usage-input-tokens" class="fc-v">0</span></div>
+                        <div class="fc-row"><span class="fc-k">Output</span> <span id="usage-output-tokens" class="fc-v">0</span></div>
+                        <div class="fc-row"><span class="fc-k">Gesamt</span> <span id="usage-total-tokens" class="fc-v text-cyan">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-panel footer-card">
+                <div class="fc-title">KOSTEN &amp; GUTHABEN</div>
+                <div class="fc-content costs-content">
+                    <div class="fc-list">
+                        <div class="fc-row"><span class="fc-k">Modell</span> <span id="usage-model" class="fc-v" style="font-size:0.7em;">Laden...</span></div>
+                        <div class="fc-row"><span class="fc-k">Provider</span> <span id="usage-provider" class="fc-v">Laden...</span></div>
+                        <div class="fc-row"><span class="fc-k">Kosten (Heute)</span> <span id="usage-cost-today" class="fc-v">$ 0.00</span></div>
+                        <div class="fc-row"><span class="fc-k">Kosten (Monat)</span> <span id="usage-cost-month" class="fc-v">$ 0.00</span></div>
+                    </div>
+                    <div class="balance-display">
+                        <span class="balance-lbl text-green">Guthaben</span>
+                        <span id="usage-credit" class="balance-val text-green">$ 0.00</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <div class="bottom-bar">
+            <span>Chief AI Officer: Hermes</span>
+            <span class="center-text">AUTOMATISIERT. INTELLIGENT. PROFITABEL.</span>
+            <span>RentenPilot Command Center <em>Build 1.0.0</em></span>
+        </div>
+    </div>
+
+    <script>
+    // ─────────────────────────────────────────────
+    // CLOCK
+    // ─────────────────────────────────────────────
+    const DAYS_DE = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+
+    function updateClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('de-DE');
+        const dateStr = now.toLocaleDateString('de-DE');
+        const dayStr  = DAYS_DE[now.getDay()];
+        document.getElementById('time-display').textContent = timeStr;
+        document.getElementById('date-display').textContent = dateStr;
+        document.getElementById('day-display').textContent  = dayStr;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ─────────────────────────────────────────────
+    // SPHERE ANIMATION
+    // ─────────────────────────────────────────────
+    const canvas = document.getElementById('sphere-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    function resizeSphere() {
+        const container = canvas.parentElement;
+        canvas.width  = container.clientWidth;
+        canvas.height = container.clientHeight;
+    }
+    window.addEventListener('resize', resizeSphere);
+    resizeSphere();
+
+    let sphereTime = 0;
+    let sphereState = 'idle'; // 'idle' | 'thinking' | 'error'
+
+    function drawSphere() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width  / 2;
+        const cy = canvas.height / 2;
+        const r  = Math.min(cx, cy) * 0.85;
+
+        // Pulse factor for thinking state
+        const pulse = sphereState === 'thinking'
+            ? 1 + 0.12 * Math.sin(sphereTime * 6)
+            : 1;
+
+        // Base glow
+        const innerColor = sphereState === 'error'
+            ? 'rgba(255, 80, 0, 0.5)'
+            : sphereState === 'thinking'
+                ? 'rgba(0, 200, 255, 0.55)'
+                : 'rgba(0, 150, 255, 0.4)';
+
+        const radGrad = ctx.createRadialGradient(cx, cy, r * 0.3, cx, cy, r);
+        radGrad.addColorStop(0, innerColor);
+        radGrad.addColorStop(1, 'rgba(0, 30, 100, 0.05)');
+        ctx.fillStyle = radGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * pulse, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Grid lines (latitudes)
+        ctx.strokeStyle = sphereState === 'error'
+            ? 'rgba(255, 100, 0, 0.15)'
+            : 'rgba(0, 212, 255, 0.15)';
+        ctx.lineWidth = 1;
+
+        for (let i = -3; i <= 3; i++) {
+            const yOffset  = (i / 4) * r;
+            const radiusX  = Math.sqrt(r * r - yOffset * yOffset);
+            const radiusY  = radiusX * 0.2;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy + yOffset, radiusX, radiusY, 0, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // Sine wave
+        const waveColor = sphereState === 'error'
+            ? 'rgba(255, 120, 0, 0.9)'
+            : sphereState === 'thinking'
+                ? 'rgba(0, 255, 255, 1)'
+                : 'rgba(0, 255, 255, 0.8)';
+        const waveAmp  = sphereState === 'thinking' ? 0.38 : 0.3;
+        const waveSpd  = sphereState === 'thinking' ? 4    : 2;
+
+        ctx.beginPath();
+        ctx.strokeStyle = waveColor;
+        ctx.lineWidth   = sphereState === 'thinking' ? 2.5 : 2;
+        ctx.shadowColor = sphereState === 'error' ? '#ff6000' : '#00ffff';
+        ctx.shadowBlur  = sphereState === 'thinking' ? 18 : 10;
+
+        for (let x = -r; x <= r; x++) {
+            const nx  = x / r;
+            const env = Math.sqrt(1 - nx * nx);
+            const y   = Math.sin(nx * 10 - sphereTime * waveSpd) * (r * waveAmp) * env;
+            if (x === -r) ctx.moveTo(cx + x, cy + y);
+            else          ctx.lineTo(cx + x, cy + y);
+        }
+        ctx.stroke();
+
+        // Second wave
+        ctx.beginPath();
+        ctx.strokeStyle = sphereState === 'error'
+            ? 'rgba(255, 60, 0, 0.6)'
+            : 'rgba(0, 150, 255, 0.6)';
+        ctx.lineWidth   = 3;
+        ctx.shadowBlur  = 0;
+
+        for (let x = -r; x <= r; x++) {
+            const nx  = x / r;
+            const env = Math.sqrt(1 - nx * nx);
+            const y   = Math.cos(nx * 8 - sphereTime * 1.5) * (r * 0.2) * env;
+            if (x === -r) ctx.moveTo(cx + x, cy + y);
+            else          ctx.lineTo(cx + x, cy + y);
+        }
+        ctx.stroke();
+
+        ctx.shadowBlur = 0;
+
+        // Particles
+        ctx.fillStyle = sphereState === 'error' ? '#ff8030' : '#00ffff';
+        for (let i = 0; i < 30; i++) {
+            const px = cx + Math.sin(sphereTime * 0.5 + i) * r * 0.9 * Math.cos(i * 123);
+            const py = cy + Math.cos(sphereTime * 0.5 + i) * r * 0.9 * Math.sin(i * 321);
+            if (Math.pow(px - cx, 2) + Math.pow(py - cy, 2) < r * r) {
+                ctx.beginPath();
+                ctx.arc(px, py, Math.random() * 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        sphereTime += sphereState === 'thinking' ? 0.04 : 0.02;
+        requestAnimationFrame(drawSphere);
+    }
+
+async function updateOpenRouterData() {
+    try {
+        const res = await fetch('/api/openrouter', { cache: 'no-store' });
+        const data = await res.json();
+
+        const costCard = [...document.querySelectorAll('.footer-card')]
+            .find(card => card.textContent.includes('KOSTEN'));
+
+        if (!costCard) return;
+
+        const rows = costCard.querySelectorAll('.fc-row');
+
+        if (rows[0]) rows[0].innerHTML = '<span class="fc-k">Modell</span><span class="fc-v">' + data.model + '</span>';
+        if (rows[1]) rows[1].innerHTML = '<span class="fc-k">Provider</span><span class="fc-v">' + data.provider + '</span>';
+        if (rows[2]) rows[2].innerHTML = '<span class="fc-k">Verbraucht</span><span class="fc-v">$' + Number(data.usage).toFixed(4) + '</span>';
+
+        const balance = costCard.querySelector('.balance-val');
+        if (balance) {
+            balance.textContent = '$' + Number(data.remaining).toFixed(4);
+        }
+
+        const label = costCard.querySelector('.balance-lbl');
+        if (label) {
+            label.textContent = 'Restguthaben';
+        }
+
+    } catch (e) {
+        console.warn('OpenRouter-Daten konnten nicht geladen werden', e);
+    }
+}
+
+updateOpenRouterData();
+setInterval(updateOpenRouterData, 30000);
+
+    drawSphere();
+
+    // ─────────────────────────────────────────────
+    // SPHERE STATE HELPERS
+    // ─────────────────────────────────────────────
+    const sphereContainer = document.getElementById('sphere-container');
+    const hermesStatusText = document.getElementById('hermes-status-text');
+
+    function setSphereIdle() {
+        sphereState = 'idle';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking', 'sphere-listening');
+        hermesStatusText.textContent = 'IDLE';
+        hermesStatusText.classList.remove('error-text');
+        hermesStatusText.classList.add('visible'); // Show IDLE text
+    }
+
+    function setSphereThinking() {
+        sphereState = 'thinking';
+        sphereContainer.classList.remove('sphere-error', 'sphere-speaking', 'sphere-listening');
+        sphereContainer.classList.add('sphere-thinking');
+        hermesStatusText.textContent = 'HERMES DENKT...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    function setSphereError() {
+        sphereState = 'error';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-speaking', 'sphere-listening');
+        sphereContainer.classList.add('sphere-error');
+        hermesStatusText.textContent = 'VERBINDUNGSFEHLER';
+        hermesStatusText.classList.add('visible', 'error-text');
+        // Auto-reset nach 3s
+        setTimeout(setSphereIdle, 3000);
+    }
+
+    function setSphereSpeaking() {
+        sphereState = 'speaking';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-listening');
+        sphereContainer.classList.add('sphere-speaking');
+        hermesStatusText.textContent = 'HERMES SPRICHT...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    function setSphereListening() {
+        sphereState = 'listening';
+        sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking');
+        sphereContainer.classList.add('sphere-listening');
+        hermesStatusText.textContent = 'HERMES HÖRT ZU...';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+    }
+
+    // ─────────────────────────────────────────────
+    // CHAT LOGIC
+    // ─────────────────────────────────────────────
+    const chatInput   = document.getElementById('chat-input');
+    const sendBtn     = document.getElementById('send-btn');
+    const answerBox   = document.getElementById('chat-answer-box');
+    const answerLabel = document.getElementById('chat-answer-label');
+    const responseTimeEl = document.getElementById('live-response-time');
+
+    let chatHistory = JSON.parse(localStorage.getItem('hermesChatHistory') || '[]');
+
+    function saveHistory() {
+        localStorage.setItem('hermesChatHistory', JSON.stringify(chatHistory));
+    }
+
+    function renderHistory(tempMsg = null, tempType = null) {
+        answerBox.innerHTML = '';
+        
+        if (chatHistory.length === 0 && !tempMsg) {
+            answerBox.className = 'chat-answer-box';
+            answerLabel.className = 'chat-answer-label';
+            return;
+        }
+
+        answerBox.className = 'chat-answer-box visible';
+        answerLabel.className = 'chat-answer-label visible';
+
+        chatHistory.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'msg-row msg-' + item.role;
+            div.textContent = item.text;
+            answerBox.appendChild(div);
+        });
+
+        if (tempMsg) {
+            const div = document.createElement('div');
+            div.className = 'msg-row msg-' + tempType;
+            div.textContent = tempMsg;
+            answerBox.appendChild(div);
+        }
+
+        // Add cursor
+        const cur = document.createElement('span');
+        cur.className = 'terminal-cursor';
+        answerBox.appendChild(cur);
+
+        answerBox.scrollTop = answerBox.scrollHeight;
+    }
+
+    function addMessageToHistory(role, text) {
+        chatHistory.push({ role, text });
+        if (chatHistory.length > 20) { // Letzte 10 Nachrichten-Paare
+            chatHistory = chatHistory.slice(-20);
+        }
+        saveHistory();
+        renderHistory();
+    }
+
+    function setInputBusy(busy) {
+        chatInput.disabled = busy;
+        sendBtn.disabled   = busy;
+    }
+
+    // ─────────────────────────────────────────────
+    // SPEECH SYNTHESIS
+    // ─────────────────────────────────────────────
+    const speechBtn = document.getElementById('speech-btn');
+    let speechEnabled = false;
+    let synth = window.speechSynthesis;
+
+    // Toggle button
+    speechBtn.addEventListener('click', () => {
+        speechEnabled = !speechEnabled;
+        if (speechEnabled) {
+            speechBtn.classList.add('speech-active');
+            if (!synth) {
+                console.warn("Speech Synthesis wird von diesem Browser nicht unterstützt.");
+            }
+        } else {
+            speechBtn.classList.remove('speech-active');
+            stopSpeech();
+        }
+    });
+
+    let currentAudio = null;
+
+    function stopSpeech() {
+        if (synth && synth.speaking) {
+            synth.cancel();
+        }
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+        }
+    }
+
+    function speakTextFallback(text) {
+        if (!synth) {
+            setSphereIdle();
+            return;
+        }
+        
+        stopSpeech(); // Stop any ongoing speech
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'de-DE';
+        
+        // Versuche eine deutsche Stimme zu finden, falls verfügbar
+        const voices = synth.getVoices();
+        const germanVoice = voices.find(v => v.lang.startsWith('de'));
+        if (germanVoice) {
+            utterance.voice = germanVoice;
+        }
+
+        utterance.onstart = () => {
+            setSphereSpeaking();
+        };
+
+        utterance.onend = () => {
+            setSphereIdle();
+        };
+
+        utterance.onerror = (e) => {
+            console.warn('SpeechSynthesis error:', e);
+            setSphereIdle();
+        };
+
+        synth.speak(utterance);
+    }
+
+    async function speakText(text) {
+        if (!speechEnabled) {
+            setSphereIdle();
+            return;
+        }
+        
+        stopSpeech();
+        
+        try {
+            setSphereSpeaking();
+            
+            const res = await fetch('/api/tts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            });
+            
+            if (!res.ok) {
+                console.warn(`/api/tts failed (Status ${res.status}). Using Fallback.`);
+                speakTextFallback(text);
+                return;
+            }
+            
+            const blob = await res.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            currentAudio = new Audio(audioUrl);
+            
+            currentAudio.onended = () => {
+                setSphereIdle();
+                URL.revokeObjectURL(audioUrl);
+                currentAudio = null;
+            };
+            
+            currentAudio.onerror = () => {
+                console.warn('Audio playback error. Using Fallback.');
+                setSphereIdle();
+                speakTextFallback(text);
+                URL.revokeObjectURL(audioUrl);
+                currentAudio = null;
+            };
+            
+            await currentAudio.play();
+            
+        } catch (err) {
+            console.warn('Fetch error for /api/tts. Using Fallback.', err);
+            speakTextFallback(text);
+        }
+    }
+    
+    // ─────────────────────────────────────────────
+    // SPEECH RECOGNITION (Mic Input)
+    // ─────────────────────────────────────────────
+    const micBtn = document.getElementById('mic-btn');
+    const kbdBtn = document.getElementById('kbd-btn');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+    
+    function stopListening() {
+        if (recognition && isListening) {
+            recognition.stop();
+        }
+    }
+    
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'de-DE';
+        recognition.interimResults = false;
+        recognition.continuous = false;
+        
+        recognition.onstart = () => {
+            isListening = true;
+            micBtn.classList.add('mic-active');
+            setSphereListening();
+            chatInput.placeholder = "Hermes hört zu...";
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            chatInput.value = transcript;
+            sendMessage(); // Auto-send
+        };
+        
+        recognition.onerror = (event) => {
+            console.warn('SpeechRecognition error:', event.error);
+            setSphereIdle();
+        };
+        
+        recognition.onend = () => {
+            isListening = false;
+            micBtn.classList.remove('mic-active');
+            chatInput.placeholder = "Sprich oder schreibe mit Hermes...";
+            if (sphereState === 'listening') {
+                setSphereIdle();
+            }
+        };
+        
+        micBtn.addEventListener('click', () => {
+            if (isListening) {
+                stopListening();
+            } else {
+                stopSpeech(); // Stop TTS before listening
+                recognition.start();
+            }
+        });
+    } else {
+        micBtn.addEventListener('click', () => {
+            renderHistory('⚠ Spracherkennung wird in diesem Browser nicht unterstützt.', 'error');
+            setSphereError();
+        });
+    }
+
+    // ─────────────────────────────────────────────
+    // KEYBOARD MODUS (Tastatur Modus)
+    // ─────────────────────────────────────────────
+    kbdBtn.addEventListener('click', () => {
+        stopSpeech();
+        stopListening();
+        setSphereIdle();
+        
+        chatInput.focus();
+        
+        // Kurz aktivieren als Feedback
+        kbdBtn.classList.add('active');
+        setTimeout(() => {
+            kbdBtn.classList.remove('active');
+        }, 300);
+    });
+
+    // Initial load
+    setSphereIdle();
+    renderHistory();
+
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+
+        if (!message) {
+            chatInput.focus();
+            return;
+        }
+
+        // Stop previous speech/listening when sending new message
+        stopSpeech();
+        stopListening();
+
+        // UI: Senden vorbereiten
+        setInputBusy(true);
+        chatInput.value = '';
+        setSphereThinking();
+        
+        addMessageToHistory('user', message);
+        renderHistory('Hermes denkt...', 'thinking');
+
+        const t0 = Date.now();
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            const elapsed = ((Date.now() - t0) / 1000).toFixed(2) + 's';
+            if (responseTimeEl) responseTimeEl.textContent = elapsed;
+
+            if (!res.ok) {
+                // HTTP-Fehler (4xx / 5xx)
+                let errMsg = `HTTP ${res.status}`;
+                try {
+                    const errData = await res.json();
+                    errMsg = errData.error || errMsg;
+                } catch (_) {}
+                renderHistory('⚠ Fehler: ' + errMsg, 'error');
+                setSphereError();
+                return;
+            }
+
+            const data = await res.json();
+
+            if (!data.ok) {
+                renderHistory('⚠ Hermes meldet: ' + (data.error || 'Unbekannter Fehler'), 'error');
+                setSphereError();
+                return;
+            }
+
+            addMessageToHistory('hermes', data.answer);
+            
+            // Vorlesen, wenn aktiviert, sonst IDLE
+            if (speechEnabled && synth) {
+                speakText(data.answer);
+            } else {
+                setSphereIdle();
+            }
+
+        } catch (err) {
+            // Netzwerkfehler / API nicht erreichbar
+            if (responseTimeEl) responseTimeEl.textContent = '–';
+            renderHistory('⚠ Verbindung zu Hermes fehlgeschlagen. Server erreichbar?', 'error');
+            setSphereError();
+        } finally {
+            setInputBusy(false);
+            chatInput.focus();
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    chatInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // ─────────────────────────────────────────────
+    // LIVE SYSTEM DATA  (alle 5 Sekunden)
+    // ─────────────────────────────────────────────
+    // Disk-Gauge: Radius=45, Umfang=282.7
+    // dashoffset = 282.7 * (1 - percent/100)
+    const GAUGE_CIRC = 282.7;
+
+    async function updateSystemData() {
+        try {
+            const res  = await fetch('/api/system', { cache: 'no-store' });
+
+            if (!res.ok) {
+                console.warn('api/system: HTTP', res.status);
+                return;
+            }
+
+            const d = await res.json();
+
+            // Linke Statuspanel: Modell
+            const modelEl = document.getElementById('live-model');
+            if (modelEl) modelEl.textContent = d.model + ' (via ' + d.provider + ')';
+
+            // Rechte Statuspanel: Uptimes
+            const uptimeEl       = document.getElementById('live-uptime');
+            const hermesUptimeEl = document.getElementById('live-hermes-uptime');
+            if (uptimeEl)       uptimeEl.textContent       = d.system_uptime_text || '–';
+            if (hermesUptimeEl) hermesUptimeEl.textContent = d.hermes_uptime_text || '–';
+
+            // CPU
+            const cpuPct  = parseFloat(d.cpu_percent)  || 0;
+            const cpuEl   = document.getElementById('live-cpu');
+            const cpuBar  = document.getElementById('live-cpu-bar');
+            if (cpuEl)  cpuEl.textContent     = cpuPct.toFixed(1) + '%';
+            if (cpuBar) cpuBar.style.width     = cpuPct.toFixed(1) + '%';
+
+            // RAM
+            const ramPct  = parseFloat(d.ram_percent)  || 0;
+            const ramEl   = document.getElementById('live-ram');
+            const ramBar  = document.getElementById('live-ram-bar');
+            if (ramEl)  ramEl.textContent     = ramPct.toFixed(1) + '%';
+            if (ramBar) ramBar.style.width     = ramPct.toFixed(1) + '%';
+
+            // Disk (Header)
+            const diskPct = parseFloat(d.disk_percent) || 0;
+            const diskEl  = document.getElementById('live-disk');
+            const diskBar = document.getElementById('live-disk-bar');
+            if (diskEl)  diskEl.textContent   = diskPct.toFixed(1) + '%';
+            if (diskBar) diskBar.style.width   = diskPct.toFixed(1) + '%';
+
+            // Disk-Gauge im Footer
+            const gaugeOffset = GAUGE_CIRC * (1 - diskPct / 100);
+            const gaugeFill   = document.getElementById('disk-gauge-fill');
+            const gaugeVal    = document.getElementById('disk-gauge-val');
+            if (gaugeFill) gaugeFill.style.strokeDashoffset = gaugeOffset.toFixed(1);
+            if (gaugeVal)  gaugeVal.textContent = diskPct.toFixed(0) + '%';
+
+            // Disk-Detail im Footer
+            const totalEl = document.getElementById('disk-total');
+            const freeEl  = document.getElementById('disk-free');
+            if (totalEl && d.disk_total_gb) totalEl.textContent = d.disk_total_gb.toFixed(1) + ' GB';
+            if (freeEl  && d.disk_free_gb)  freeEl.textContent  = d.disk_free_gb.toFixed(1)  + ' GB';
+
+        } catch (err) {
+            // Kurzzeitiger Fehler → nur loggen, kein Crash
+            console.warn('Systemdaten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateSystemData();
+    setInterval(updateSystemData, 5000);
+
+    // ─────────────────────────────────────────────
+    // LIVE USAGE DATA  (alle 30 Sekunden)
+    // ─────────────────────────────────────────────
+    async function updateUsageData() {
+        try {
+            const res = await fetch('/api/usage', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/usage: HTTP', res.status);
+                return;
+            }
+            const d = await res.json();
+            
+            // TOKENS panel
+            const reqEl = document.getElementById('usage-requests');
+            const inEl  = document.getElementById('usage-input-tokens');
+            const outEl = document.getElementById('usage-output-tokens');
+            const totEl = document.getElementById('usage-total-tokens');
+            
+            if (reqEl) reqEl.textContent = (d.requests || 0).toLocaleString('de-DE');
+            if (inEl)  inEl.textContent  = (d.input_tokens || 0).toLocaleString('de-DE');
+            if (outEl) outEl.textContent = (d.output_tokens || 0).toLocaleString('de-DE');
+            if (totEl) totEl.textContent = (d.total_tokens || 0).toLocaleString('de-DE');
+            
+            // Tokens Ring dynamisch (Visualisiert Aktivität)
+            const gaugeVal  = document.getElementById('token-gauge-val');
+            const gaugeFill = document.getElementById('token-gauge-fill');
+            if (gaugeVal && d.total_tokens !== undefined) {
+                if (d.total_tokens >= 1000) {
+                    gaugeVal.textContent = (d.total_tokens / 1000).toFixed(1) + 'k';
+                } else {
+                    gaugeVal.textContent = d.total_tokens;
+                }
+            }
+            if (gaugeFill && d.total_tokens !== undefined) {
+                // Ein visuelles Feedback, das mit wachsenden Tokens den Ring füllt (max 100k, dann loop)
+                const pct = (d.total_tokens % 100000) / 100000; 
+                const fillOffset = GAUGE_CIRC * (1 - (d.total_tokens > 0 ? Math.max(0.1, pct) : 0));
+                gaugeFill.style.strokeDashoffset = fillOffset.toFixed(1);
+            }
+            
+            // KOSTEN & GUTHABEN panel
+            const modEl  = document.getElementById('usage-model');
+            const provEl = document.getElementById('usage-provider');
+            const todayEl= document.getElementById('usage-cost-today');
+            const monthEl= document.getElementById('usage-cost-month');
+            const credEl = document.getElementById('usage-credit');
+            
+            if (modEl)  modEl.textContent  = d.model || '–';
+            if (provEl) provEl.textContent = d.provider || '–';
+            
+            if (todayEl) todayEl.textContent = '$ ' + (d.cost_today || 0).toFixed(4);
+            if (monthEl) monthEl.textContent = '$ ' + (d.cost_month || 0).toFixed(4);
+            
+            if (credEl) {
+                credEl.textContent = d.credit_display || 'nicht verfügbar';
+            }
+            
+        } catch (err) {
+            console.warn('Usage-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateUsageData();
+    setInterval(updateUsageData, 30000);
+    </script>
+</body>
+</html>
