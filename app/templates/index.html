@@ -193,8 +193,6 @@
           <span class="trading-head-right">LIVE <strong>2S</strong></span>
         </div>
         <div class="trading-content">
-          <div class="tc-active-line" id="trading-active-line">EUR/USD Euro / US-Dollar · EURUSD</div>
-
           <div class="tc-assets" id="trading-assets"></div>
 
           <div class="tc-main">
@@ -993,10 +991,10 @@
     const tradingLastQuotes = {};
     const tradingLastPrices = {};
     let tradingViewReady = false;
+    let tradingChartSymbol = null;
     if (!tradingSymbols.includes(selectedTradingSymbol)) selectedTradingSymbol = 'XAUUSD';
 
     const tradingEls = {
-        activeLine: document.getElementById('trading-active-line'),
         symbol: document.getElementById('trading-symbol'),
         price: document.getElementById('trading-price'),
         trend: document.getElementById('trading-trend'),
@@ -1027,6 +1025,14 @@
         if (symbol === 'GER40' || symbol === 'US500') return num.toFixed(2);
         if (symbol === 'BTCUSD' || symbol === 'ETHUSD') return num.toFixed(2);
         return num.toFixed(5);
+    }
+
+    function formatTradingUpdated(value) {
+        if (!value) return '--';
+        const text = String(value);
+        const match = text.match(/(\d{2}:\d{2}:\d{2})/);
+        if (match) return match[1];
+        return text;
     }
 
     function buildTradingViewWidget(symbol) {
@@ -1084,7 +1090,7 @@
             const bid = quote && quote.bid !== undefined ? formatTradingPrice(symbol, quote.bid) : '--';
             const ask = quote && quote.ask !== undefined ? formatTradingPrice(symbol, quote.ask) : '--';
             const spread = quote && quote.spread !== undefined ? formatTradingPrice(symbol, quote.spread) : '--';
-            const updated = quote && quote.updated_at ? quote.updated_at : '--';
+            const updated = quote && quote.updated_at ? formatTradingUpdated(quote.updated_at) : '--';
             card.innerHTML =
                 '<div class="tc-asset-head"><span class="tc-asset-name">' + symbol + '</span><span class="tc-asset-tick">' + (quote && quote.last_price ? '●' : '•') + '</span></div>' +
                 '<div class="tc-asset-price">' + price + '</div>' +
@@ -1093,8 +1099,7 @@
                     '<div class="tc-asset-stat"><span>Ask</span><strong>' + ask + '</strong></div>' +
                     '<div class="tc-asset-stat"><span>Spread</span><strong>' + spread + '</strong></div>' +
                     '<div class="tc-asset-stat"><span>Updated</span><strong>' + updated + '</strong></div>' +
-                '</div>' +
-                '<div class="tc-asset-updated">' + (tradingSymbolMeta[symbol] || symbol) + '</div>';
+                '</div>';
             card.addEventListener('click', function () { updateTradingCenter(symbol); });
             tradingAssetContainer.appendChild(card);
         });
@@ -1121,7 +1126,6 @@
         setText(tradingEls.provider, 'cTrader');
         setText(tradingEls.mode, 'READ-ONLY');
         setText(tradingEls.updated, '--');
-        if (tradingEls.activeLine) setText(tradingEls.activeLine, (tradingSymbolMeta[symbol] || symbol) + ' · ' + symbol);
         setTradingError(message || 'Keine Live-Daten fuer ' + symbol);
     }
 
@@ -1138,13 +1142,9 @@
         setText(tradingEls.spread, data.spread);
         setText(tradingEls.provider, data.provider || 'cTrader');
         setText(tradingEls.mode, (data.mode || 'Read Only').replace(/\bRead Only\b/i, 'READ-ONLY'));
-        setText(tradingEls.updated, data.updated_at || '--');
-        if (tradingEls.activeLine) setText(tradingEls.activeLine, (tradingSymbolMeta[displaySymbol] || displaySymbol) + ' · ' + displaySymbol);
+        setText(tradingEls.updated, formatTradingUpdated(data.updated_at));
         if (tradingEls.chartSymbol) setText(tradingEls.chartSymbol, displaySymbol);
         if (tradingEls.chartMarket) setText(tradingEls.chartMarket, displaySymbol);
-        if (!tradingViewReady || (tradingEls.chartSymbol && tradingEls.chartSymbol.textContent !== displaySymbol)) {
-            buildTradingViewWidget(displaySymbol);
-        }
         if (hasPrice && tradingEls.price) {
             const numericPrice = Number(price);
             const previousPrice = tradingLastPrices[symbol];
@@ -1167,7 +1167,10 @@
         localStorage.setItem('selectedTradingSymbol', tradingSymbol);
         setActiveTradingAsset(tradingSymbol);
         setText(tradingEls.symbol, tradingSymbol);
-        buildTradingViewWidget(tradingSymbol);
+        if (!tradingViewReady || tradingChartSymbol !== tradingSymbol) {
+            buildTradingViewWidget(tradingSymbol);
+            tradingChartSymbol = tradingSymbol;
+        }
 
         try {
             const res = await fetch('/api/trading/quotes', { cache: 'no-store' });
@@ -1202,10 +1205,14 @@
 
     if (window.TradingView) {
         buildTradingViewWidget(selectedTradingSymbol);
+        tradingChartSymbol = selectedTradingSymbol;
     } else {
         var tvScript = document.createElement('script');
         tvScript.src = 'https://s3.tradingview.com/tv.js';
-        tvScript.onload = function () { buildTradingViewWidget(selectedTradingSymbol); };
+        tvScript.onload = function () {
+            buildTradingViewWidget(selectedTradingSymbol);
+            tradingChartSymbol = selectedTradingSymbol;
+        };
         document.head.appendChild(tvScript);
     }
 
