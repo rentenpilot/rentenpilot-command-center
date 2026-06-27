@@ -529,6 +529,8 @@
     function setSphereIdle() {
         sphereState = 'idle';
         sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking', 'sphere-listening');
+        sphereContainer.classList.remove('sphere-success');
+        sphereContainer.classList.add('sphere-idle');
         hermesStatusText.textContent = 'IDLE';
         hermesStatusText.classList.remove('error-text');
         hermesStatusText.classList.add('visible'); // Show IDLE text
@@ -536,6 +538,7 @@
 
     function setSphereThinking() {
         sphereState = 'thinking';
+        sphereContainer.classList.remove('sphere-idle', 'sphere-success');
         sphereContainer.classList.remove('sphere-error', 'sphere-speaking', 'sphere-listening');
         sphereContainer.classList.add('sphere-thinking');
         hermesStatusText.textContent = 'HERMES DENKT...';
@@ -543,8 +546,21 @@
         hermesStatusText.classList.remove('error-text');
     }
 
+    function setSphereSuccess() {
+        sphereState = 'success';
+        sphereContainer.classList.remove('sphere-idle', 'sphere-thinking', 'sphere-error', 'sphere-speaking', 'sphere-listening');
+        sphereContainer.classList.add('sphere-success');
+        hermesStatusText.textContent = 'ERFOLG';
+        hermesStatusText.classList.add('visible');
+        hermesStatusText.classList.remove('error-text');
+        setTimeout(function () {
+            if (sphereState === 'success') setSphereIdle();
+        }, 1200);
+    }
+
     function setSphereError() {
         sphereState = 'error';
+        sphereContainer.classList.remove('sphere-idle', 'sphere-success');
         sphereContainer.classList.remove('sphere-thinking', 'sphere-speaking', 'sphere-listening');
         sphereContainer.classList.add('sphere-error');
         hermesStatusText.textContent = 'VERBINDUNGSFEHLER';
@@ -555,6 +571,7 @@
 
     function setSphereSpeaking() {
         sphereState = 'speaking';
+        sphereContainer.classList.remove('sphere-idle', 'sphere-success');
         sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-listening');
         sphereContainer.classList.add('sphere-speaking');
         hermesStatusText.textContent = 'HERMES SPRICHT...';
@@ -564,8 +581,10 @@
 
     function setSphereListening() {
         sphereState = 'listening';
+        sphereContainer.classList.remove('sphere-idle', 'sphere-success');
         sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking');
         sphereContainer.classList.add('sphere-listening');
+        hermesStatusText.textContent = 'HERMES HÖRT ZU...';
         hermesStatusText.textContent = 'HERMES HÃƒâ€“RT ZU...';
         hermesStatusText.classList.add('visible');
         hermesStatusText.classList.remove('error-text');
@@ -618,6 +637,7 @@
         answerBox.appendChild(cur);
 
         answerBox.scrollTop = answerBox.scrollHeight;
+        answerBox.scrollTo({ top: answerBox.scrollHeight, behavior: 'auto' });
     }
 
     function addMessageToHistory(role, text) {
@@ -811,6 +831,7 @@
             } else {
                 setSphereIdle();
             }
+            setSphereSuccess();
 
         } catch (err) {
             // Netzwerkfehler / API nicht erreichbar
