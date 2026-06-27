@@ -343,7 +343,7 @@ body::before {
   font-size: 10px;
   letter-spacing: 1px;
   color: var(--text-primary);
-  padding: 5px 9px;
+  padding: 4px 9px;
   border: 1px solid rgba(0,212,255,0.12);
   border-radius: 6px;
   background: rgba(0,0,0,0.18);
@@ -365,6 +365,8 @@ body::before {
   min-height: 52px;
 }
 .tc-asset-card.active { border-color: rgba(0,212,255,0.9); box-shadow: 0 0 0 1px rgba(0,212,255,0.25), 0 0 18px rgba(0,212,255,0.08); }
+.tc-asset-card.active.tick-up,
+.tc-asset-card.active.tick-down { border-color: rgba(0,212,255,0.9); box-shadow: 0 0 0 1px rgba(0,212,255,0.25), 0 0 18px rgba(0,212,255,0.08); }
 .tc-asset-card.tick-up { border-color: rgba(0,255,102,0.9); }
 .tc-asset-card.tick-down { border-color: rgba(255,96,0,0.9); }
 .tc-asset-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 3px; }
@@ -402,7 +404,7 @@ body::before {
   border-radius: 8px;
   background: rgba(0,0,0,0.18);
   overflow: hidden;
-  margin-top: -18px;
+  margin-top: -14px;
   flex: 1;
   min-height: 0;
 }
@@ -411,7 +413,7 @@ body::before {
   justify-content: space-between;
   gap: 8px;
   align-items: center;
-  padding: 1px 8px;
+  padding: 0 8px;
   border-bottom: 1px solid rgba(0,212,255,0.1);
   font-size: 8px;
   color: var(--text-secondary);
@@ -420,7 +422,7 @@ body::before {
 }
 .tc-chart-head strong { color: var(--cyan); }
 .tc-chart-frame {
-  height: calc(100% - 12px);
+  height: calc(100% - 10px);
   min-height: 0;
   padding: 0;
   margin: 0;
@@ -452,23 +454,23 @@ body::before {
 .cost-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; align-items: stretch; }
 .cost-box,
 .cost-box.last {
-  min-height: 52px;
+  min-height: 48px;
   height: auto;
   background: rgba(0,0,0,0.28);
   border: 1px solid rgba(0,212,255,0.1);
   border-radius: 6px;
-  padding: 6px 9px;
+  padding: 5px 9px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
 }
 .cb-label { font-size: 8px; color: var(--text-secondary); margin-bottom: 1px; line-height: 1; }
-.cb-val { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; line-height: 1; }
+.cb-val { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; line-height: 1; }
 .cb-sub, .cb-circle, .cost-legend { display: none; }
 
-.openrouter-panel .panel-header { padding-bottom: 4px; margin-bottom: 5px; }
-.openrouter-panel .cost-grid { gap: 5px; }
+.openrouter-panel .panel-header { padding-bottom: 3px; margin-bottom: 4px; }
+.openrouter-panel .cost-grid { gap: 4px; }
 
 .split-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; }
 .agent-list { display: flex; flex-direction: column; gap: 4px; }

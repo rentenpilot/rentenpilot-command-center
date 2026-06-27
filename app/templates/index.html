@@ -1079,8 +1079,12 @@
     function applyPriceDirection(node, direction) {
         if (!node) return;
         node.classList.remove('tick-up', 'tick-down');
+        node.classList.remove('price-up', 'price-down', 'price-neutral');
         if (direction === 'up') node.classList.add('tick-up');
         if (direction === 'down') node.classList.add('tick-down');
+        if (direction === 'up') node.classList.add('price-up');
+        if (direction === 'down') node.classList.add('price-down');
+        if (!direction) node.classList.add('price-neutral');
     }
 
     function setActiveTradingAsset(symbol) {
@@ -1118,9 +1122,11 @@
             const quote = quotes && quotes[symbol];
             const nextPrice = quote ? Number(quote.last_price ?? quote.ask ?? quote.bid) : NaN;
             const prevPrice = Number(tradingLastPrices[symbol]);
+            const direction = Number.isFinite(nextPrice) && Number.isFinite(prevPrice) && nextPrice !== prevPrice ? (nextPrice > prevPrice ? 'up' : 'down') : null;
             button.classList.remove('tick-up', 'tick-down');
-            applyPriceDirection(button.querySelector('.tc-asset-price'), Number.isFinite(nextPrice) && Number.isFinite(prevPrice) && nextPrice !== prevPrice ? (nextPrice > prevPrice ? 'up' : 'down') : null);
-            applyPriceDirection(button.querySelector('.tc-asset-tick'), Number.isFinite(nextPrice) && Number.isFinite(prevPrice) && nextPrice !== prevPrice ? (nextPrice > prevPrice ? 'up' : 'down') : null);
+            applyPriceDirection(button.querySelector('.tc-asset-price'), direction);
+            applyPriceDirection(button.querySelector('.tc-asset-tick'), direction);
+            if (direction) button.classList.add(direction === 'up' ? 'tick-up' : 'tick-down');
         });
     }
 
@@ -1145,9 +1151,10 @@
         const numericPrice = Number(price);
         const previousPrice = Number(tradingLastPrices[symbol]);
         const direction = Number.isFinite(numericPrice) && Number.isFinite(previousPrice) && numericPrice !== previousPrice ? (numericPrice > previousPrice ? 'up' : 'down') : null;
+        const displayDirection = direction || null;
         setText(tradingEls.symbol, displaySymbol);
         setText(tradingEls.price, formattedPrice);
-        setText(tradingEls.trend, direction === 'up' ? '▲' : direction === 'down' ? '▼' : '');
+        setText(tradingEls.trend, displayDirection === 'up' ? '▲' : displayDirection === 'down' ? '▼' : '·');
         setText(tradingEls.bid, data.bid);
         setText(tradingEls.ask, data.ask);
         setText(tradingEls.spread, data.spread);
