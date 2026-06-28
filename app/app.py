@@ -3496,6 +3496,14 @@ def api_trading_start_stream():
     })
 
 
+def _start_ctrader_stream_on_boot():
+    try:
+        _ctrader_start_stream_thread()
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
+    _start_ctrader_stream_on_boot()
     app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False)

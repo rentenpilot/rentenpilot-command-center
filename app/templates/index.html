@@ -584,8 +584,7 @@
         sphereContainer.classList.remove('sphere-idle', 'sphere-success');
         sphereContainer.classList.remove('sphere-thinking', 'sphere-error', 'sphere-speaking');
         sphereContainer.classList.add('sphere-listening');
-        hermesStatusText.textContent = 'HERMES HÖRT ZU...';
-        hermesStatusText.textContent = 'HERMES HÃƒâ€“RT ZU...';
+        hermesStatusText.textContent = 'Hermes hoert zu...';
         hermesStatusText.classList.add('visible');
         hermesStatusText.classList.remove('error-text');
     }
@@ -733,7 +732,7 @@
             isListening = true;
             micBtn.classList.add('mic-active');
             setSphereListening();
-            chatInput.placeholder = "Hermes hÃƒÂ¶rt zu...";
+            chatInput.placeholder = "Hermes hoert zu...";
         };
         
         recognition.onresult = (event) => {
