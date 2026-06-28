@@ -2449,6 +2449,7 @@ def _ctrader_symbol_catalog_matches(symbols, terms):
 HERMES_START_TIME = time.time()
 HERMES_ENV_PATH = r"\\wsl$\Ubuntu\home\ramses\.hermes\.env"
 OPENROUTER_MODEL = "deepseek/deepseek-v4-flash"
+HERMES_CHAT_BUSY = False
 
 
 @app.route("/")
@@ -2554,6 +2555,7 @@ def api_usage():
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
+    global HERMES_CHAT_BUSY
     data = request.get_json(silent=True) or {}
 
     user_text = (
@@ -2570,6 +2572,7 @@ def api_chat():
             "message": "Keine Eingabe erhalten"
         }), 400
 
+    HERMES_CHAT_BUSY = True
     try:
         cmd = [
             "wsl",
@@ -2610,6 +2613,8 @@ def api_chat():
             "status": "error",
             "message": str(error)
         }), 500
+    finally:
+        HERMES_CHAT_BUSY = False
 
 
 @app.route("/api/tts", methods=["POST"])
@@ -2714,6 +2719,62 @@ def get_openrouter_key():
     return values.get("OPENROUTER_API_KEY")
 
 
+def _hermes_runtime_status():
+    started = time.time()
+    env_values = _get_local_env()
+
+    cli_available = False
+    last_error = None
+
+    try:
+        cli_cmd = [
+            "wsl",
+            "-d", "Ubuntu",
+            "-u", "ramses",
+            "--",
+            "bash",
+            "-lc",
+            "test -x /home/ramses/.local/bin/hermes"
+        ]
+        result = subprocess.run(
+            cli_cmd,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            encoding="utf-8",
+            errors="replace"
+        )
+        cli_available = result.returncode == 0
+        if not cli_available:
+            last_error = (result.stderr or result.stdout or "Hermes CLI not reachable").strip()[:240] or "Hermes CLI not reachable"
+    except Exception as exc:
+        last_error = str(exc)[:240]
+
+    response_time_ms = int((time.time() - started) * 1000)
+    agents = [
+        {
+            "name": "Hermes Core",
+            "status": "busy" if HERMES_CHAT_BUSY else "idle",
+            "available": bool(cli_available),
+        },
+        {
+            "name": "Business Scout",
+            "status": "online" if bool((env_values.get("OPENROUTER_API_KEY") or "").strip()) else "offline",
+            "available": bool((env_values.get("OPENROUTER_API_KEY") or "").strip()),
+        },
+    ]
+    return {
+        "status": "busy" if HERMES_CHAT_BUSY else "idle",
+        "cli_available": bool(cli_available),
+        "chat_busy": bool(HERMES_CHAT_BUSY),
+        "env_loaded": bool(env_values),
+        "api_key_present": bool((env_values.get("OPENROUTER_API_KEY") or "").strip()),
+        "response_time_ms": response_time_ms,
+        "last_error": last_error,
+        "agents": agents,
+    }
+
+
 def format_uptime(seconds):
     days = seconds // 86400
     seconds %= 86400
@@ -2730,12 +2791,7 @@ def format_uptime(seconds):
 
 @app.route("/api/hermes_status")
 def api_hermes_status():
-    return jsonify({
-        "version": "1.0.0-beta",
-        "status": "Online",
-        "agents": ["Hermes Core", "Business Scout", "Code", "Web"],
-        "skills": ["File System", "Code Exec", "Web Search", "API"]
-    })
+    return jsonify(_hermes_runtime_status())
 
 
 @app.route("/api/trading/env_status")

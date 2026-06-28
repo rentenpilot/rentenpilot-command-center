@@ -880,6 +880,39 @@
             if (uptimeEl)       uptimeEl.textContent       = d.system_uptime_text || 'Ã¢â‚¬â€œ';
             if (hermesUptimeEl) hermesUptimeEl.textContent = d.hermes_uptime_text || 'Ã¢â‚¬â€œ';
 
+            try {
+                const hermesRes = await fetch('/api/hermes_status', { cache: 'no-store' });
+                if (hermesRes.ok) {
+                    const hermes = await hermesRes.json();
+                    if (hermesStatusText) {
+                        hermesStatusText.textContent = [
+                            hermes.status || 'unknown',
+                            hermes.cli_available ? 'CLI OK' : 'CLI OFF',
+                            hermes.chat_busy ? 'BUSY' : 'IDLE'
+                        ].join(' | ');
+                        hermesStatusText.classList.add('visible');
+                        hermesStatusText.classList.remove('error-text');
+                    }
+                    const agentsBox = document.getElementById('hi-agents');
+                    const agentsContainer = document.getElementById('hi-agents-container');
+                    if (agentsBox && agentsContainer) {
+                        const agents = Array.isArray(hermes.agents) ? hermes.agents : [];
+                        agentsBox.innerHTML = agents.map(agent => {
+                            const status = agent && agent.status ? String(agent.status) : 'unknown';
+                            const available = agent && typeof agent.available === 'boolean' ? agent.available : false;
+                            return '<div class="al-row"><span>' +
+                                String(agent && agent.name ? agent.name : 'unknown') +
+                                '</span><span>' +
+                                status +
+                                (available ? ' • available' : ' • unavailable') +
+                                '</span></div>';
+                        }).join('');
+                        agentsContainer.style.display = agents.length ? 'flex' : 'none';
+                        agentsBox.style.display = agents.length ? 'block' : 'none';
+                    }
+                }
+            } catch (_) {}
+
             // CPU
             const cpuPct  = parseFloat(d.cpu_percent)  || 0;
             const cpuEl   = document.getElementById('live-cpu');
