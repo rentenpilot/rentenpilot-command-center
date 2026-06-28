@@ -885,10 +885,13 @@
                 if (hermesRes.ok) {
                     const hermes = await hermesRes.json();
                     if (hermesStatusText) {
+                        const responseMs = Number.isFinite(Number(hermes.response_time_ms)) ? Number(hermes.response_time_ms) : null;
                         hermesStatusText.textContent = [
-                            hermes.status || 'unknown',
                             hermes.cli_available ? 'CLI OK' : 'CLI OFF',
-                            hermes.chat_busy ? 'BUSY' : 'IDLE'
+                            hermes.env_loaded ? 'ENV OK' : 'ENV OFF',
+                            hermes.api_key_present ? 'API KEY OK' : 'API KEY OFF',
+                            responseMs !== null ? ('RT ' + responseMs + 'ms') : 'RT --',
+                            hermes.last_error ? ('ERR ' + String(hermes.last_error).slice(0, 48)) : 'ERR none'
                         ].join(' | ');
                         hermesStatusText.classList.add('visible');
                         hermesStatusText.classList.remove('error-text');
@@ -907,8 +910,8 @@
                                 (available ? ' • available' : ' • unavailable') +
                                 '</span></div>';
                         }).join('');
-                        agentsContainer.style.display = agents.length ? 'flex' : 'none';
-                        agentsBox.style.display = agents.length ? 'block' : 'none';
+                        agentsContainer.style.display = 'flex';
+                        agentsBox.style.display = 'block';
                     }
                 }
             } catch (_) {}
@@ -1027,6 +1030,277 @@
 
     updateOpenRouterData();
     setInterval(updateOpenRouterData, 30000);
+
+    async function updateResearchData() {
+        try {
+            const res = await fetch('/api/research/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/research/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const researchCard = document.getElementById('mod-research');
+            if (!researchCard) return;
+            const rows = researchCard.querySelectorAll('.mod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            researchCard.setAttribute('data-research-queue', String(data.queue_size ?? ''));
+            researchCard.setAttribute('data-research-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Research-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateResearchData();
+    setInterval(updateResearchData, 30000);
+
+    async function updateContentData() {
+        try {
+            const res = await fetch('/api/content/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/content/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const contentCard = document.getElementById('mod-content');
+            if (!contentCard) return;
+            const rows = contentCard.querySelectorAll('.mod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            contentCard.setAttribute('data-content-queue', String(data.queue_size ?? ''));
+            contentCard.setAttribute('data-content-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Content-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateContentData();
+    setInterval(updateContentData, 30000);
+
+    async function updateQualityData() {
+        try {
+            const res = await fetch('/api/quality/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/quality/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const qcCard = document.querySelector('.qc-list')?.closest('.panel');
+            if (!qcCard) return;
+            const rows = qcCard.querySelectorAll('.qc-row .float-right');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = Array.isArray(data.checks_available) && data.checks_available.length ? String(data.checks_available.length) : '--';
+            const rate = qcCard.querySelector('.qc-rate .text-green');
+            if (rate) rate.textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            qcCard.setAttribute('data-quality-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Quality-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateQualityData();
+    setInterval(updateQualityData, 30000);
+
+    async function updatePublisherData() {
+        try {
+            const res = await fetch('/api/publisher/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/publisher/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const publisherCard = document.getElementById('mod-publisher');
+            if (!publisherCard) return;
+            const rows = publisherCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            publisherCard.setAttribute('data-publisher-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Publisher-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updatePublisherData();
+    setInterval(updatePublisherData, 30000);
+
+    async function updateSocialData() {
+        try {
+            const res = await fetch('/api/social/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/social/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const socialCard = document.getElementById('mod-social');
+            if (!socialCard) return;
+            const rows = socialCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            socialCard.setAttribute('data-social-queue', String(data.queue_size ?? ''));
+            socialCard.setAttribute('data-social-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Social-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateSocialData();
+    setInterval(updateSocialData, 30000);
+
+    async function updateTasksData() {
+        try {
+            const res = await fetch('/api/tasks/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/tasks/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const tasksCard = document.getElementById('mod-tasks');
+            if (!tasksCard) return;
+            const rows = tasksCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            tasksCard.setAttribute('data-tasks-queue', String(data.queue_size ?? ''));
+            tasksCard.setAttribute('data-tasks-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Tasks-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateTasksData();
+    setInterval(updateTasksData, 30000);
+
+    async function updateTradeJournalData() {
+        try {
+            const res = await fetch('/api/trade-journal/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/trade-journal/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const tradeJournalCard = Array.from(document.querySelectorAll('.bottom-modules .panel.bmod'))
+                .find((panel) => {
+                    const head = panel.querySelector('.bmod-head');
+                    return head && head.textContent && head.textContent.trim().toUpperCase() === 'TRADE JOURNAL';
+                });
+            if (!tradeJournalCard) return;
+            const rows = tradeJournalCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            tradeJournalCard.setAttribute('data-trade-journal-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Trade-Journal-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateTradeJournalData();
+    setInterval(updateTradeJournalData, 30000);
+
+    async function updatePaperlessData() {
+        try {
+            const res = await fetch('/api/paperless/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/paperless/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const paperlessCard = document.getElementById('mod-paperless');
+            if (!paperlessCard) return;
+            const rows = paperlessCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            paperlessCard.setAttribute('data-paperless-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Paperless-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updatePaperlessData();
+    setInterval(updatePaperlessData, 30000);
+
+    async function updateGBrainData() {
+        try {
+            const res = await fetch('/api/gbrain/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/gbrain/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const gbrainCard = document.getElementById('mod-gbrain');
+            if (!gbrainCard) return;
+            const rows = gbrainCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            if (rows[4]) rows[4].textContent = data.last_error ? 'ERR' : 'OK';
+            gbrainCard.setAttribute('data-gbrain-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('GBrain-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateGBrainData();
+    setInterval(updateGBrainData, 30000);
+
+    async function updateAIScoutData() {
+        try {
+            const res = await fetch('/api/ai-scout/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/ai-scout/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const aiCard = document.getElementById('mod-ai');
+            if (!aiCard) return;
+            const rows = aiCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            aiCard.setAttribute('data-ai-scout-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('AI-Scout-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateAIScoutData();
+    setInterval(updateAIScoutData, 30000);
+
+    async function updateVideoData() {
+        try {
+            const res = await fetch('/api/video/status', { cache: 'no-store' });
+            if (!res.ok) {
+                console.warn('api/video/status: HTTP', res.status);
+                return;
+            }
+            const data = await res.json();
+            const videoCard = document.getElementById('mod-video');
+            if (!videoCard) return;
+            const rows = videoCard.querySelectorAll('.bmod-row span:last-child');
+            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
+            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
+            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            videoCard.setAttribute('data-video-error', String(data.last_error || ''));
+        } catch (err) {
+            console.warn('Video-Daten konnten nicht geladen werden:', err.message);
+        }
+    }
+
+    updateVideoData();
+    setInterval(updateVideoData, 30000);
 
     const tradingSymbols = ['EURUSD', 'GBPUSD', 'XAUUSD', 'BTCUSD', 'ETHUSD', 'GER40', 'US500'];
     const tradingAssetContainer = document.getElementById('trading-assets');

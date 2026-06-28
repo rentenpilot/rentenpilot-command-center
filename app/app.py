@@ -2450,6 +2450,26 @@ HERMES_START_TIME = time.time()
 HERMES_ENV_PATH = r"\\wsl$\Ubuntu\home\ramses\.hermes\.env"
 OPENROUTER_MODEL = "deepseek/deepseek-v4-flash"
 HERMES_CHAT_BUSY = False
+HERMES_AGENT_REGISTRY = [
+    {
+        "id": "hermes-core",
+        "name": "Hermes Core",
+        "type": "core",
+        "enabled": True,
+        "status": "unknown",
+        "last_run": None,
+        "capabilities": ["chat", "speech", "status"],
+    },
+    {
+        "id": "business-scout",
+        "name": "Business Scout",
+        "type": "openrouter",
+        "enabled": True,
+        "status": "unknown",
+        "last_run": None,
+        "capabilities": ["research", "content", "openrouter"],
+    },
+]
 
 
 @app.route("/")
@@ -2751,18 +2771,27 @@ def _hermes_runtime_status():
         last_error = str(exc)[:240]
 
     response_time_ms = int((time.time() - started) * 1000)
-    agents = [
-        {
-            "name": "Hermes Core",
-            "status": "busy" if HERMES_CHAT_BUSY else "idle",
-            "available": bool(cli_available),
-        },
-        {
-            "name": "Business Scout",
-            "status": "online" if bool((env_values.get("OPENROUTER_API_KEY") or "").strip()) else "offline",
-            "available": bool((env_values.get("OPENROUTER_API_KEY") or "").strip()),
-        },
-    ]
+    openrouter_ready = bool((env_values.get("OPENROUTER_API_KEY") or "").strip())
+    agents = []
+    for agent in HERMES_AGENT_REGISTRY:
+        agent_status = "unknown"
+        available = False
+        if agent["id"] == "hermes-core":
+            available = bool(cli_available)
+            agent_status = "busy" if HERMES_CHAT_BUSY else ("online" if cli_available else "offline")
+        elif agent["id"] == "business-scout":
+            available = bool(openrouter_ready)
+            agent_status = "online" if openrouter_ready else "offline"
+        agents.append({
+            "id": agent["id"],
+            "name": agent["name"],
+            "type": agent["type"],
+            "enabled": bool(agent.get("enabled", False)),
+            "status": agent_status if agent_status else "unknown",
+            "last_run": agent.get("last_run"),
+            "capabilities": list(agent.get("capabilities") or []),
+            "available": available,
+        })
     return {
         "status": "busy" if HERMES_CHAT_BUSY else "idle",
         "cli_available": bool(cli_available),
@@ -2797,6 +2826,128 @@ def api_hermes_status():
 @app.route("/api/trading/env_status")
 def api_trading_env_status():
     return jsonify(_get_env_status())
+
+
+@app.route("/api/research/status")
+def api_research_status():
+    return jsonify({
+        "status": "not_implemented",
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+        "available": False,
+    })
+
+
+@app.route("/api/content/status")
+def api_content_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/quality/status")
+def api_quality_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+        "checks_available": [],
+    })
+
+
+@app.route("/api/publisher/status")
+def api_publisher_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/social/status")
+def api_social_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/tasks/status")
+def api_tasks_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/trade-journal/status")
+def api_trade_journal_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/paperless/status")
+def api_paperless_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/gbrain/status")
+def api_gbrain_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/ai-scout/status")
+def api_ai_scout_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
+
+
+@app.route("/api/video/status")
+def api_video_status():
+    return jsonify({
+        "status": "not_implemented",
+        "available": False,
+        "last_run": None,
+        "queue_size": None,
+        "last_error": None,
+    })
 
 
 
