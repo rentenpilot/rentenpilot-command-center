@@ -85,7 +85,7 @@
           <div class="mod-item" id="mod-research">
             <div class="mod-icon">R</div>
             <div class="mod-details">
-              <div class="mod-title">RESEARCH <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-title">RESEARCH <span class="mod-status skill-status-unknown">--</span></div>
               <div class="mod-row"><span>Neue Themen</span><span>14</span></div>
               <div class="mod-row"><span>Quellen heute</span><span>32</span></div>
               <div class="mod-row"><span>Letzter Scan</span><span>08:42</span></div>
@@ -96,7 +96,7 @@
           <div class="mod-item" id="mod-content">
             <div class="mod-icon">C</div>
             <div class="mod-details">
-              <div class="mod-title">CONTENT <span class="mod-status text-green">AKTIV</span></div>
+              <div class="mod-title">CONTENT <span class="mod-status skill-status-unknown">--</span></div>
               <div class="mod-row"><span>Artikel Entwuerfe</span><span>7</span></div>
               <div class="mod-row"><span>In Pruefung</span><span>2</span></div>
               <div class="mod-row"><span>Veroeffentlicht heute</span><span>1</span></div>
@@ -294,14 +294,14 @@
   <!-- WEITERE MODULE -->
   <div class="bottom-modules">
     <div class="panel bmod" id="mod-publisher">
-      <div class="bmod-head">PUBLISHER</div>
+      <div class="bmod-head"><span>PUBLISHER</span><span class="bmod-status skill-status-unknown">--</span></div>
       <div class="bmod-row"><span>Artikel veroeffentlicht</span></div>
       <div class="bmod-row"><span>Heute:</span><span>3</span></div>
       <div class="bmod-row"><span>Geplant</span><span>5</span></div>
       <div class="bmod-row"><span>Naechste</span><span>09:00 Uhr</span></div>
     </div>
     <div class="panel bmod" id="mod-social">
-      <div class="bmod-head">SOCIAL MEDIA</div>
+      <div class="bmod-head"><span>SOCIAL MEDIA</span><span class="bmod-status skill-status-unknown">--</span></div>
       <div class="bmod-row"><span>TikTok</span><span class="text-green">12 geplant</span></div>
       <div class="bmod-row"><span>Instagram</span><span>8 geplant</span></div>
       <div class="bmod-row"><span>Facebook</span><span>4 geplant</span></div>
@@ -1031,6 +1031,20 @@
     updateOpenRouterData();
     setInterval(updateOpenRouterData, 30000);
 
+    const SKILL_STATUS_MAP = {
+        detected: { text: 'AKTIV', cls: 'skill-status-detected' },
+        not_detected: { text: 'NICHT VERFUEGBAR', cls: 'skill-status-not-detected' },
+        unknown: { text: 'UNBEKANNT', cls: 'skill-status-unknown' }
+    };
+
+    function applySkillStatus(badge, state) {
+        if (!badge) return;
+        const entry = SKILL_STATUS_MAP[state] || SKILL_STATUS_MAP.unknown;
+        badge.textContent = entry.text;
+        badge.classList.remove('skill-status-detected', 'skill-status-not-detected', 'skill-status-unknown');
+        badge.classList.add(entry.cls);
+    }
+
     async function updateResearchData() {
         try {
             const res = await fetch('/api/research/status', { cache: 'no-store' });
@@ -1047,7 +1061,8 @@
             if (rows[2]) rows[2].textContent = Array.isArray(data.sources_configured) ? String(data.sources_configured.length) : '--';
             researchCard.setAttribute('data-research-queue', String(data.queue_size ?? ''));
             researchCard.setAttribute('data-research-error', String(data.last_error || ''));
-            researchCard.setAttribute('data-research-skill', String(Boolean(data.hermes_skill_detected)));
+            researchCard.setAttribute('data-research-skill', String(data.hermes_skill_detected || ''));
+            applySkillStatus(researchCard.querySelector('.mod-status'), data.hermes_skill_detected);
             researchCard.setAttribute('data-research-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Research-Daten konnten nicht geladen werden:', err.message);
@@ -1073,7 +1088,8 @@
             if (rows[2]) rows[2].textContent = Array.isArray(data.targets_configured) ? String(data.targets_configured.length) : '--';
             contentCard.setAttribute('data-content-queue', String(data.queue_size ?? ''));
             contentCard.setAttribute('data-content-error', String(data.last_error || ''));
-            contentCard.setAttribute('data-content-skill', String(Boolean(data.hermes_skill_detected)));
+            contentCard.setAttribute('data-content-skill', String(data.hermes_skill_detected || ''));
+            applySkillStatus(contentCard.querySelector('.mod-status'), data.hermes_skill_detected);
             contentCard.setAttribute('data-content-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Content-Daten konnten nicht geladen werden:', err.message);
@@ -1125,7 +1141,8 @@
             if (rows[2]) rows[2].textContent = Array.isArray(data.targets_configured) ? String(data.targets_configured.length) : '--';
             if (rows[3]) rows[3].textContent = data.service_running || 'unknown';
             publisherCard.setAttribute('data-publisher-error', String(data.last_error || ''));
-            publisherCard.setAttribute('data-publisher-skill', String(Boolean(data.hermes_skill_detected)));
+            publisherCard.setAttribute('data-publisher-skill', String(data.hermes_skill_detected || ''));
+            applySkillStatus(publisherCard.querySelector('.bmod-status'), data.hermes_skill_detected);
             publisherCard.setAttribute('data-publisher-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Publisher-Daten konnten nicht geladen werden:', err.message);
@@ -1151,7 +1168,8 @@
             if (rows[2]) rows[2].textContent = Array.isArray(data.targets_configured) ? String(data.targets_configured.length) : '--';
             socialCard.setAttribute('data-social-queue', String(data.queue_size ?? ''));
             socialCard.setAttribute('data-social-error', String(data.last_error || ''));
-            socialCard.setAttribute('data-social-skill', String(Boolean(data.hermes_skill_detected)));
+            socialCard.setAttribute('data-social-skill', String(data.hermes_skill_detected || ''));
+            applySkillStatus(socialCard.querySelector('.bmod-status'), data.hermes_skill_detected);
             socialCard.setAttribute('data-social-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Social-Daten konnten nicht geladen werden:', err.message);

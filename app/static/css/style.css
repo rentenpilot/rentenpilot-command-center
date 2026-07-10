@@ -7,6 +7,7 @@
   --blue: #0055ff;
   --green: #00ff66;
   --orange: #ff6000;
+  --yellow: #ffd54a;
   --text-primary: #c8e6f5;
   --text-secondary: rgba(170, 210, 240, 0.62);
   --border: rgba(0, 212, 255, 0.16);
@@ -215,6 +216,9 @@ body::before {
 .mod-details { flex: 1; }
 .mod-title { font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; }
 .mod-status { font-size: 8px; }
+.skill-status-detected { color: var(--green); }
+.skill-status-not-detected { color: var(--text-secondary); }
+.skill-status-unknown { color: var(--yellow); }
 .mod-row { display: flex; justify-content: space-between; font-size: 9px; color: var(--text-secondary); margin-bottom: 2px; }
 .mod-row span:last-child { color: var(--text-primary); font-weight: 600; }
 .mod-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--cyan); font-size: 16px; opacity: 0; transition: 0.2s; }
@@ -495,7 +499,8 @@ body::before {
   backdrop-filter: blur(12px);
 }
 .bmod:hover { border-color: var(--cyan); background: rgba(0,212,255,0.05); }
-.bmod-head { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--cyan); margin-bottom: 6px; }
+.bmod-head { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--cyan); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: baseline; }
+.bmod-status { font-size: 8px; }
 .bmod-row { display: flex; justify-content: space-between; font-size: 9px; color: var(--text-secondary); }
 .bmod-row span:last-child { color: var(--text-primary); font-weight: 600; }
 
