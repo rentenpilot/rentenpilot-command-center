@@ -1042,11 +1042,13 @@
             const researchCard = document.getElementById('mod-research');
             if (!researchCard) return;
             const rows = researchCard.querySelectorAll('.mod-row span:last-child');
-            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
-            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
-            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[0]) rows[0].textContent = data.status || 'configured_not_runnable';
+            if (rows[1]) rows[1].textContent = String(Boolean(data.executable_present));
+            if (rows[2]) rows[2].textContent = Array.isArray(data.sources_configured) ? String(data.sources_configured.length) : '--';
             researchCard.setAttribute('data-research-queue', String(data.queue_size ?? ''));
             researchCard.setAttribute('data-research-error', String(data.last_error || ''));
+            researchCard.setAttribute('data-research-skill', String(Boolean(data.hermes_skill_detected)));
+            researchCard.setAttribute('data-research-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Research-Daten konnten nicht geladen werden:', err.message);
         }
@@ -1066,11 +1068,13 @@
             const contentCard = document.getElementById('mod-content');
             if (!contentCard) return;
             const rows = contentCard.querySelectorAll('.mod-row span:last-child');
-            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
-            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
-            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[0]) rows[0].textContent = data.status || 'configured_not_runnable';
+            if (rows[1]) rows[1].textContent = String(Boolean(data.executable_present));
+            if (rows[2]) rows[2].textContent = Array.isArray(data.targets_configured) ? String(data.targets_configured.length) : '--';
             contentCard.setAttribute('data-content-queue', String(data.queue_size ?? ''));
             contentCard.setAttribute('data-content-error', String(data.last_error || ''));
+            contentCard.setAttribute('data-content-skill', String(Boolean(data.hermes_skill_detected)));
+            contentCard.setAttribute('data-content-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Content-Daten konnten nicht geladen werden:', err.message);
         }
@@ -1116,11 +1120,13 @@
             const publisherCard = document.getElementById('mod-publisher');
             if (!publisherCard) return;
             const rows = publisherCard.querySelectorAll('.bmod-row span:last-child');
-            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
-            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
-            if (rows[2]) rows[2].textContent = data.last_run || '--';
-            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            if (rows[0]) rows[0].textContent = data.status || 'configured_not_runnable';
+            if (rows[1]) rows[1].textContent = String(Boolean(data.executable_present));
+            if (rows[2]) rows[2].textContent = Array.isArray(data.targets_configured) ? String(data.targets_configured.length) : '--';
+            if (rows[3]) rows[3].textContent = data.service_running || 'unknown';
             publisherCard.setAttribute('data-publisher-error', String(data.last_error || ''));
+            publisherCard.setAttribute('data-publisher-skill', String(Boolean(data.hermes_skill_detected)));
+            publisherCard.setAttribute('data-publisher-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Publisher-Daten konnten nicht geladen werden:', err.message);
         }
@@ -1140,11 +1146,13 @@
             const socialCard = document.getElementById('mod-social');
             if (!socialCard) return;
             const rows = socialCard.querySelectorAll('.bmod-row span:last-child');
-            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
-            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
-            if (rows[2]) rows[2].textContent = data.last_run || '--';
+            if (rows[0]) rows[0].textContent = data.status || 'configured_not_runnable';
+            if (rows[1]) rows[1].textContent = String(Boolean(data.executable_present));
+            if (rows[2]) rows[2].textContent = Array.isArray(data.targets_configured) ? String(data.targets_configured.length) : '--';
             socialCard.setAttribute('data-social-queue', String(data.queue_size ?? ''));
             socialCard.setAttribute('data-social-error', String(data.last_error || ''));
+            socialCard.setAttribute('data-social-skill', String(Boolean(data.hermes_skill_detected)));
+            socialCard.setAttribute('data-social-config', String(Boolean(data.config_present)));
         } catch (err) {
             console.warn('Social-Daten konnten nicht geladen werden:', err.message);
         }
@@ -1216,11 +1224,18 @@
             const paperlessCard = document.getElementById('mod-paperless');
             if (!paperlessCard) return;
             const rows = paperlessCard.querySelectorAll('.bmod-row span:last-child');
-            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
-            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
-            if (rows[2]) rows[2].textContent = data.last_run || '--';
-            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
+            if (rows[0]) rows[0].textContent = data.status || 'configured_not_running';
+            if (rows[1]) rows[1].textContent = String(Boolean(data.service_running));
+            if (rows[2]) rows[2].textContent = data.endpoint_url || 'null';
+            if (rows[3]) rows[3].textContent = String(Boolean(data.api_config_present));
+            paperlessCard.setAttribute('data-paperless-detected', String(data.docker_detected ?? false));
+            paperlessCard.setAttribute('data-paperless-docker-available', String(data.docker_available ?? false));
             paperlessCard.setAttribute('data-paperless-error', String(data.last_error || ''));
+            const head = paperlessCard.querySelector('.bmod-head');
+            if (head) {
+                head.textContent = 'PAPERLESS';
+                head.title = data.last_error || '';
+            }
         } catch (err) {
             console.warn('Paperless-Daten konnten nicht geladen werden:', err.message);
         }
@@ -1240,11 +1255,14 @@
             const gbrainCard = document.getElementById('mod-gbrain');
             if (!gbrainCard) return;
             const rows = gbrainCard.querySelectorAll('.bmod-row span:last-child');
-            if (rows[0]) rows[0].textContent = data.status || 'not_implemented';
-            if (rows[1]) rows[1].textContent = data.available ? 'yes' : 'no';
-            if (rows[2]) rows[2].textContent = data.last_run || '--';
-            if (rows[3]) rows[3].textContent = data.queue_size === null || data.queue_size === undefined ? '--' : String(data.queue_size);
-            if (rows[4]) rows[4].textContent = data.last_error ? 'ERR' : 'OK';
+            if (rows[0]) rows[0].textContent = data.status || 'configured_not_running';
+            if (rows[1]) rows[1].textContent = String(Boolean(data.service_running));
+            if (rows[2]) rows[2].textContent = data.endpoint_url || 'null';
+            if (rows[3]) rows[3].textContent = String(Boolean(data.api_config_present));
+            if (rows[4]) rows[4].textContent = data.last_error || 'GBrain service not running or Docker daemon not reachable';
+            gbrainCard.setAttribute('data-gbrain-detected', String(data.docker_detected ?? false));
+            gbrainCard.setAttribute('data-gbrain-docker-available', String(data.docker_available ?? false));
+            gbrainCard.setAttribute('data-gbrain-local-repo', String(data.local_repo_detected ?? false));
             gbrainCard.setAttribute('data-gbrain-error', String(data.last_error || ''));
         } catch (err) {
             console.warn('GBrain-Daten konnten nicht geladen werden:', err.message);
