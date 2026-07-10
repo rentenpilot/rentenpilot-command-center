@@ -1,4 +1,5 @@
 import os
+import json
 import time
 import shutil
 import psutil
@@ -2739,6 +2740,61 @@ def get_openrouter_key():
     return values.get("OPENROUTER_API_KEY")
 
 
+HERMES_SKILLS_SNAPSHOT_CANDIDATES = [
+    r"/home/ramses/.hermes/.skills_prompt_snapshot.json",
+    r"\\wsl$\Ubuntu\home\ramses\.hermes\.skills_prompt_snapshot.json",
+]
+_HERMES_SKILLS_SNAPSHOT_CACHE = {"path": None, "mtime": None, "skills": None}
+
+
+def _load_hermes_skills_snapshot():
+    """Return the skill list from Hermes' prompt snapshot, or None if unavailable."""
+    for path in HERMES_SKILLS_SNAPSHOT_CANDIDATES:
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError:
+            continue
+        cache = _HERMES_SKILLS_SNAPSHOT_CACHE
+        if cache["path"] == path and cache["mtime"] == mtime:
+            return cache["skills"]
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+        except Exception:
+            return None
+        if not isinstance(data, dict) or data.get("version") != 1:
+            return None
+        skills = data.get("skills")
+        if not isinstance(skills, list):
+            return None
+        cache["path"] = path
+        cache["mtime"] = mtime
+        cache["skills"] = skills
+        return skills
+    return None
+
+
+def _hermes_skill_detected(category=None, skill_name=None):
+    """Check the Hermes skills snapshot for a skill deployed on Linux.
+
+    Returns "detected", "not_detected", or "unknown" (snapshot missing,
+    unreadable, or unexpected format). Never raises.
+    """
+    skills = _load_hermes_skills_snapshot()
+    if skills is None:
+        return "unknown"
+    for entry in skills:
+        if not isinstance(entry, dict):
+            continue
+        if "linux" not in (entry.get("platforms") or []):
+            continue
+        if category is not None and entry.get("category") == category:
+            return "detected"
+        if skill_name is not None and entry.get("skill_name") == skill_name:
+            return "detected"
+    return "not_detected"
+
+
 def _hermes_runtime_status():
     started = time.time()
     env_values = _get_local_env()
@@ -2834,7 +2890,7 @@ def api_research_status():
         "status": "configured_not_runnable",
         "available": False,
         "executable_present": True,
-        "hermes_skill_detected": False,
+        "hermes_skill_detected": _hermes_skill_detected(category="research"),
         "config_present": True,
         "sources_configured": [],
         "service_running": "unknown",
@@ -2850,7 +2906,7 @@ def api_content_status():
         "status": "configured_not_runnable",
         "available": False,
         "executable_present": True,
-        "hermes_skill_detected": False,
+        "hermes_skill_detected": _hermes_skill_detected(skill_name="rentenpilot-content"),
         "config_present": True,
         "targets_configured": ["blog", "website", "social media", "newsletter", "youtube", "tiktok"],
         "service_running": "unknown",
@@ -2878,7 +2934,7 @@ def api_publisher_status():
         "status": "configured_not_runnable",
         "available": False,
         "executable_present": True,
-        "hermes_skill_detected": False,
+        "hermes_skill_detected": _hermes_skill_detected(skill_name="rentenpilot-publisher"),
         "config_present": True,
         "targets_configured": ["blog", "website", "cms", "wordpress"],
         "service_running": "unknown",
@@ -2894,7 +2950,7 @@ def api_social_status():
         "status": "configured_not_runnable",
         "available": False,
         "executable_present": True,
-        "hermes_skill_detected": False,
+        "hermes_skill_detected": _hermes_skill_detected(category="social-media"),
         "config_present": True,
         "targets_configured": ["tiktok", "youtube", "instagram", "facebook", "linkedin"],
         "service_running": "unknown",
