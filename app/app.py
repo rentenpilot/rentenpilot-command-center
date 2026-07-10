@@ -2831,22 +2831,32 @@ def api_trading_env_status():
 @app.route("/api/research/status")
 def api_research_status():
     return jsonify({
-        "status": "not_implemented",
+        "status": "configured_not_runnable",
+        "available": False,
+        "executable_present": True,
+        "hermes_skill_detected": False,
+        "config_present": True,
+        "sources_configured": [],
+        "service_running": "unknown",
         "last_run": None,
         "queue_size": None,
-        "last_error": None,
-        "available": False,
+        "last_error": "No runnable Research workflow or configured sources found",
     })
 
 
 @app.route("/api/content/status")
 def api_content_status():
     return jsonify({
-        "status": "not_implemented",
+        "status": "configured_not_runnable",
         "available": False,
+        "executable_present": True,
+        "hermes_skill_detected": False,
+        "config_present": True,
+        "targets_configured": ["blog", "website", "social media", "newsletter", "youtube", "tiktok"],
+        "service_running": "unknown",
         "last_run": None,
         "queue_size": None,
-        "last_error": None,
+        "last_error": "No runnable Content workflow or Hermes skill hook found",
     })
 
 
@@ -2865,22 +2875,32 @@ def api_quality_status():
 @app.route("/api/publisher/status")
 def api_publisher_status():
     return jsonify({
-        "status": "not_implemented",
+        "status": "configured_not_runnable",
         "available": False,
+        "executable_present": True,
+        "hermes_skill_detected": False,
+        "config_present": True,
+        "targets_configured": ["blog", "website", "cms", "wordpress"],
+        "service_running": "unknown",
         "last_run": None,
         "queue_size": None,
-        "last_error": None,
+        "last_error": "No runnable Publisher workflow or Hermes skill hook found",
     })
 
 
 @app.route("/api/social/status")
 def api_social_status():
     return jsonify({
-        "status": "not_implemented",
+        "status": "configured_not_runnable",
         "available": False,
+        "executable_present": True,
+        "hermes_skill_detected": False,
+        "config_present": True,
+        "targets_configured": ["tiktok", "youtube", "instagram", "facebook", "linkedin"],
+        "service_running": "unknown",
         "last_run": None,
         "queue_size": None,
-        "last_error": None,
+        "last_error": "No runnable Social workflow or Hermes skill hook found",
     })
 
 
@@ -2909,22 +2929,29 @@ def api_trade_journal_status():
 @app.route("/api/paperless/status")
 def api_paperless_status():
     return jsonify({
-        "status": "not_implemented",
+        "status": "configured_not_running",
         "available": False,
-        "last_run": None,
-        "queue_size": None,
-        "last_error": None,
+        "service_running": False,
+        "endpoint_url": None,
+        "api_config_present": True,
+        "docker_detected": True,
+        "docker_available": False,
+        "last_error": "Paperless service not running or Docker daemon not reachable",
     })
 
 
 @app.route("/api/gbrain/status")
 def api_gbrain_status():
     return jsonify({
-        "status": "not_implemented",
+        "status": "configured_not_running",
         "available": False,
-        "last_run": None,
-        "queue_size": None,
-        "last_error": None,
+        "service_running": False,
+        "endpoint_url": None,
+        "api_config_present": True,
+        "docker_detected": True,
+        "docker_available": False,
+        "local_repo_detected": False,
+        "last_error": "GBrain service not running or Docker daemon not reachable",
     })
 
 
