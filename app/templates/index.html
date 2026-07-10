@@ -1380,10 +1380,13 @@
 
     function formatTradingUpdated(value) {
         if (!value) return '--';
-        const text = String(value);
-        const match = text.match(/(\d{2}:\d{2}:\d{2})/);
-        if (match) return match[1];
-        return text;
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return String(value);
+        return date.toLocaleTimeString('de-DE', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
     }
 
     function buildTradingViewWidget(symbol) {
